@@ -5,8 +5,9 @@ var BrowseAPI = require('./BrowseAPIService');
 
 module.exports.componentSearch = function componentSearch (req, res, next) {
   var search = req.swagger.params['search'].value;
-  var offset = req.swagger.params['offset'].value;
-  BrowseAPI.componentSearch(search,offset)
+  var page = req.swagger.params['page'].value;
+  var pagesize = req.swagger.params['pagesize'].value;
+  BrowseAPI.componentSearch(search,page,pagesize)
     .then(function (response) {
       utils.writeJson(res, response);
     })

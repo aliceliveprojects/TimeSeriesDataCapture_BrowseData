@@ -90,7 +90,7 @@ paths:
       - "Browse API"
       summary: "Searches for componenets"
       description: "Searches database for components that match search string"
-      operationId: "ComponentSearch"
+      operationId: "componentSearch"
       parameters:
       - name: "search"
         in: "query"

@@ -6,10 +6,11 @@
  * Searches database for components that match search string
  *
  * search String Search request
- * offset Integer splits and removes the response array between 0 and offset  (optional)
+ * page Integer page number (optional)
+ * pagesize Integer page size (number of components) (optional)
  * returns inline_response_200_2
  **/
-exports.componentSearch = function(search,offset) {
+exports.componentSearch = function(search,page,pagesize) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
