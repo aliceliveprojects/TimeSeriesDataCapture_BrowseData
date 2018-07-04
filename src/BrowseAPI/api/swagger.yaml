@@ -97,9 +97,14 @@ paths:
         description: "Search request"
         required: true
         type: "string"
-      - name: "offset"
+      - name: "page"
         in: "query"
-        description: "splits and removes the response array between 0 and offset "
+        description: "page number"
+        required: false
+        type: "integer"
+      - name: "pagesize"
+        in: "query"
+        description: "page size (number of components)"
         required: false
         type: "integer"
       responses:

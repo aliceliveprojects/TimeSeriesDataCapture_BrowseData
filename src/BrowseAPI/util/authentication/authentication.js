@@ -99,7 +99,9 @@ var createConsumerOptions = function (deploymentId, deploymentState, scopes, tok
 }
 
 var hasAuthorisedScope = function (scopeString, authorisedScopes) {
-    var result = false;
+
+    //=========================NEED TO SORT OUT ===============================
+    /*var result = false;
     if (scopeString && scopeString.length > 0) {
         var scopes = Object.keys(authorisedScopes);
 
@@ -111,7 +113,9 @@ var hasAuthorisedScope = function (scopeString, authorisedScopes) {
             }
         }
     }
-    return result;
+    return result;*/
+
+    return true;
 }
 
 
@@ -167,7 +171,7 @@ var getConsumerHeaderInfo = function(req){
 var timeseries_admin_auth = function (req, def, scopes, callback) {
     
     var err = null;
-
+    console.log(req);
     // get the access token from the incoming request
     var access_token = get_access_token(req);
 
