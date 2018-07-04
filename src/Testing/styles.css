@@ -1,0 +1,27 @@
+div.buttons div {
+    padding: 2%;
+}
+
+div.buttons button {
+    border-radius: 7px;
+    font-family: Arial;
+    color: #000000;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 15px 20px 15px 20px;
+}
+
+div.get button {
+    background: #e7f0f7;
+    border: solid #c3d9ec 2px;
+}
+
+div.post button {
+    background: #e7f6ec;
+    border: solid #c3e8d1 2px;
+}
+
+div.login button {
+    background: #edabab;
+    border: solid #f57a7a 2px;
+}
