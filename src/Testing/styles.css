@@ -1,8 +1,8 @@
-div.buttons div {
+div.auth0buttons div {
     padding: 2%;
 }
 
-div.buttons button {
+div.auth0buttons button {
     border-radius: 7px;
     font-family: Arial;
     color: #000000;
