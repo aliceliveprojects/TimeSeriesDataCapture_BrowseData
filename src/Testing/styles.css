@@ -1,8 +1,8 @@
-div.auth0buttons div {
+div.auth0buttons div, div.onedrivebuttons {
     padding: 2%;
 }
 
-div.auth0buttons button {
+div.auth0buttons button, div.onedrivebuttons button{
     border-radius: 7px;
     font-family: Arial;
     color: #000000;
@@ -24,4 +24,14 @@ div.post button {
 div.login button {
     background: #edabab;
     border: solid #f57a7a 2px;
+}
+
+#btn-oneDriveLogin {
+    background: #2d91d4;
+    border: solid #1a2a70 2px;
+}
+
+#btn-oneDriveTest {
+    background: #e78b61;
+    border: solid #ac560f 2px;
 }

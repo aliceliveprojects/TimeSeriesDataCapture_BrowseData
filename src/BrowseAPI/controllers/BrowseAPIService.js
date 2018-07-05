@@ -26,6 +26,27 @@ exports.componentSearch = function(search,page,pagesize) {
 
 
 /**
+ * Searches for componenets
+ * Retrieves OneDrive clientID needed for OneDrive Login
+ *
+ * returns inline_response_200_3
+ **/
+exports.getAuthenticate = function() {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "clientID" : "clientID"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
  * Get a specific component
  * Get a specific imported component by component ID
  *
@@ -64,6 +85,20 @@ exports.getComponentIDs = function() {
     } else {
       resolve();
     }
+  });
+}
+
+
+/**
+ * Sends OneDrive auth token'
+ * Sends OneDrive auth token
+ *
+ * oneDriveToken OneDriveToken 
+ * no response value expected for this operation
+ **/
+exports.postAuthenticate = function(oneDriveToken) {
+  return new Promise(function(resolve, reject) {
+    resolve();
   });
 }
 

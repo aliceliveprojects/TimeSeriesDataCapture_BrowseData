@@ -16,6 +16,16 @@ module.exports.componentSearch = function componentSearch (req, res, next) {
     });
 };
 
+module.exports.getAuthenticate = function getAuthenticate (req, res, next) {
+  BrowseAPI.getAuthenticate()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.getComponent = function getComponent (req, res, next) {
   var componentID = req.swagger.params['componentID'].value;
   BrowseAPI.getComponent(componentID)
@@ -29,6 +39,17 @@ module.exports.getComponent = function getComponent (req, res, next) {
 
 module.exports.getComponentIDs = function getComponentIDs (req, res, next) {
   BrowseAPI.getComponentIDs()
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
+module.exports.postAuthenticate = function postAuthenticate (req, res, next) {
+  var oneDriveToken = req.swagger.params['oneDriveToken'].value;
+  BrowseAPI.postAuthenticate(oneDriveToken)
     .then(function (response) {
       utils.writeJson(res, response);
     })
