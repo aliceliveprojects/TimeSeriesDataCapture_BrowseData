@@ -2,6 +2,7 @@
 
 var utils = require('../util/writer.js');
 var BrowseAPI = require('./BrowseAPIService');
+var httpUtil = require('../util/http/http');
 
 module.exports.componentSearch = function componentSearch (req, res, next) {
   var search = req.swagger.params['search'].value;
@@ -18,11 +19,12 @@ module.exports.componentSearch = function componentSearch (req, res, next) {
 
 module.exports.getAuthenticate = function getAuthenticate (req, res, next) {
   BrowseAPI.getAuthenticate()
-    .then(function (response) {
-      utils.writeJson(res, response);
+    .then(function (result) {
+      httpUtil.endHttpOK(result, res);
     })
-    .catch(function (response) {
-      utils.writeJson(res, response);
+    .catch(function (error) {
+      console.log(error);
+      utils.writeJson(error,res);
     });
 };
 

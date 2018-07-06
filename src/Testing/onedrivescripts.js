@@ -2,12 +2,8 @@
 
 function signInToOneDrive(appInfo) {
   
-  
- 
+  console.log(appInfo);
   provideAppInfo(appInfo);
-
-
-
   challengeForAuth();
 
   return false;
@@ -26,7 +22,16 @@ function onAuthenticated(token, authWindow) {
     console.log('============OneDrive Token======================');
     console.log(token);
     console.log('=================================================');
-    localStorage.setItem('OneDriveToken', token);
+   
 
+    var url = 'https://graph.microsoft.com/v1.0/me/drive/root/children';
+    APIRequest('GET',url,null,token).then(function(result){
+    result = JSON.parse(result);
+    console.log(result);
+
+
+  }).catch(function(error) {
+    console.log("error");
+  })   
   }
 }
