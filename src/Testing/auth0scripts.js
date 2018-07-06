@@ -6,7 +6,7 @@ var options = {
   }
 }
 
-var SwaggerURL = 'http://192.168.2.1:8000/apis/'
+var APIUrl = 'http://192.168.2.1:8000/apis/'
 
 window.onload = function () {
   // Initializing our Auth0Lock
@@ -45,7 +45,7 @@ window.onload = function () {
 
   //Get Components
   this.document.getElementById('btn-getComponents').addEventListener('click', function () {
-    var url = SwaggerURL+'Components'
+    var url = APIUrl+'Components'
     APIRequest("GET", url, null, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
     })
@@ -57,7 +57,7 @@ window.onload = function () {
   //Search Components
   this.document.getElementById('btn-componentSearch').addEventListener('click', function () {
     var query = "?search=55&page=1&pagesize=100";
-    var url = SwaggerURL+'ComponentSearch' + encodeURI(query);
+    var url = APIUrl+'ComponentSearch' + encodeURI(query);
     APIRequest("GET", url, null, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
     })
@@ -69,7 +69,7 @@ window.onload = function () {
   //Get Components By ID
   this.document.getElementById('btn-getComponentsByID').addEventListener('click', function () {
     var query = "/13456";
-    var url = SwaggerURL+'Components' + encodeURI(query);
+    var url = APIUrl+'Components' + encodeURI(query);
     APIRequest("GET", url, null, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
     })
@@ -88,7 +88,7 @@ window.onload = function () {
 
     
 
-    var url = SwaggerURL+'Components';
+    var url = APIUrl+'Components';
 
     APIRequest("POST", url, params, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
@@ -107,23 +107,10 @@ window.onload = function () {
  
 
   this.document.getElementById('btn-onedrivetest').addEventListener('click', function () {
-    var url = SwaggerURL + 'Components';
+    var url = APIUrl + 'Components';
 
     
     APIRequest('GET',url,null,localStorage.getItem('idToken')).then(function(result){
-      console.log(result);
-    })
-    .catch(function(error){
-      console.log(error)
-    })
-  });
-
-  this.document.getElementById('btn-onedrivetest2').addEventListener('click', function () {
-    var url =  'https://graph.microsoft.com/v1.0/me/drive/root/children'
-    var token = 'EwBYA8l6BAAURSN/FHlDW5xN74t6GzbtsBBeBUYAAdk/Bjtxmm7yxi1/ePB8P4dQadHgg331vKEzMrWDExfDhE0U4Uwi4xoV/E1Xwadn8/ky0fMBCxeQ3qT9RGjdkLG9D5cwpvjBeND1JA87JWfWTmdh3eNH0JLuPxPoMLeQX0tfgUB6vBwY/n2kDyBtLdIQh+VdEmxmcSyQSKnLDdrM3eTAZyusTt2e7LWDLRMAw9zGCEDCXySgl3lSHAmb01gstow/3vQRzHXyxZ7Hgrwemm8hWvp2yE2cpM54JCiV4s39We+OL53e5/+Rv3HFMROZoYXpl1AOdRdl3JJuVMsmDp3ruYXawoYAiO+tdESE0ys7uzzSfjKBwYRDWMXyEy4DZgAACFjC/qJ+wgcBKAJ9dBRjK/eRIehCvWWLheOaTXOZj6pyyhjKir79Al2X/RNX+6BV7iy2RmXfmm6+OkCjJMM5xSoXKW/6FOPvr6kQhsswHlMiDbJGKjoSKR496W3cjU3SiiipbkMl/5Ucojkvvt5wlQ1oRqLLhIJ1HF6dVsQJRrM6ldCpw5fwe+3jYb146UiN1lkMxHz6BG/V8BNo91ckPXl/fEZkuB0nZlaW/JkIrPNp71oJRUYmwDzmNdi1SxRA1/wFYzvuZaiv1mo5E9MU5vjz7WgbJHRR/qOJ7C5SerhMn/DuRM50cE+ZkEtLzj7obqubJ0PdlgAVychwWKe5RFu+OsOcvfFxlDk9DZTURbxa3OKIQw7NMJ4FB1CeT2mZ/lOyojPSlJDKw63GfUp5gJwKxOUEAWVE+evCXRtfBm3GhMLvUcynu4g80QDI7mbd6NY6fzX8etFWcBhDYFj/tyBc4wRhzadE4h8UBB8q/mor2jshk0alDybQVCKlHFd12e5heOaU4iG9Th4IPs02fJL0KBi8w4Hg4+5dEOlbMQSILbAu3DcYVgm/lhTRUei7R7XYdfW0LNKkfSKeya3kP3pUc3HbHMXVQrgFKlWes8FbqT63oQNFzYjdjlSIxeqLs/Cvt+YnixczRJGH4QS/0jos1IodmEHWxrofZaGzA2bk2XJ8S9Op1okNl2tdskIMaLgbhZHYvoujIaJh/ln5rquZLORpCFsNeVTvteOQyRit34dmAg=='
-
-    
-    APIRequest('GET',url,null,token).then(function(result){
       console.log(result);
     })
     .catch(function(error){
@@ -140,7 +127,8 @@ window.onload = function () {
 function oneDriveGetSignIn(){
 
   //get OneDrive clientID
-APIRequest('GET','http://192.168.2.1:8000/apis/authenticate',null,localStorage.getItem('idToken')).then(function(result){
+  var url = Swagger + '/authenticate';
+APIRequest('GET',url,null,localStorage.getItem('idToken')).then(function(result){
   result = JSON.parse(result);
   console.log(result);
 
@@ -223,7 +211,7 @@ function onAuthenticated(token, authWindow) {
     console.log('=================================================');
    
 
-    var url = SwaggerURL + 'authenticate';
+    var url = APIUrl + 'authenticate';
     var params = {
       token: token
     }
