@@ -6,7 +6,7 @@ var options = {
   }
 }
 
-var APIUrl = 'http://192.168.2.1:8000/apis/'
+var APIUrl = 'http://192.168.2.1:8000'
 
 window.onload = function () {
   // Initializing our Auth0Lock
@@ -45,9 +45,13 @@ window.onload = function () {
 
   //Get Components
   this.document.getElementById('btn-getComponents').addEventListener('click', function () {
-    var url = APIUrl+'Components'
+    var url = APIUrl+'/apis/Components'
     APIRequest("GET", url, null, localStorage.getItem('idToken')).then(function(result){
-      console.log(result);
+      
+      var result = JSON.parse(result);
+      result = result.ComponentIDs[0];
+      console.log(JSON.parse(result));
+    
     })
     .catch(function(error){
       console.log(error);
@@ -56,8 +60,8 @@ window.onload = function () {
 
   //Search Components
   this.document.getElementById('btn-componentSearch').addEventListener('click', function () {
-    var query = "?search=55&page=1&pagesize=100";
-    var url = APIUrl+'ComponentSearch' + encodeURI(query);
+    var query = "?page=1&pagesize=100";
+    var url = APIUrl+'/apis/ComponentSearch' + encodeURI(query);
     APIRequest("GET", url, null, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
     })
@@ -69,7 +73,7 @@ window.onload = function () {
   //Get Components By ID
   this.document.getElementById('btn-getComponentsByID').addEventListener('click', function () {
     var query = "/13456";
-    var url = APIUrl+'Components' + encodeURI(query);
+    var url = APIUrl+'/apis/Components' + encodeURI(query);
     APIRequest("GET", url, null, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
     })
@@ -88,7 +92,7 @@ window.onload = function () {
 
     
 
-    var url = APIUrl+'Components';
+    var url = APIUrl+'/apis/Components';
 
     APIRequest("POST", url, params, localStorage.getItem('idToken')).then(function(result){
       console.log(result);
@@ -107,7 +111,7 @@ window.onload = function () {
  
 
   this.document.getElementById('btn-onedrivetest').addEventListener('click', function () {
-    var url = APIUrl + 'Components';
+    var url = APIUrl + '/apis/Components';
 
     
     APIRequest('GET',url,null,localStorage.getItem('idToken')).then(function(result){
@@ -127,7 +131,7 @@ window.onload = function () {
 function oneDriveGetSignIn(){
 
   //get OneDrive clientID
-  var url = Swagger + '/authenticate';
+  var url = APIUrl + '/apis/authenticate';
 APIRequest('GET',url,null,localStorage.getItem('idToken')).then(function(result){
   result = JSON.parse(result);
   console.log(result);
@@ -211,7 +215,7 @@ function onAuthenticated(token, authWindow) {
     console.log('=================================================');
    
 
-    var url = APIUrl + 'authenticate';
+    var url = APIUrl + '/apis/authenticate';
     var params = {
       token: token
     }

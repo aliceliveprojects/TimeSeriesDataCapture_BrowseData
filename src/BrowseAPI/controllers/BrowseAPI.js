@@ -1,8 +1,8 @@
 'use strict';
 
 var utils = require('../util/writer.js');
-var BrowseAPI = require('./BrowseAPIService');
-var httpUtil = require('../util/http/http');
+var BrowseAPIService = require('./BrowseAPIService');
+
 
 module.exports.componentSearch = function componentSearch (req, res, next) {
   var search = req.swagger.params['search'].value;
@@ -17,15 +17,18 @@ module.exports.componentSearch = function componentSearch (req, res, next) {
     });
 };
 
-module.exports.getAuthenticate = function getAuthenticate (req, res, next) {
+/* module.exports.getAuthenticate = function getAuthenticate (req, res, next) {
   BrowseAPI.getAuthenticate()
-    .then(function (result) {
-      httpUtil.endHttpOK(result, res);
+    .then(function (response) {
+      utils.writeJson(res, response);
     })
-    .catch(function (error) {
-      console.log(error);
-      utils.writeJson(error,res);
+    .catch(function (response) {
+      utils.writeJson(res, response);
     });
+}; */
+
+module.exports.getAuthenticate = function getAuthenticate1 (req, res, next) {
+  BrowseAPIService.getAuthenticate1(req.swagger.params, res, next);
 };
 
 module.exports.getComponent = function getComponent (req, res, next) {

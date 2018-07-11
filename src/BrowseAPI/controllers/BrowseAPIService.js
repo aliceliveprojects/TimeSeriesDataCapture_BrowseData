@@ -1,6 +1,8 @@
 'use strict';
 
 var https = require('https');
+var httpUtil = require('../util/http/http');
+var browseAPI = require('../util/browse/browse');
 
 var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
 var oneToken = '';
@@ -47,6 +49,15 @@ exports.getAuthenticate = function() {
       });
     }
   });
+}
+
+exports.getAuthenticate1 = function(args,res,next){
+  browseAPI.getAuthenticate1()
+  .then((result) => {
+    httpUtil.endHttpOK(result,res);
+  }).catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
 }
 
 
