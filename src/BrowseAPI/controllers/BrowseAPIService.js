@@ -51,14 +51,14 @@ exports.getAuthenticate = function() {
   });
 }
 
-exports.getAuthenticate1 = function(args,res,next){
+/*exports.getAuthenticate1 = function(args,res,next){
   browseAPI.getAuthenticate1()
   .then((result) => {
     httpUtil.endHttpOK(result,res);
   }).catch((error) => {
     httpUtil.endHttpErr(error,res);
   })
-}
+}*/
 
 
 /**

@@ -2,7 +2,7 @@
 
 const errorApi = require('../error/error');
 
-var auth_token = '';
+var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
 
 exports.getAuthentication1 = async function(){
     if(auth_token.length > 0){

@@ -17,7 +17,7 @@ module.exports.componentSearch = function componentSearch (req, res, next) {
     });
 };
 
-/* module.exports.getAuthenticate = function getAuthenticate (req, res, next) {
+ module.exports.getAuthenticate = function getAuthenticate (req, res, next) {
   BrowseAPI.getAuthenticate()
     .then(function (response) {
       utils.writeJson(res, response);
@@ -25,11 +25,11 @@ module.exports.componentSearch = function componentSearch (req, res, next) {
     .catch(function (response) {
       utils.writeJson(res, response);
     });
-}; */
+}; 
 
-module.exports.getAuthenticate = function getAuthenticate1 (req, res, next) {
+/*module.exports.getAuthenticate = function getAuthenticate1 (req, res, next) {
   BrowseAPIService.getAuthenticate1(req.swagger.params, res, next);
-};
+};*/
 
 module.exports.getComponent = function getComponent (req, res, next) {
   var componentID = req.swagger.params['componentID'].value;
