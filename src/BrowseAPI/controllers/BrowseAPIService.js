@@ -1,11 +1,5 @@
 'use strict';
 
-var https = require('https');
-var httpUtil = require('../util/http/http');
-var browseAPI = require('../util/browse/browse');
-
-var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
-var oneToken = '';
 
 /**
  * Searches for componenets
@@ -14,14 +8,12 @@ var oneToken = '';
  * search String Search request
  * page Integer page number (optional)
  * pagesize Integer page size (number of components) (optional)
- * returns inline_response_200_2
+ * returns List
  **/
 exports.componentSearch = function(search,page,pagesize) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "Components" : [ "{}", "{}" ]
-};
+    examples['application/json'] = [ "component_id", "component_id" ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -32,33 +24,36 @@ exports.componentSearch = function(search,page,pagesize) {
 
 
 /**
- * Searches for componenets
- * Retrieves OneDrive clientID needed for OneDrive Login
+ * Deletes a specific component
+ * Deletes a specific imported component by component ID
  *
- * returns inline_response_200_3
+ * componentID String Component ID specifies which component to download 
+ * no response value expected for this operation
  **/
-exports.getAuthenticate = function() {
+exports.deleteComponent = function(componentID) {
   return new Promise(function(resolve, reject) {
-    if(auth_token.length > 0){
-      resolve({
-        auth_token: auth_token
-      })
-    }else{
-      reject({
-        auth_token: 'error'
-      });
-    }
+    resolve();
   });
 }
 
-/*exports.getAuthenticate1 = function(args,res,next){
-  browseAPI.getAuthenticate1()
-  .then((result) => {
-    httpUtil.endHttpOK(result,res);
-  }).catch((error) => {
-    httpUtil.endHttpErr(error,res);
-  })
-}*/
+
+/**
+ * Gets file storage token
+ * Retrieves file storage token login into file storage
+ *
+ * returns Integer
+ **/
+exports.getAuthenticate = function() {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = "token";
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
 
 
 /**
@@ -66,13 +61,19 @@ exports.getAuthenticate = function() {
  * Get a specific imported component by component ID
  *
  * componentID String Component ID specifies which component to download 
- * returns inline_response_200_1
+ * returns inline_response_200
  **/
 exports.getComponent = function(componentID) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "Component" : "{}"
+  "TagCollection" : [ "tag", "tag" ],
+  "AnnotationCollection" : [ "annotation", "annotation" ],
+  "Date&Timestamp" : 6,
+  "Data" : {
+    "Column" : [ "data_point", "data_point" ]
+  },
+  "id" : 0
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -87,63 +88,30 @@ exports.getComponent = function(componentID) {
  * Gets IDs available for import
  * Gets all the component IDs available for import
  *
- * returns inline_response_200
- * 
- * https://graph.microsoft.com/v1.0/me/drive/root/children
+ * returns List
  **/
 exports.getComponentIDs = function() {
   return new Promise(function(resolve, reject) {
-
-    var options = {
-      protocol: 'https:',
-    host: 'graph.microsoft.com',
-      path:'/v1.0/me/drive/root/children',
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'bearer ' + oneToken
-  }
-  };
-    var str = ''
-    var req = https.request(options, function(res) {
-     
-      res.on('data', function (chunk) {
-        str += chunk
-        
-      });
-
-      res.on('end', function () {
-        console.log(str);
-        resolve({
-          ComponentIDs:[str]
-        })
-      });
-    });
-    
-    req.on('error', function(e) {
-      console.log('problem with request: ' + e.message);
-    });
-
-    req.end();
-
-
+    var examples = {};
+    examples['application/json'] = [ "component_id", "component_id" ];
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
   });
 }
 
 
 /**
- * Sends OneDrive auth token'
- * Sends OneDrive auth token
+ * Sends file storage auth token'
+ * Sends storage auth token
  *
- * oneDriveToken OneDriveToken 
+ * fileStorageToken FileStorageToken 
  * no response value expected for this operation
  **/
-exports.postAuthenticate = function(oneDriveToken) {
+exports.postAuthenticate = function(fileStorageToken) {
   return new Promise(function(resolve, reject) {
-    console.log(oneDriveToken);
-    console.log(JSON.stringify(oneDriveToken));
-    oneToken = oneDriveToken.token;
-    console.log(oneToken);
     resolve();
   });
 }
@@ -153,16 +121,27 @@ exports.postAuthenticate = function(oneDriveToken) {
  * Posts component IDs for import
  * Posts all the component IDs for import
  *
- * componentIDs ComponentIDs  (optional)
+ * componentIDs List 
  * no response value expected for this operation
  **/
 exports.postComponentIDs = function(componentIDs) {
   return new Promise(function(resolve, reject) {
-
     resolve();
   });
 }
 
 
-
+/**
+ * Deletes a specific component
+ * Deletes a specific imported component by component ID
+ *
+ * componentID String Component ID specifies which component to download 
+ * component List 
+ * no response value expected for this operation
+ **/
+exports.updateComponent = function(componentID,component) {
+  return new Promise(function(resolve, reject) {
+    resolve();
+  });
+}
 

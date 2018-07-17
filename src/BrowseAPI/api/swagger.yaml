@@ -30,9 +30,17 @@ paths:
         200:
           description: "Success"
           schema:
-            $ref: "#/definitions/inline_response_200"
+            type: "array"
+            description: "Array of component objects"
+            items:
+              type: "string"
+              example: 'component_id'
+              description: "specific component ID"
+                 
         400:
-          description: ""
+          description: "Bad request"
+        401:
+          description: "Unauthorized"
       security:
       - timeseries_admin_auth:
         - "admin"
@@ -48,14 +56,21 @@ paths:
       parameters:
       - in: "body"
         name: "componentIDs"
-        required: false
+        required: true
         schema:
-          $ref: "#/definitions/componentIDs"
+          type: "array"
+          description: "Array of component objects"
+          items:
+            type: "string"
+            example: 'component_id'
+            description: "specific component ID"
       responses:
         200:
           description: "Success"
         400:
-          description: ""
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
       security:
       - timeseries_admin_auth:
         - "admin"
@@ -77,13 +92,109 @@ paths:
         200:
           description: "Success"
           schema:
-            $ref: "#/definitions/inline_response_200_1"
+            type: "object"
+            properties:
+              id:
+                type: 'integer'
+                description: "Run ID"
+              Date&Timestamp:
+                type: 'integer'
+                description: "Date and timestamp"
+              TagCollection:
+                type: "array"
+                items:
+                  type: "string"
+                  example: 'tag'
+                  description: "A tag"
+              AnnotationCollection:
+                type: "array"
+                items:
+                  type: "string"
+                  example: "annotation"
+                  description: "A annotation"
+              Data:
+                type: "object"
+                properties:
+                  Column:
+                    type: "array"
+                    items:
+                      type: "integer"
+                      example: "data_point"
+                      description: "point of data"
+
         400:
-          description: ""
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
       security:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
+    delete:
+      tags:
+      - "Browse API"
+      summary: "Deletes a specific component"
+      description: "Deletes a specific imported component by component ID"
+      operationId: "deleteComponent"
+      parameters:
+      - name: "componentID"
+        in: "path"
+        description: "Component ID specifies which component to download "
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
+      x-swagger-router-controller: "BrowseAPI"
+    
+    put:
+      tags:
+      - "Browse API"
+      summary: "Deletes a specific component"
+      description: "Deletes a specific imported component by component ID"
+      operationId: "updateComponent"
+      parameters:
+      - name: "componentID"
+        in: "path"
+        description: "Component ID specifies which component to download "
+        required: true
+        type: "string"
+      - in: "body"
+        name: "component"
+        required: true
+        schema:
+          type: "array"
+          description: "Array of property and new values"
+          items:
+            type: "object"
+            properties:
+              property:
+                type: "string"
+                description: "component property"
+              
+              value:
+                type: "integer"
+                description: "new value"
+              
+      responses:
+        200:
+          description: "Success"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
+      x-swagger-router-controller: "BrowseAPI"
+    
   /ComponentSearch:
     get:
       tags:
@@ -111,26 +222,31 @@ paths:
         200:
           description: "Success"
           schema:
-            $ref: "#/definitions/inline_response_200_2"
+            type: "array"
+            description: "Array of component objects"
+            items:
+              type: "string"
+              example: 'component_id'
+              description: "specific component ID"
         400:
-          description: ""
-      security:
-      - timeseries_admin_auth:
-        - "admin"
-      x-swagger-router-controller: "BrowseAPI"
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
   /authenticate:
     get:
       tags:
       - "Browse API"
-      summary: "Searches for componenets"
-      description: "Retrieves OneDrive clientID needed for OneDrive Login"
+      summary: "Gets file storage token"
+      description: "Retrieves file storage token login into file storage"
       operationId: "getAuthenticate"
       parameters: []
       responses:
         200:
           description: "Success"
           schema:
-            $ref: "#/definitions/inline_response_200_3"
+            type: "integer"
+            example: "token"
+            description: "File storage token"
         400:
           description: ""
       security:
@@ -140,20 +256,30 @@ paths:
     post:
       tags:
       - "Browse API"
-      summary: "Sends OneDrive auth token'"
-      description: "Sends OneDrive auth token"
+      summary: "Sends file storage auth token'"
+      description: "Sends storage auth token"
       operationId: "postAuthenticate"
       parameters:
       - in: "body"
-        name: "oneDriveToken"
+        name: "fileStorageToken"
         required: true
         schema:
-          $ref: "#/definitions/oneDriveToken"
+          type: "object"
+          properties:
+            storageToken:
+              type: "integer"
+              example: "storage_token"
+              description: "token used to authorize storage"
+            profileID:
+              type: "integer"
+              example: "profile_id"
+              description: "Id of the user logged in"
+              
       responses:
         200:
           description: "Success"
-        400:
-          description: ""
+        401:
+          description: "Unauthorized"
       security:
       - timeseries_admin_auth:
         - "admin"
@@ -165,56 +291,4 @@ securityDefinitions:
     flow: "implicit"
     scopes:
       admin: "Full Access"
-definitions:
-  componentIDs:
-    type: "object"
-    properties:
-      ComponentIDs:
-        type: "array"
-        description: "Array component IDs"
-        items:
-          type: "string"
-  inline_response_200_1:
-    properties:
-      Component:
-        type: "object"
-        description: "Component object"
-        properties: {}
-    example:
-      Component: "{}"
-  inline_response_200:
-    properties:
-      ComponentIDs:
-        type: "array"
-        description: "Array of component IDs"
-        items:
-          type: "string"
-    example:
-      ComponentIDs:
-      - "ComponentIDs"
-      - "ComponentIDs"
-  inline_response_200_2:
-    properties:
-      Components:
-        type: "array"
-        description: "Array of component objects"
-        items:
-          type: "object"
-          properties: {}
-    example:
-      Components:
-      - "{}"
-      - "{}"
-  inline_response_200_3:
-    properties:
-      clientID:
-        type: "string"
-        description: "OneDrive Client ID"
-    example:
-      clientID: "clientID"
-  oneDriveToken:
-    type: "object"
-    properties:
-      token:
-        type: "string"
-        description: "OneDrive token for authorization"
+
