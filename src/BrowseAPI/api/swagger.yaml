@@ -34,9 +34,8 @@ paths:
             description: "Array of component objects"
             items:
               type: "string"
-              example: 'component_id'
+              example: "component_id"
               description: "specific component ID"
-                 
         400:
           description: "Bad request"
         401:
@@ -62,7 +61,7 @@ paths:
           description: "Array of component objects"
           items:
             type: "string"
-            example: 'component_id'
+            example: "component_id"
             description: "specific component ID"
       responses:
         200:
@@ -92,36 +91,38 @@ paths:
         200:
           description: "Success"
           schema:
-            type: "object"
-            properties:
-              id:
-                type: 'integer'
-                description: "Run ID"
-              Date&Timestamp:
-                type: 'integer'
-                description: "Date and timestamp"
-              TagCollection:
-                type: "array"
-                items:
-                  type: "string"
-                  example: 'tag'
-                  description: "A tag"
-              AnnotationCollection:
-                type: "array"
-                items:
-                  type: "string"
-                  example: "annotation"
-                  description: "A annotation"
-              Data:
-                type: "object"
-                properties:
-                  Column:
-                    type: "array"
-                    items:
-                      type: "integer"
-                      example: "data_point"
-                      description: "point of data"
-
+            $ref: "#/definitions/inline_response_200"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
+      x-swagger-router-controller: "BrowseAPI"
+    put:
+      tags:
+      - "Browse API"
+      summary: "Deletes a specific component"
+      description: "Deletes a specific imported component by component ID"
+      operationId: "updateComponent"
+      parameters:
+      - name: "componentID"
+        in: "path"
+        description: "Component ID specifies which component to download "
+        required: true
+        type: "string"
+      - in: "body"
+        name: "component"
+        required: true
+        schema:
+          type: "array"
+          description: "Array of property and new values"
+          items:
+            $ref: "#/definitions/component"
+      responses:
+        200:
+          description: "Success"
         400:
           description: "Bad Request"
         401:
@@ -153,48 +154,6 @@ paths:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
-    
-    put:
-      tags:
-      - "Browse API"
-      summary: "Deletes a specific component"
-      description: "Deletes a specific imported component by component ID"
-      operationId: "updateComponent"
-      parameters:
-      - name: "componentID"
-        in: "path"
-        description: "Component ID specifies which component to download "
-        required: true
-        type: "string"
-      - in: "body"
-        name: "component"
-        required: true
-        schema:
-          type: "array"
-          description: "Array of property and new values"
-          items:
-            type: "object"
-            properties:
-              property:
-                type: "string"
-                description: "component property"
-              
-              value:
-                type: "integer"
-                description: "new value"
-              
-      responses:
-        200:
-          description: "Success"
-        400:
-          description: "Bad Request"
-        401:
-          description: "Unauthorized"
-      security:
-      - timeseries_admin_auth:
-        - "admin"
-      x-swagger-router-controller: "BrowseAPI"
-    
   /ComponentSearch:
     get:
       tags:
@@ -226,12 +185,13 @@ paths:
             description: "Array of component objects"
             items:
               type: "string"
-              example: 'component_id'
+              example: "component_id"
               description: "specific component ID"
         400:
           description: "Bad Request"
         401:
           description: "Unauthorized"
+      x-swagger-router-controller: "BrowseAPI"
   /authenticate:
     get:
       tags:
@@ -264,17 +224,7 @@ paths:
         name: "fileStorageToken"
         required: true
         schema:
-          type: "object"
-          properties:
-            storageToken:
-              type: "integer"
-              example: "storage_token"
-              description: "token used to authorize storage"
-            profileID:
-              type: "integer"
-              example: "profile_id"
-              description: "Id of the user logged in"
-              
+          $ref: "#/definitions/fileStorageToken"
       responses:
         200:
           description: "Success"
@@ -291,4 +241,68 @@ securityDefinitions:
     flow: "implicit"
     scopes:
       admin: "Full Access"
-
+definitions:
+  fileStorageToken:
+    type: "object"
+    properties:
+      storageToken:
+        type: "integer"
+        description: "token used to authorize storage"
+      profileID:
+        type: "integer"
+        description: "Id of the user logged in"
+  component:
+    properties:
+      property:
+        type: "string"
+        description: "component property"
+      value:
+        type: "integer"
+        description: "new value"
+  inline_response_200:
+    properties:
+      id:
+        type: "integer"
+        description: "Run ID"
+      Date&Timestamp:
+        type: "integer"
+        description: "Date and timestamp"
+      TagCollection:
+        type: "array"
+        items:
+          type: "string"
+          example: "tag"
+          description: "A tag"
+      AnnotationCollection:
+        type: "array"
+        items:
+          type: "string"
+          example: "annotation"
+          description: "A annotation"
+      Data:
+        $ref: "#/definitions/inline_response_200_Data"
+    example:
+      TagCollection:
+      - "tag"
+      - "tag"
+      AnnotationCollection:
+      - "annotation"
+      - "annotation"
+      Date&Timestamp: 6
+      Data:
+        Column:
+        - "data_point"
+        - "data_point"
+      id: 0
+  inline_response_200_Data:
+    properties:
+      Column:
+        type: "array"
+        items:
+          type: "integer"
+          example: "data_point"
+          description: "point of data"
+    example:
+      Column:
+      - "data_point"
+      - "data_point"

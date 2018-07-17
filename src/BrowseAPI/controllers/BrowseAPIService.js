@@ -1,5 +1,6 @@
 'use strict';
-
+var httpUtil = require('../util/http/http');
+var browseService = require('../util/browse/browse');
 
 /**
  * Searches for componenets
@@ -10,16 +11,21 @@
  * pagesize Integer page size (number of components) (optional)
  * returns List
  **/
-exports.componentSearch = function(search,page,pagesize) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ "component_id", "component_id" ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.componentSearch = function(args,res,next) {
+  
+  let search = args.search.value;
+  let page = args.page.value;
+  let pagesize = args.pagesize.value;
+
+
+  browseService.componentSearch(search,page,pagesize)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })  
+  
 }
 
 
@@ -30,10 +36,17 @@ exports.componentSearch = function(search,page,pagesize) {
  * componentID String Component ID specifies which component to download 
  * no response value expected for this operation
  **/
-exports.deleteComponent = function(componentID) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.deleteComponent = function(args,res,next) {
+
+  let componentID = args.componentID.value;
+
+  browseService.deleteComponent(componentID)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })  
 }
 
 
@@ -43,16 +56,14 @@ exports.deleteComponent = function(componentID) {
  *
  * returns Integer
  **/
-exports.getAuthenticate = function() {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = "token";
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getAuthenticate = function(args,res,next) {
+  browseService.getAuthenticate()
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })  
 }
 
 
@@ -63,24 +74,18 @@ exports.getAuthenticate = function() {
  * componentID String Component ID specifies which component to download 
  * returns inline_response_200
  **/
-exports.getComponent = function(componentID) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "TagCollection" : [ "tag", "tag" ],
-  "AnnotationCollection" : [ "annotation", "annotation" ],
-  "Date&Timestamp" : 6,
-  "Data" : {
-    "Column" : [ "data_point", "data_point" ]
-  },
-  "id" : 0
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getComponent = function(args,res,next) {
+
+  let componentID = args.componentID.value;
+
+  browseService.getComponent(componentID)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })  
+
 }
 
 
@@ -90,16 +95,14 @@ exports.getComponent = function(componentID) {
  *
  * returns List
  **/
-exports.getComponentIDs = function() {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = [ "component_id", "component_id" ];
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+exports.getComponentIDs = function(args,res,next) {
+  browseService.getComponentIDs()
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })  
 }
 
 
@@ -110,10 +113,16 @@ exports.getComponentIDs = function() {
  * fileStorageToken FileStorageToken 
  * no response value expected for this operation
  **/
-exports.postAuthenticate = function(fileStorageToken) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.postAuthenticate = function(args,res,next) {
+  let fileStorageToken = args.fileStorageToken.value;
+  
+  browseService.postAuthenticate(fileStorageToken)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })  
 }
 
 
@@ -124,10 +133,16 @@ exports.postAuthenticate = function(fileStorageToken) {
  * componentIDs List 
  * no response value expected for this operation
  **/
-exports.postComponentIDs = function(componentIDs) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.postComponentIDs = function(args,res,next) {
+  let componentIDs = args.componentIDs.value;
+  
+  browseService.postComponentIDs(componentIDs)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  }) 
 }
 
 
@@ -139,9 +154,16 @@ exports.postComponentIDs = function(componentIDs) {
  * component List 
  * no response value expected for this operation
  **/
-exports.updateComponent = function(componentID,component) {
-  return new Promise(function(resolve, reject) {
-    resolve();
-  });
+exports.updateComponent = function(args,res,next) {
+  let componentID = args.componentID.value;
+  let component = args.component.value;
+  
+  browseService.updateComponent(componentID,component)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  }) 
 }
 
