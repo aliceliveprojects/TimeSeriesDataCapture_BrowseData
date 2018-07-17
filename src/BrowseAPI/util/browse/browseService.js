@@ -24,9 +24,7 @@ exports.deleteComponent = async function(componentID){
 
 // TODO: get auth token from database
 exports.getAuthentication = async function(){
-    return {
-        good : 'ok'
-    }
+    throw(errorApi.create400Error("error test"));
 }
 
 //TODO: download component from database
