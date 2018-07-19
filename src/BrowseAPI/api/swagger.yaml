@@ -25,7 +25,12 @@ paths:
       operationId: "getComponentIDs"
       produces:
       - "application/json"
-      parameters: []
+      parameters:
+       - name: "folderID"
+         in: "query"
+         description: "Specifies which folder to search"
+         required: false
+         type: "string"
       responses:
         200:
           description: "Success"

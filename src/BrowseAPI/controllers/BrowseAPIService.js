@@ -97,7 +97,9 @@ exports.getComponent = function(args,res,next) {
  * returns List
  **/
 exports.getComponentIDs = function(args,res,next) {
-  browseService.getComponentIDs()
+  let folderID = args.folderID.value;
+  
+  browseService.getComponentIDs(folderID)
   .then((result) =>{
     
     httpUtil.endHttpOK(result,res);

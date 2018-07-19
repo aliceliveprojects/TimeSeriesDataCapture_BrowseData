@@ -21,8 +21,8 @@ module.exports = {
         return service.getComponent(componentID)
     },
 
-    getComponentIDs: function(){
-        return service.getComponentIDs();
+    getComponentIDs: function(folderID){
+        return service.getComponentIDs(folderID);
     },
 
     postAuthenticate: function(fileStorageToken){
