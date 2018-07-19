@@ -80,6 +80,7 @@ exports.getComponent = function(args,res,next) {
 
   browseService.getComponent(componentID)
   .then((result) =>{
+   
     httpUtil.endHttpOK(result,res);
   })
   .catch((error) => {
@@ -98,6 +99,7 @@ exports.getComponent = function(args,res,next) {
 exports.getComponentIDs = function(args,res,next) {
   browseService.getComponentIDs()
   .then((result) =>{
+    
     httpUtil.endHttpOK(result,res);
   })
   .catch((error) => {
