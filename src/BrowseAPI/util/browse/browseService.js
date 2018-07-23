@@ -4,6 +4,19 @@ const errorApi = require('../error/error');
 const httpRequest = require('../http/httpRequest')
 var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
 
+//TODO : add to database
+exports.addComponentAnnotations = async function(componentID,annotations) {
+    return {
+        result: 'GOOD'
+    }
+}
+
+//TODO : add to database
+exports.addComponentTags = async function(componentID,tags) {
+    return {
+        result: 'GOOD'
+    }
+}
 
 // TODO: query database
 exports.componentSearch = async function (search, page, pagesize) {
@@ -22,6 +35,21 @@ exports.deleteComponent = async function (componentID) {
     }
 }
 
+//TODO : delete from annotation
+exports.deleteComponentAnnotation = async function(componentID,annotationID) {
+    return {
+        result: 'GOOD'
+    }
+}
+
+//TODO : delete annotation from database
+exports.deleteComponentTag = async function(componentID,tagID){
+    return {
+        result: 'GOOD'
+    }
+
+}
+
 // TODO: get auth token from database
 exports.getAuthentication = async function () {
     throw (errorApi.create400Error("error test"));
@@ -33,27 +61,6 @@ exports.getComponent = async function (componentID) {
         componentID: componentID
     }
 
-
-}
-
-function parseResponse(result) {
-    result = JSON.parse(result);
-
-
-
-    var response = null;
-    var responseCode = null;
-
-    if (result.hasOwnProperty('result')) {
-        response = result.result;
-    }
-
-    if (result.hasOwnProperty('statusCode')) {
-        responseCode = result.statusCode;
-    }
-
-
-    return [responseCode, response];
 
 }
 
@@ -101,6 +108,14 @@ exports.getComponentIDs = async function (folderID) {
 
 }
 
+//TODO: query database
+exports.getTags = async function(tags){
+    return {
+        result: 'GOOD'
+    }
+
+}
+
 //TODO store file storage token
 exports.postAuthenticate = async function (fileStorageToken) {
     return {
@@ -116,11 +131,30 @@ exports.postComponentIDs = async function (componentIDs) {
 
 }
 
-//TODO update component from database
-exports.updateComponent = async function (componentID, component) {
+exports.updateComponentAnnotation = async function(componentID,annotationID,annotation){
     return {
-        componentID: componentID,
-        component: component
+        result: 'GOOD'
     }
+
 }
 
+function parseResponse(result) {
+    result = JSON.parse(result);
+
+
+
+    var response = null;
+    var responseCode = null;
+
+    if (result.hasOwnProperty('result')) {
+        response = result.result;
+    }
+
+    if (result.hasOwnProperty('statusCode')) {
+        responseCode = result.statusCode;
+    }
+
+
+    return [responseCode, response];
+
+}

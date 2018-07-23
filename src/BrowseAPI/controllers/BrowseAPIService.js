@@ -2,6 +2,52 @@
 var httpUtil = require('../util/http/http');
 var browseService = require('../util/browse/browse');
 
+
+
+/**
+ * adds new annotations tag
+ * adds new annotations tag for a specific component
+ *
+ * componentID String Component ID specifies a component
+ * annotations List 
+ * returns String
+ **/
+exports.addComponentAnnotations = function(args,res,next) {
+  let componentID = args.componentID.value;
+  let annotations = args.annotations.value;
+
+  browseService.addComponentAnnotations(componentID,annotations)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  }) 
+}
+
+/**
+ * adds new tags to a specific component
+ * Sends tag IDs to be added to a specific component
+ *
+ * componentID String Component ID specifies a component
+ * tags List 
+ * returns List
+ **/
+exports.addComponentTags = function(args,res,next) {
+  let componentID = args.componentID.value;
+  let tags = args.tags.value;
+
+  browseService.addComponentTags(componentID,tags)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  }) 
+}
+
+
+
 /**
  * Searches for componenets
  * Searches database for components that match search string
@@ -48,6 +94,29 @@ exports.deleteComponent = function(args,res,next) {
     httpUtil.endHttpErr(error,res);
   })  
 }
+
+/**
+ * Deletes a specific annotation
+ * Deletes a specific annotation by annotation ID
+ *
+ * componentID String Component ID specifies a component
+ * annotationID String Annotation ID specifies a annotation
+ * returns String
+ **/
+exports.deleteComponentAnnotation = function(args,res,next) {
+  let componentID = args.componentID.value;
+  let annotationID = args.annotationID.value;
+
+  browseService.deleteComponentAnnotation(componentID,annotationID)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  }) 
+}
+
+
 
 
 /**
@@ -110,6 +179,23 @@ exports.getComponentIDs = function(args,res,next) {
 }
 
 
+
+/**
+ * Searches for componenets
+ * Searches database for components that match search string
+ *
+ * returns List
+ **/
+exports.getTags = function(args,res,next) {
+  browseService.getTags('sda')
+  .then((result) => {
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
+}
+
 /**
  * Sends file storage auth token'
  * Sends storage auth token
@@ -149,20 +235,21 @@ exports.postComponentIDs = function(args,res,next) {
   }) 
 }
 
-
 /**
- * Deletes a specific component
- * Deletes a specific imported component by component ID
+ * adds new annotations tag
+ * adds new annotations tag for a specific component
  *
- * componentID String Component ID specifies which component to download 
- * component List 
- * no response value expected for this operation
+ * componentID String Component ID specifies a component
+ * annotationID String Annotation ID specifies a annotation
+ * annotation Annotation 
+ * returns String
  **/
-exports.updateComponent = function(args,res,next) {
+exports.updateComponentAnnotation = function(args,res,next) {
   let componentID = args.componentID.value;
-  let component = args.component.value;
-  
-  browseService.updateComponent(componentID,component)
+  let annotationID = args.annotationID.value;
+  let annotation = args.annotation.value;
+
+  browseService.updateComponentAnnotation(componentID,annotationID,annotation)
   .then((result) =>{
     httpUtil.endHttpOK(result,res);
   })
@@ -170,4 +257,27 @@ exports.updateComponent = function(args,res,next) {
     httpUtil.endHttpErr(error,res);
   }) 
 }
+
+/**
+ * deletes tag from a specific component
+ * deletes a tag from a specific component
+ *
+ * componentID String Component ID specifies a component
+ * tagID String tag ID specifies a tag
+ * returns String
+ **/
+exports.deleteComponentTag = function(args,res,next) {
+  let componentID = args.componentID.value;
+  let tagID = args.tagID.value;
+
+  browseService.deleteComponentTag(componentID,tagID)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  }) 
+}
+
+
 

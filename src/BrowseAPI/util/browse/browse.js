@@ -4,6 +4,13 @@ var service = require('./browseService');
 
 module.exports = {
    
+    addComponentAnnotations: function(componentID,annotations){
+        return service.addComponentAnnotations(componentID,annotations);
+    },
+
+    addComponentTags: function(componentID,tags){
+        return service.addComponentTags(componentID,tags);
+    },
 
     componentSearch: function(search,page,pagesize){
         return service.componentSearch(search,page,pagesize);
@@ -11,6 +18,10 @@ module.exports = {
 
     deleteComponent: function(componentID){
         return service.deleteComponent(componentID);
+    },
+
+    deleteComponentAnnotation: function(componentID,annotationID){
+        return service.deleteComponentAnnotation(componentID,annotationID);
     },
 
     getAuthenticate: function(){
@@ -25,6 +36,10 @@ module.exports = {
         return service.getComponentIDs(folderID);
     },
 
+    getTags: function(tags){
+        return service.getTags();
+    },
+
     postAuthenticate: function(fileStorageToken){
         return service.postAuthenticate(fileStorageToken);
     },
@@ -33,8 +48,12 @@ module.exports = {
         return service.postComponentIDs(componentIDs);
     },
 
-    updateComponent: function(componentID,component){
-        return service.updateComponent(componentID,component)
+    updateComponentAnnotation: function(componentID,annotationID,annotation){
+        return service.updateComponentAnnotation(componentID,annotationID,annotation);
+    },
+
+    deleteComponentTag: function(componentID,tagID){
+        return service.deleteComponentTag(componentID,tagID);
     }
 
 }
