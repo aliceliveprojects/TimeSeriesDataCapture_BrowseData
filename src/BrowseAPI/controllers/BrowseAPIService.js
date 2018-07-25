@@ -204,7 +204,8 @@ exports.getAlgorithms =  function(args,res,next){
  * returns List
  **/
 exports.getTags = function(args,res,next) {
-  browseService.getTags('sda')
+  var tags = args.tags.value;
+  browseService.getTags(tags)
   .then((result) => {
     httpUtil.endHttpOK(result,res);
   })

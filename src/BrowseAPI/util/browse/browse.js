@@ -41,7 +41,7 @@ module.exports = {
     },
 
     getTags: function(tags){
-        return service.getTags();
+        return service.getTags(tags);
     },
 
     postAuthenticate: function(fileStorageToken){

@@ -100,6 +100,19 @@ exports.mongodbFindAll = function mongodbFindAll(collection){
     })
 }
 
+exports.mongodbFind = function mongodbFind(collection, query){
+    return new Promise((resolve,reject) => {
+        connect()
+            .then(result => {
+                dbo.collection(collection).find(query).toArray((error,result) => {
+                    if(error) reject(error);
+                    
+                    resolve(result);
+                })
+            })
+    })
+}
+
 /* ========================================================================================================= */
 
 

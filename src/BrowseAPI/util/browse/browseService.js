@@ -3,6 +3,7 @@
 const errorApi = require('../error/error');
 const httpRequest = require('../http/httpRequest')
 var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
+const databaseService = require('../database/database');
 
 //TODO : add to database
 exports.addComponentAnnotations = async function(componentID,annotations) {
@@ -21,12 +22,18 @@ exports.addComponentTags = async function(componentID,tags) {
 // TODO: query database
 exports.componentSearch = async function (tags,dateTimeStamp, page, pagesize) {
 
-    return {
-        tags: tags,
-        dateTimeStamp: dateTimeStamp,
-        page: page,
-        pagesize: pagesize
+    var query = {
+
     }
+
+    if(tags != undefined){
+        query['tags'] = tags.split(",");
+    }
+
+    
+
+    var result = await databaseService.queryRun(query)
+    return(result);
 }
 
 // TODO: delete from database
@@ -106,9 +113,14 @@ exports.getAlgorithms = async function(){
 
 //TODO: query database
 exports.getTags = async function(tags){
-    return {
-        result: 'GOOD'
+    try {
+        console.log(tags);
+        var response = await databaseService.getTag(tags);
+        return (response);    
+    } catch (error) {
+        throw(error);
     }
+    
 
 }
 
