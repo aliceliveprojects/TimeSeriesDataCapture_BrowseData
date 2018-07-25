@@ -19,10 +19,11 @@ exports.addComponentTags = async function(componentID,tags) {
 }
 
 // TODO: query database
-exports.componentSearch = async function (search, page, pagesize) {
+exports.componentSearch = async function (tags,dateTimeStamp, page, pagesize) {
 
     return {
-        search: search,
+        tags: tags,
+        dateTimeStamp: dateTimeStamp,
         page: page,
         pagesize: pagesize
     }

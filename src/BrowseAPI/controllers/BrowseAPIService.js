@@ -52,19 +52,21 @@ exports.addComponentTags = function(args,res,next) {
  * Searches for componenets
  * Searches database for components that match search string
  *
- * search String Search request
+ * tags searched tags
+ * dateTimeStamp searched date and time
  * page Integer page number (optional)
  * pagesize Integer page size (number of components) (optional)
  * returns List
  **/
 exports.componentSearch = function(args,res,next) {
   
-  let search = args.search.value;
+  let tags = args.tags.value;
+  let dateTimeStamp = args.dateTimeStamp.value
   let page = args.page.value;
   let pagesize = args.pagesize.value;
 
 
-  browseService.componentSearch(search,page,pagesize)
+  browseService.componentSearch(tags,dateTimeStamp,page,pagesize)
   .then((result) =>{
     httpUtil.endHttpOK(result,res);
   })
