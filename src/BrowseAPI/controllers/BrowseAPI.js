@@ -31,6 +31,10 @@ module.exports.deleteComponentAnnotation = function deleteComponentAnnotation(re
   BrowseAPI.deleteComponentAnnotation(req.swagger.params, res, next);
 };
 
+module.exports.getAlgorithms = function getAlgorithms(req,res,next){
+  BrowseAPI.getAlgorithms(req.swagger.params,res,next);
+}
+
 module.exports.getTags = function getTags (req, res, next) {
   BrowseAPI.getTags(req.swagger.params, res, next);
 };

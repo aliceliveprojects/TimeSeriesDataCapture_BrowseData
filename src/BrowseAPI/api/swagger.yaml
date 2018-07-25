@@ -26,11 +26,11 @@ paths:
       produces:
       - "application/json"
       parameters:
-       - name: "folderID"
-         in: "query"
-         description: "Specifies a folder"
-         required: false
-         type: "string"
+      - name: "folderID"
+        in: "query"
+        description: "Specifies a folder"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Success"
@@ -58,16 +58,14 @@ paths:
       produces:
       - "application/json"
       parameters:
-      - name: "componentIDs"
-        in: "body"
+      - in: "body"
+        name: "componentIDs"
         required: true
         schema:
           type: "array"
-          description: "Array of component objects"
+          description: "Array of components to be added"
           items:
-            type: "string"
-            example: "component_id"
-            description: "specific component ID"
+            $ref: "#/definitions/componentIDs"
       responses:
         200:
           description: "Success"
@@ -141,8 +139,8 @@ paths:
         description: "Component ID specifies a component"
         required: true
         type: "string"
-      - name: "tags"
-        in: "body"
+      - in: "body"
+        name: "tags"
         required: true
         schema:
           type: "array"
@@ -215,23 +213,14 @@ paths:
         description: "Component ID specifies a component"
         required: true
         type: "string"
-      - name: "annotations"
-        in: "body"
+      - in: "body"
+        name: "annotations"
         required: true
         schema:
           type: "array"
           description: "Array of tags to be added"
           items:
-            type: "object"
-            properties:
-              description:
-                type: "string"
-                description: "string description"
-                example: "description"
-              xcoordinate:
-                type: "integer"
-                description: "x co-ordinate"
-            description: "specific annotation"
+            $ref: "#/definitions/annotations"
       responses:
         200:
           description: "Success"
@@ -247,7 +236,6 @@ paths:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
-  
   /components/{componentID}/annotations/{annotationID}:
     put:
       tags:
@@ -266,20 +254,11 @@ paths:
         description: "Annotation ID specifies a annotation"
         required: true
         type: "string"
-      - name: "annotation"
-        in: "body"
+      - in: "body"
+        name: "annotation"
         required: true
         schema:
-            type: "object"
-            properties:
-              description:
-                type: "string"
-                description: "string description"
-                example: "description"
-              xcoordinate:
-                type: "integer"
-                description: "x co-ordinate"
-            description: "specific annotation"
+          $ref: "#/definitions/annotation"
       responses:
         200:
           description: "Success"
@@ -295,7 +274,6 @@ paths:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
-    
     delete:
       tags:
       - "Browse API"
@@ -328,7 +306,6 @@ paths:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
-    
   /tags:
     get:
       tags:
@@ -426,14 +403,40 @@ paths:
       description: "Sends storage auth token"
       operationId: "postAuthenticate"
       parameters:
-      - name: "fileStorageToken"
-        in: "body"
+      - in: "body"
+        name: "fileStorageToken"
         required: true
         schema:
           $ref: "#/definitions/fileStorageToken"
       responses:
         200:
           description: "Success"
+        401:
+          description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
+      x-swagger-router-controller: "BrowseAPI"
+  /algorithms:
+    get:
+      tags:
+      - "Browse API"
+      summary: "Posts component IDs for import"
+      description: "Posts all the component IDs for import"
+      operationId: "getAlgorithms"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "array"
+            description: "specific component with alogrithm"
+            items:
+              $ref: "#/definitions/inline_response_200_1"
+        400:
+          description: "Bad Request"
         401:
           description: "Unauthorized"
       security:
@@ -492,7 +495,6 @@ definitions:
       - "tag"
       AnnotationCollection:
       - "annotation"
-
       Date&Timestamp: 6
       Data:
         Column:
@@ -509,4 +511,46 @@ definitions:
     example:
       Column:
       - "data_point"
-    
+  componentIDs:
+    properties:
+      id:
+        type: "string"
+        example: "id"
+        description: "id"
+      algorithmID:
+        type: "string"
+        description: "alogrithm id"
+    description: "specific component with alogrithm"
+  annotations:
+    properties:
+      description:
+        type: "string"
+        example: "description"
+        description: "string description"
+      xcoordinate:
+        type: "integer"
+        description: "x co-ordinate"
+    description: "specific annotation"
+  annotation:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+        example: "description"
+        description: "string description"
+      xcoordinate:
+        type: "integer"
+        description: "x co-ordinate"
+    description: "specific annotation"
+  inline_response_200_1:
+    properties:
+      algorithmID:
+        type: "string"
+        description: "alogrithm id"
+      algorithmDescription:
+        type: "string"
+        example: "algorithm description"
+        description: "algorithm description"
+    example:
+      algorithmDescription: "algorithm description"
+      algorithmID: "algorithmID"

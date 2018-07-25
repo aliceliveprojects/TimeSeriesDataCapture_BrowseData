@@ -178,6 +178,21 @@ exports.getComponentIDs = function(args,res,next) {
   })  
 }
 
+/**
+ * Posts component IDs for import
+ * Posts all the component IDs for import
+ *
+ * returns List
+ **/
+exports.getAlgorithms =  function(args,res,next){
+  browseService.getAlgorithms()
+  .then((result) => {
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
+}
 
 
 /**

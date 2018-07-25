@@ -1,89 +1,49 @@
-'use strict';
+'use strict'
 
-
-var service = require('./databaseservice');
+var service = require('./databaseServiceWrapper');
 
 module.exports = {
-
-    tables:{
-        users: {
-            name:"users",
-            columns:{
-                id:"id",
-                externalId:"external_id",
-                created: "created"
-            }
-        },
-        courses: {
-            name:"courses",
-            columns:{
-                id:"id",
-                state: "state",
-                version: "version",
-                created: "created"
-            }
-        },
-        user_to_course_mapping:{
-            name: "user_to_course_mapping",
-            columns: {
-                id: "id",
-                user: "user",
-                course: "course"
-            }
-        },
-        deployments:{
-            name: "deployments",
-            columns:{
-                id: "id",
-                state: "state",
-                course_id: "course_id",
-                created: "created"
-            } 
-        }
-        
-
-    },
-    constants: {
-        COURSE_STATE_TYPES:{
-            OPEN: 1,
-            CLOSED: 0
-        },
-        DEPLOYMENT_STATE_TYPES:{
-            DOWNLOAD: 0,
-            ACTIVE: 1,
-            SUSPENDED: 2,
-            DEMO: 3
-        },
-        COURSE_COL: "course",
-        NOT_FOUND: -1
+    insertRun: function (run) {
+        return service.insertRun(run);
     },
 
+    updateRuns: function (query, updateRun) {
+        return service.updateRuns(query, updateRun);
+    },
 
-  initialise: function(url, needsSSL){
-      return service.initialise(url, needsSSL);
-  },
-  
-  query: function(text, params) {
-    return service.query(text, params);  
-  },
+    deleteRun: function (run) {
+        return service.deleteRun(run);
+    },
 
-  multiQuery: function(queries){
-    return service.multiQuery(queries); 
-  },
+    queryRun: function (query, filter) {
+        return service.queryRun(query,filter);
+    },
 
+    getAuthentication: function(profileID, filter){
+        return service.getAuthentication(profileID,filter);
+    },
 
-  createTabularQuery: function (query){
-      return service.createTabularQuery(query);
-  },
+    setAuthentication: function(authentication){
+        return service.setAuthentication(authentication);
+    },
 
-  multiTabularQuery: function (tabularQueries){
-        return service.multiTabularQuery(tabularQueries);
-  },
-  
+    getTag: function(tag,filter){
+        return service.getTag(tag,filter);
+    },
 
+    addTag: function(tag){
+        return service.addTag(tag,filter);
+    },
 
-  
+    insertAlgorithm: function (algorithm) {
+        return service.insertAlgorithm(algorithm);
+    },
+
+    getAllAlgorithms: function(){
+        return service.getAllAlgorithms();
+    },
+
+    getAlgorithm: function(id){
+        return service.getAlgorithm(id);
+    }
 }
-
-
-

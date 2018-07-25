@@ -36,6 +36,10 @@ module.exports = {
         return service.getComponentIDs(folderID);
     },
 
+    getAlgorithms: function(){
+        return service.getAlgorithms();
+    },
+
     getTags: function(tags){
         return service.getTags();
     },

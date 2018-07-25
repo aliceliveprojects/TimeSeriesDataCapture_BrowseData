@@ -1,196 +1,117 @@
 'use strict';
 
-var {Pool} = require('pg');
-var debug = require('debug');
-var log = debug('app:log');
-var error = require('../error/error');
-
-var thePool = null;
-var theConfig = null;
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/timeSeriesDatabase";
 
 
-var initialise = function (url, needsSSL) {
-  if (needsSSL == true) {
-    url += "?sslmode=require"
-  } 
+var dbo;
 
-  if (thePool) {
-    thePool.end();
-  };
 
-  theConfig = null;
 
-  theConfig = {
-    connectionString: url,
-    ssl:needsSSL
-  };
-
-  log("DB: " + url);
-  thePool = new Pool(theConfig);
-};
-
-var old_query = function (text, params) {
-  const start = Date.now()
-  return new Promise((resolve, reject) => {
-    thePool.query(text, params, (err, res) => {
-        const duration = Date.now() - start;
-       
-        if(err){
-          console.log('executed query', { text, duration});
-          reject(error.create500Error("SQL error"));
-        }else{
-          console.log('executed query', { text, duration, rows: res.rowCount });
-          resolve(res);
+function connect() {
+    return new Promise((resolve, reject) => {
+        if (dbo == null) {
+            MongoClient.connect(url, { useNewUrlParser: true }, (error, db) => {
+                if (error) reject(error);
+                dbo = db.db("mydb");
+                resolve();
+            });
+        } else {
+            resolve();
         }
     });
-  });
-
-};
-
-var query = async function (text, params){
-  var result = null;
-  const client = await thePool.connect();
-  try{
-    result = client.query(text, params);
-  }catch(e){
-    throw (error.create500Error("SQL error"));    
-  }finally{
-    client.release();
-  }
-  return result;
-
-};
+}
 
 
-var multiQuery = async function (queries){
+/* =======================================================MONGO DB=========================================== */
 
-  var results = [];
-  const client = await thePool.connect();
-  try{
-    await client.query('BEGIN');
-    for (var index = 0; index < queries.length; index++){
-      var query = queries[index];
-      var text = query.text;
-      var values = query.values;
-      results.push( await client.query(text, values));
-    }
-    await client.query('COMMIT');
-  }catch(e){
-    await client.query('ROLLBACK');
-    
-    throw(error.create500Error("SQL error"));    
-  }finally{
-    client.release();
-  }
-  return results;
+exports.mongodbInsert = function mongodbInsert(collection, object) {
+  
+    return new Promise((resolve, reject) => {
+        connect()
+            .then(function (result) {
+                dbo.collection(collection).insertOne(object,(error, result) => {
+                    if (error) reject(error);
+                    
+                    resolve("object inserted");
+                });
+            })
+    });
+}
 
+exports.mongodbUpdate = function mongodbUpdate(collection, query, updatedObject) {
+    return new Promise((resolve, reject) => {
+        connect()
+            .then(function (result) {
+                dbo.collection(collection).updateOne(query, updatedObject,(error, result) => {
+                    if (error) reject(error);
+                    resolve('object updated');
+                });
+            })
+    });
 }
 
 
 
-
-var createTabularQuery = (query) => { 
-    return {
-      query: query,
-      header: [],
-      rows: []
-    }
-  };
-
-
-  var createTableHeader = (jsonRow) => {
-    var result =  Object.keys(jsonRow);
-    return result;
-  }
-
-  var createRow = (header, jsonRow) => {
-    var result = null;
-
-    var row = []; 
-    for(var index = 0; index < header.length; index++){
-      var colName = header[index];
-      var value = jsonRow[colName];
-      row.push(value);
-    }
-
-    result = row;
-
-    return result;
-  }
-
-
-  var createRows = (header, jsonRows) => {
-    var result = null;
-    var rows = [];
-
-    for (var index = 0; index < jsonRows.length; index++){
-      rows.push(createRow(header,jsonRows[index]));
-    }
-    result = rows;
-
-    return result;
-  }
-
-  var populateAsTable = (tabularOutput, jsonRows) => {
-
-    var header = [];
-    var rows = [];
-    if(jsonRows && jsonRows.length > 0){
-      header = createTableHeader(jsonRows[0]);
-      rows = createRows(header, jsonRows);
-    }
-    tabularOutput.header = header;
-    tabularOutput.rows = rows;
-    delete tabularOutput.query;
-
-  }
-
-
-  var multiTabularQuery = async (
-    tabularQueries
-    )=>{
-
-      var results = null;
-      const client = await thePool.connect();
-      try{
-        await client.query('BEGIN');
-        for (var index = 0; index < tabularQueries.length; index++){
-          var tabularQuery = tabularQueries[index];
-          var query = tabularQuery.query;
-          var text = query.text;
-          var values = query.values;
-          var response = await client.query(text, values);
-          var rows = null;
-          if(response.rows){
-            if(response.rows.length > 0){
-              rows = response.rows;
-            }
-          }
-
-          populateAsTable(tabularQuery,rows);
-
+exports.mongodbQuery = function mongodbQuery(collection, query, filter) {
+    var filterObject = {};
+    if(filter != null){
+        for (var i = 0, n = filter.length; i++; i < n) {
+            filterObject[filter[i]] = 1;
         }
-        await client.query('COMMIT');
-        results = tabularQueries;
-      }catch(e){
-        await client.query('ROLLBACK');
-        
-        throw(error.create500Error("SQL error"));    
-      }finally{
-        client.release();
-      }
-      return results;
-
-      return result;
     }
+  
+
+    return new Promise((resolve, reject) => {
+        connect()
+            .then(function (result) {
+                dbo.collection(collection).find(query).project(filterObject).toArray((error, result) => {
+                    if (error) reject(error);
+
+                    resolve(result);
+                });
+            })
+    });
+
+}
+
+exports.mongodbDelete = function mongodbDelete(collection, object) {
+    return new Promise((resolve, reject) => {
+        connect()
+            .then(function (result) {
+                dbo.collection(collection).deleteOne(object,(error, result) => {
+                    if (error) reject(error);
+                    resolve('object deleted');
+                })
+            })
+    });
+}
+
+exports.mongodbFindAll = function mongodbFindAll(collection){
+    return new Promise((resolve,reject) => {
+        connect()
+            .then(result => {
+                dbo.collection(collection).find({}).toArray((error,result) => {
+                    if(error) reject(error);
+                    resolve();
+                })
+            })
+    })
+}
+
+/* ========================================================================================================= */
 
 
-module.exports = {
-  initialise: initialise,
-  query: query,
-  multiQuery: multiQuery,
-  createTabularQuery: createTabularQuery,
-  multiTabularQuery: multiTabularQuery
 
 
-};
+
+
+
+
+
+
+
+
+
+
+

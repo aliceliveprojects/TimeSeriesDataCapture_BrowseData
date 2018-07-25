@@ -66,7 +66,7 @@ exports.getComponent = async function (componentID) {
 
 //TODO: connect to import API to get component difference
 exports.getComponentIDs = async function (folderID) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(async function (resolve, reject) {
 
 
         var path = '/apis/Components'
@@ -85,27 +85,22 @@ exports.getComponentIDs = async function (folderID) {
             }
         };
 
-        httpRequest.httpRequest(options).then((result) => {
-            result = parseResponse(result);
-            resolve(JSON.parse(result[1]));
-        }).catch((error) => {
-
-            error = parseResponse(error);
-
-            var errorResponse = 'Error';
-            var errorCode = 500;
-            if (error[0] != null)
-                errorCode = error[0]
-
-            if (error[1] != null) {
-                errorResponse = JSON.parse(error[1]);
-                errorResponse = errorResponse.message;
-
-            }
-            reject(errorApi.createError(errorCode, errorResponse));
-        });
+        try {
+            var response = await httpRequest.httpRequest(options);
+            response = JSON.parse(response);
+            resolve(response);
+            
+        } catch (error) {
+            reject(error);
+        }
     });
 
+}
+
+exports.getAlgorithms = async function(){
+    return {
+        good: 'GOOD'
+    };
 }
 
 //TODO: query database
@@ -138,23 +133,3 @@ exports.updateComponentAnnotation = async function(componentID,annotationID,anno
 
 }
 
-function parseResponse(result) {
-    result = JSON.parse(result);
-
-
-
-    var response = null;
-    var responseCode = null;
-
-    if (result.hasOwnProperty('result')) {
-        response = result.result;
-    }
-
-    if (result.hasOwnProperty('statusCode')) {
-        responseCode = result.statusCode;
-    }
-
-
-    return [responseCode, response];
-
-}
