@@ -61,12 +61,13 @@ exports.addComponentTags = function(args,res,next) {
 exports.componentSearch = function(args,res,next) {
   
   let tags = args.tags.value;
-  let dateTimeStamp = args.dateTimeStamp.value
+  let date = args.date.value;
+  let timeStamp = args.timeStamp.value;
   let page = args.page.value;
   let pagesize = args.pagesize.value;
 
 
-  browseService.componentSearch(tags,dateTimeStamp,page,pagesize)
+  browseService.componentSearch(tags,date,timeStamp,page,pagesize)
   .then((result) =>{
     httpUtil.endHttpOK(result,res);
   })

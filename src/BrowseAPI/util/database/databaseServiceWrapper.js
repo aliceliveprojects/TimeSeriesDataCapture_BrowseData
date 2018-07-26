@@ -48,6 +48,14 @@ exports.queryRun = async function queryRun(query, filter) {
         }
     }
 
+    if(query.hasOwnProperty('date')){
+        queryObject['date'] = query['date'];
+    }
+
+    if(query.hasOwnProperty('time')){
+        queryObject['time'] = query['time'];
+    }
+
     console.log(queryObject);
 
     try {

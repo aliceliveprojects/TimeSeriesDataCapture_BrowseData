@@ -327,15 +327,12 @@ paths:
             description: "Array of component objects"
             items:
               type: "string"
-              example: "component_id"
+              example: "tag1,tag2"
               description: "specific component ID"
         400:
           description: "Bad Request"
         401:
           description: "Unauthorized"
-      security:
-      - timeseries_admin_auth:
-        - "admin"
       x-swagger-router-controller: "BrowseAPI"
   /search:
     get:
@@ -350,9 +347,14 @@ paths:
         description: "Component Tags"
         required: false
         type: "string"
-      - name: "dateTimeStamp"
+      - name: "date"
         in: "query"
-        description: "Date and Time of component"
+        description: "Date of component"
+        required: false
+        type: "integer"
+      - name: 'timeStamp'
+        in: "query"
+        description: "Time of component"
         required: false
         type: "integer"
       - name: "page"
@@ -435,8 +437,8 @@ paths:
     get:
       tags:
       - "Browse API"
-      summary: "Posts component IDs for import"
-      description: "Posts all the component IDs for import"
+      summary: "Gets all algorithms"
+      description: "Gets all algorithms for Rth Calculation from database"
       operationId: "getAlgorithms"
       produces:
       - "application/json"

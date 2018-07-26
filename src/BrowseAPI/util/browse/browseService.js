@@ -19,15 +19,24 @@ exports.addComponentTags = async function(componentID,tags) {
     }
 }
 
+//20180812
 // TODO: query database
-exports.componentSearch = async function (tags,dateTimeStamp, page, pagesize) {
-
+exports.componentSearch = async function (tags,date,timeStamp, page, pagesize) {
+    
     var query = {
 
     }
 
     if(tags != undefined){
         query['tags'] = tags.split(",");
+    }
+
+    if(date != undefined){
+        query['date'] = date.toString();
+    }
+
+    if(timeStamp != undefined){
+        query['time'] = timeStamp.toString();
     }
 
     
@@ -116,6 +125,7 @@ exports.getTags = async function(tags){
     try {
         console.log(tags);
         var response = await databaseService.getTag(tags);
+        console.log(response);
         return (response);    
     } catch (error) {
         throw(error);
