@@ -85,7 +85,6 @@ exports.getComponent = async function (componentID) {
 exports.getComponentIDs = async function (folderID) {
     return new Promise(async function (resolve, reject) {
 
-
         var path = '/apis/Components'
         if (folderID != undefined) {
             path = '/apis/Components?folderID=' + folderID;
@@ -93,7 +92,7 @@ exports.getComponentIDs = async function (folderID) {
         console.log(path);
         var options = {
             protocol: 'http:',
-            host: '10.182.45.87',
+            host: '192.168.2.1',
             port: 8001,
             path: path,
             method: 'GET',
@@ -105,9 +104,13 @@ exports.getComponentIDs = async function (folderID) {
         try {
             var response = await httpRequest.httpRequest(options);
             response = JSON.parse(response);
+           
+            response.folders = detectFolder(response.folders);
+            console.log(response.folders);
             resolve(response);
             
         } catch (error) {
+            console.log(error);
             reject(error);
         }
     });
@@ -154,5 +157,19 @@ exports.updateComponentAnnotation = async function(componentID,annotationID,anno
         result: 'GOOD'
     }
 
+}
+
+function detectFolder(componentArray){
+    var dateRegex = /(20\d{2})(\d{2})(\d{2})/;
+    for(var i=0,n=componentArray.length;i<n;i++){
+       var matches = (componentArray[i].name).match(dateRegex);
+       if(matches != null){
+           componentArray[i].type = 'run';
+       }else{
+           componentArray[i].type = 'folder';
+       }
+    }
+
+    return componentArray;
 }
 

@@ -156,6 +156,7 @@ exports.getComponent = function(args,res,next) {
     httpUtil.endHttpOK(result,res);
   })
   .catch((error) => {
+    console.log(error);
     httpUtil.endHttpErr(error,res);
   })  
 

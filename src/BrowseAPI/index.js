@@ -5,7 +5,7 @@ var error = debug('app:error');
 var log = debug('app:log');
 var userCache = require('./util/users/userCache');
 var fs = require('fs');
-
+require('dotenv').config()
 
 // set this namespace to log via console.log 
 log.log = console.log.bind(console); // don't forget to bind to console! 
@@ -29,6 +29,7 @@ var getAsBoolean = function(key){
 
 }
 
+console.log('HELLO WORLD');
 
 
 

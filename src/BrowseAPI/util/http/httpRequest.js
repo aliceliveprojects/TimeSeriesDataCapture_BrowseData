@@ -1,7 +1,7 @@
 'use strict'
 const errorApi = require('../error/error');
 
-var https = require('https');
+var https = require('http');
 var options1;
 exports.httpRequest = function (options) {
     return new Promise(function (resolve, reject) {
@@ -22,7 +22,7 @@ exports.httpRequest = function (options) {
                     resolve(result);
                 }else{
                     var error;
-                    console.log('hit');
+                    console.log(res);
                     if(res.statusCode === 400){
                         error = errorApi.create400Error('Bad Request');
                     }else if(res.statusCode === 401){
