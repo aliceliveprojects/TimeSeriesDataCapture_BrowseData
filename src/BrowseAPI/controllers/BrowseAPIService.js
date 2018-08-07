@@ -149,10 +149,10 @@ exports.getAuthenticate = function(args,res,next) {
 exports.getComponent = function(args,res,next) {
 
   let componentID = args.componentID.value;
+  let preview = args.preview.value;
 
-  browseService.getComponent(componentID)
+  browseService.getComponent(componentID,preview)
   .then((result) =>{
-   
     httpUtil.endHttpOK(result,res);
   })
   .catch((error) => {

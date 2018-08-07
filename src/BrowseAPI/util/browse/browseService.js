@@ -73,9 +73,10 @@ exports.getAuthentication = async function () {
 }
 
 //TODO: download component from database
-exports.getComponent = async function (componentID) {
+exports.getComponent = async function (componentID,preview) {
     return {
-        componentID: componentID
+        componentID: componentID,
+        preview:preview
     }
 
 
@@ -118,6 +119,12 @@ exports.getComponentIDs = async function (folderID) {
 }
 
 exports.getAlgorithms = async function(){
+    try {
+        var response = await databaseService.getAllAlgorithms();
+        return(response);
+    } catch (error) {
+        throw(error);
+    }
     return {
         good: 'GOOD'
     };
