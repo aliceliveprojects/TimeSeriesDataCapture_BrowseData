@@ -28,8 +28,13 @@ module.exports = {
         return service.getAuthentication();
     },
 
-    getComponent: function(componentID,preview){
-        return service.getComponent(componentID,preview)
+    getComponent: function(componentID){
+        return service.getComponent(componentID)
+    },
+
+
+    getComponentPreview: function(componentID){
+        return service.getComponentPreview(componentID)
     },
 
     getComponentIDs: function(folderID){

@@ -149,9 +149,8 @@ exports.getAuthenticate = function(args,res,next) {
 exports.getComponent = function(args,res,next) {
 
   let componentID = args.componentID.value;
-  let preview = args.preview.value;
 
-  browseService.getComponent(componentID,preview)
+  browseService.getComponent(componentID)
   .then((result) =>{
     httpUtil.endHttpOK(result,res);
   })
@@ -160,6 +159,19 @@ exports.getComponent = function(args,res,next) {
     httpUtil.endHttpErr(error,res);
   })  
 
+}
+
+exports.getComponentPreview = function(args,res,next){
+  let componentID = args.componentID.value;
+
+  browseService.getComponentPreview(componentID)
+  .then((result) =>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    console.log(error);
+    httpUtil.endHttpErr(error,res);
+  })  
 }
 
 

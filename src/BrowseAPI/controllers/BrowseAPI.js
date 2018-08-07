@@ -47,6 +47,10 @@ module.exports.getComponent = function getComponent(req, res, next) {
   BrowseAPI.getComponent(req.swagger.params, res, next);
 };
 
+module.exports.getComponentPreview = function getComponentPreview(req,res,next){
+  BrowseAPI.getComponentPreview(req.swagger.params, res, next);
+}
+
 module.exports.getComponentIDs = function getComponentIDs(req, res, next) {
   BrowseAPI.getComponentIDs(req.swagger.params, res, next);
 };

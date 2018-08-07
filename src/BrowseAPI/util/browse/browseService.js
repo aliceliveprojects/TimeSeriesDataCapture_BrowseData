@@ -73,13 +73,16 @@ exports.getAuthentication = async function () {
 }
 
 //TODO: download component from database
-exports.getComponent = async function (componentID,preview) {
+exports.getComponent = async function (componentID) {
     return {
         componentID: componentID,
-        preview:preview
     }
+}
 
-
+exports.getComponentPreview = async function (componentID) {
+    return {
+        componentID: componentID,
+    }
 }
 
 //TODO: connect to import API to get component difference

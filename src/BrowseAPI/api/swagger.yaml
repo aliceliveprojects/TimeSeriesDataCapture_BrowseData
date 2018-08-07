@@ -82,7 +82,7 @@ paths:
       tags:
       - "Browse API"
       summary: "Get a specific component"
-      description: "Get a specific imported component by component ID"
+      description: "Get a specific imported component by component ID from OneDrive"
       operationId: "getComponent"
       parameters:
       - name: "componentID"
@@ -90,11 +90,6 @@ paths:
         description: "Component ID specifies a component"
         required: true
         type: "string"
-      - name: "preview"
-        in: "query"
-        description: "Downloads from database"
-        required: false
-        type: "boolean"
       responses:
         200:
           description: "Success"
@@ -131,7 +126,32 @@ paths:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
-  
+  /components/{componentID}/preview:
+    get:
+      tags:
+      - "Browse API"
+      summary: "Get a specific component"
+      description: "Get a specific imported component by component ID"
+      operationId: "getComponentPreview"
+      parameters:
+      - name: "componentID"
+        in: "path"
+        description: "Component ID specifies a component"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            $ref: "#/definitions/inline_response_200"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
+      x-swagger-router-controller: "BrowseAPI"
   /components/{componentID}/tags/:
     put:
       tags:
