@@ -7,6 +7,7 @@ exports.httpRequest = function (options) {
     return new Promise(function (resolve, reject) {
         options1 = options;
         var result = ''
+        console.log(options);
         var request = https.request(options, function (res) {
 
             res.on('data', function (chunk) {
@@ -22,7 +23,7 @@ exports.httpRequest = function (options) {
                     resolve(result);
                 }else{
                     var error;
-                    console.log(res);
+                    console.log(result);
                     if(res.statusCode === 400){
                         error = errorApi.create400Error('Bad Request');
                     }else if(res.statusCode === 401){

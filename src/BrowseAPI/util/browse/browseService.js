@@ -80,9 +80,33 @@ exports.getComponent = async function (componentID) {
 }
 
 exports.getComponentPreview = async function (componentID) {
-    return {
-        componentID: componentID,
-    }
+    return new Promise(async function (resolve, reject) {
+        console.log(componentID);
+        var path = '/apis/component/'+encodeURI(componentID)+'/preview';
+        
+        console.log(path);
+        var options = {
+            protocol: 'http:',
+            host: '192.168.2.1',
+            port: 8001,
+            path: path,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+
+        try {
+            var response = await httpRequest.httpRequest(options);
+            response = JSON.parse(response);
+            console.log(response);
+            resolve(response);
+            
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    });
 }
 
 //TODO: connect to import API to get component difference
@@ -91,7 +115,7 @@ exports.getComponentIDs = async function (folderID) {
 
         var path = '/apis/Components'
         if (folderID != undefined) {
-            path = '/apis/Components?folderID=' + folderID;
+            path = '/apis/Components?folderID=' + encodeURI(folderID);
         }
         console.log(path);
         var options = {
@@ -118,7 +142,6 @@ exports.getComponentIDs = async function (folderID) {
             reject(error);
         }
     });
-
 }
 
 exports.getAlgorithms = async function(){
