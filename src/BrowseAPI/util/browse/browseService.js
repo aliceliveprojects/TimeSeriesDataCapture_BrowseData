@@ -6,14 +6,14 @@ var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
 const databaseService = require('../database/database');
 
 //TODO : add to database
-exports.addComponentAnnotations = async function(componentID,annotations) {
+exports.addComponentAnnotations = async function (componentID, annotations) {
     return {
         result: 'GOOD'
     }
 }
 
 //TODO : add to database
-exports.addComponentTags = async function(componentID,tags) {
+exports.addComponentTags = async function (componentID, tags) {
     return {
         result: 'GOOD'
     }
@@ -21,28 +21,28 @@ exports.addComponentTags = async function(componentID,tags) {
 
 //20180812
 // TODO: query database
-exports.componentSearch = async function (tags,date,timeStamp, page, pagesize) {
-    
+exports.componentSearch = async function (tags, date, timeStamp, page, pagesize) {
+
     var query = {
 
     }
 
-    if(tags != undefined){
+    if (tags != undefined) {
         query['tags'] = tags.split(",");
     }
 
-    if(date != undefined){
+    if (date != undefined) {
         query['date'] = date.toString();
     }
 
-    if(timeStamp != undefined){
+    if (timeStamp != undefined) {
         query['time'] = timeStamp.toString();
     }
 
-    
+
 
     var result = await databaseService.queryRun(query)
-    return(result);
+    return (result);
 }
 
 // TODO: delete from database
@@ -53,14 +53,14 @@ exports.deleteComponent = async function (componentID) {
 }
 
 //TODO : delete from annotation
-exports.deleteComponentAnnotation = async function(componentID,annotationID) {
+exports.deleteComponentAnnotation = async function (componentID, annotationID) {
     return {
         result: 'GOOD'
     }
 }
 
 //TODO : delete annotation from database
-exports.deleteComponentTag = async function(componentID,tagID){
+exports.deleteComponentTag = async function (componentID, tagID) {
     return {
         result: 'GOOD'
     }
@@ -82,8 +82,8 @@ exports.getComponent = async function (componentID) {
 exports.getComponentPreview = async function (componentID) {
     return new Promise(async function (resolve, reject) {
         console.log(componentID);
-        var path = '/apis/component/'+encodeURI(componentID)+'/preview';
-        
+        var path = '/apis/component/' + encodeURI(componentID) + '/preview';
+
         console.log(path);
         var options = {
             protocol: 'http:',
@@ -101,7 +101,7 @@ exports.getComponentPreview = async function (componentID) {
             response = JSON.parse(response);
             console.log(response);
             resolve(response);
-            
+
         } catch (error) {
             console.log(error);
             reject(error);
@@ -132,11 +132,11 @@ exports.getComponentIDs = async function (folderID) {
         try {
             var response = await httpRequest.httpRequest(options);
             response = JSON.parse(response);
-           
+
             response.folders = detectFolder(response.folders);
             console.log(response.folders);
             resolve(response);
-            
+
         } catch (error) {
             console.log(error);
             reject(error);
@@ -144,12 +144,12 @@ exports.getComponentIDs = async function (folderID) {
     });
 }
 
-exports.getAlgorithms = async function(){
+exports.getAlgorithms = async function () {
     try {
         var response = await databaseService.getAllAlgorithms();
-        return(response);
+        return (response);
     } catch (error) {
-        throw(error);
+        throw (error);
     }
     return {
         good: 'GOOD'
@@ -157,16 +157,16 @@ exports.getAlgorithms = async function(){
 }
 
 //TODO: query database
-exports.getTags = async function(tags){
+exports.getTags = async function (tags) {
     try {
         console.log(tags);
         var response = await databaseService.getTag(tags);
         console.log(response);
-        return (response);    
+        return (response);
     } catch (error) {
-        throw(error);
+        throw (error);
     }
-    
+
 
 }
 
@@ -179,28 +179,64 @@ exports.postAuthenticate = async function (fileStorageToken) {
 
 //TODO request components from import api
 exports.postComponentIDs = async function (componentIDs) {
-    return {
-        componentIDs: componentIDs
-    }
+    return new Promise(function (resolve, reject) {
+        var postComponentIdPromises = componentIDs.map(postComponentId);
+        Promise.all(postComponentIdPromises).then(function(result){
+            resolve(result);
+        })
+    })
 
 }
 
-exports.updateComponentAnnotation = async function(componentID,annotationID,annotation){
+exports.updateComponentAnnotation = async function (componentID, annotationID, annotation) {
     return {
         result: 'GOOD'
     }
 
 }
 
-function detectFolder(componentArray){
+function postComponentId(componentObject) {
+    return new Promise(async function (resolve, reject) {
+        var path = '/apis/component/' + encodeURI(componentObject.id);
+
+
+        if(componentObject.hasOwnProperty('algorithm')){
+            path += '?algorithm='+encodeURI(componentObject.algorithm);
+        }
+
+        console.log(path);
+        var options = {
+            protocol: 'http:',
+            host: '192.168.2.1',
+            port: 8001,
+            path: path,
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+
+        try {
+            var response = await httpRequest.httpRequest(options);
+            console.log(response);
+            resolve(response);
+
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    })
+}
+
+function detectFolder(componentArray) {
     var dateRegex = /(20\d{2})(\d{2})(\d{2})/;
-    for(var i=0,n=componentArray.length;i<n;i++){
-       var matches = (componentArray[i].name).match(dateRegex);
-       if(matches != null){
-           componentArray[i].type = 'run';
-       }else{
-           componentArray[i].type = 'folder';
-       }
+    for (var i = 0, n = componentArray.length; i < n; i++) {
+        var matches = (componentArray[i].name).match(dateRegex);
+        if (matches != null) {
+            componentArray[i].type = 'run';
+        } else {
+            componentArray[i].type = 'folder';
+        }
     }
 
     return componentArray;
