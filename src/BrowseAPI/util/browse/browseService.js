@@ -23,10 +23,7 @@ exports.addComponentTags = async function (componentID, tags) {
 // TODO: query database
 exports.componentSearch = async function (tags, date, timeStamp, page, pagesize) {
 
-    var query = {
-
-    }
-
+    var query = {}
     if (tags != undefined) {
         query['tags'] = tags.split(",");
     }
@@ -38,9 +35,6 @@ exports.componentSearch = async function (tags, date, timeStamp, page, pagesize)
     if (timeStamp != undefined) {
         query['time'] = timeStamp.toString();
     }
-
-
-
     var result = await databaseService.queryRun(query)
     return (result);
 }
@@ -132,9 +126,9 @@ exports.getComponentIDs = async function (folderID) {
         try {
             var response = await httpRequest.httpRequest(options);
             response = JSON.parse(response);
+            response.folders = await filterComponentIds(response.folders);
 
-            response.folders = detectFolder(response.folders);
-            console.log(response.folders);
+            console.log(response);
             resolve(response);
 
         } catch (error) {
@@ -151,9 +145,6 @@ exports.getAlgorithms = async function () {
     } catch (error) {
         throw (error);
     }
-    return {
-        good: 'GOOD'
-    };
 }
 
 //TODO: query database
@@ -166,8 +157,6 @@ exports.getTags = async function (tags) {
     } catch (error) {
         throw (error);
     }
-
-
 }
 
 //TODO store file storage token
@@ -185,14 +174,12 @@ exports.postComponentIDs = async function (componentIDs) {
             resolve(result);
         })
     })
-
 }
 
 exports.updateComponentAnnotation = async function (componentID, annotationID, annotation) {
     return {
         result: 'GOOD'
     }
-
 }
 
 function postComponentId(componentObject) {
@@ -228,17 +215,46 @@ function postComponentId(componentObject) {
     })
 }
 
-function detectFolder(componentArray) {
-    var dateRegex = /(20\d{2})(\d{2})(\d{2})/;
-    for (var i = 0, n = componentArray.length; i < n; i++) {
-        var matches = (componentArray[i].name).match(dateRegex);
-        if (matches != null) {
-            componentArray[i].type = 'run';
-        } else {
-            componentArray[i].type = 'folder';
+
+
+async function filterComponentIds(folderArray){
+    var i = 0;
+    var cutArray = [];
+    for(const component of folderArray){
+        if(detectRun(component.name)){
+            var idsInDatabase = await databaseService.filterIds([component.id]);
+            if(idsInDatabase.length > 0){
+               cutArray.push(i);
+            }else{
+                component.type = 'run';
+            }
+        }else{
+            component.type = 'folder';
         }
+        i++;
     }
 
-    return componentArray;
+    folderArray = spliceArray(folderArray,cutArray);
+    return folderArray;
+}
+
+function detectRun(name){
+    var dateRegex = /(20\d{2})(\d{2})(\d{2})/;
+    var matches = name.match(dateRegex);
+    if(matches != null){
+        return true;
+    }
+
+    return false;
+}
+
+function spliceArray(arrayToSplice,splicingIds){
+    var offset = 0;
+    for(var i=0,n=splicingIds.length;i<n;i++){
+        arrayToSplice.splice(splicingIds[i]-offset,1);
+        offset ++;
+    }
+
+    return arrayToSplice;
 }
 

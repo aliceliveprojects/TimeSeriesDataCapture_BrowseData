@@ -15,20 +15,24 @@ module.exports = {
         return service.deleteRun(run);
     },
 
-    queryRun: function (query, filter) {
-        return service.queryRun(query,filter);
+    queryRun: function (query) {
+        return service.queryRun(query);
     },
 
-    getAuthentication: function(profileID, filter){
-        return service.getAuthentication(profileID,filter);
+    filterIds: function(runIds){
+        return service.filterIds(runIds);
+    },
+
+    getAuthentication: function(profileID){
+        return service.getAuthentication(profileID);
     },
 
     setAuthentication: function(authentication){
         return service.setAuthentication(authentication);
     },
 
-    getTag: function(tag,filter){
-        return service.getTag(tag,filter);
+    getTag: function(tag){
+        return service.getTag(tag);
     },
 
     addTag: function(tag){

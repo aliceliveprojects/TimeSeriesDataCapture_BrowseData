@@ -38,10 +38,8 @@ exports.deleteRun = async function deleteRun(run) {
     }
 }
 
-exports.queryRun = async function queryRun(query, filter) {
-    var queryObject = {
-
-    }
+exports.queryRun = async function queryRun(query) {
+    var queryObject = {}
     if (query.hasOwnProperty('tags')) {
         for (var i = 0, n = query['tags'].length; i < n; i++) {
             queryObject['tags.' + query['tags'][i]] = { $exists: true };
@@ -59,7 +57,20 @@ exports.queryRun = async function queryRun(query, filter) {
     console.log(queryObject);
 
     try {
-        return (await service.mongodbFind('runsCollection', queryObject));
+        return (await service.mongodbQuery('runsCollection', queryObject,undefined));
+    } catch (error) {
+        throw (error);
+    }
+}
+
+exports.filterIds = async function filterIds(ids){
+    var queryObject = {
+        id: {
+            $in : ids
+        }
+    };
+    try {
+        return (await service.mongodbQuery('runsCollection',queryObject,['id']))
     } catch (error) {
         throw (error);
     }
@@ -69,10 +80,10 @@ exports.queryRun = async function queryRun(query, filter) {
 /* =================================================================================================================== */
 
 /* ====================================================AUTHENTICATE QUERIES=========================================== */
-exports.getAuthentication = async function getAuthentication(profileID, filter) {
+exports.getAuthentication = async function getAuthentication(profileID) {
     var query = { profileID: profileID };
     try {
-        return (await service.mongodbQuery('authenticationCollection', query, filter))
+        return (await service.mongodbQuery('authenticationCollection', query,undefined))
     } catch (error) {
         throw (error);
     }
@@ -91,7 +102,7 @@ exports.setAuthentication = async function setAuthentication(authentication) {
 /* =================================================================================================================== */
 
 /* ====================================================TAG QUERIES==================================================== */
-exports.getTag = async function getTag(tag, filter) {
+exports.getTag = async function getTag(tag) {
     var query = {
     };
 
@@ -105,7 +116,7 @@ exports.getTag = async function getTag(tag, filter) {
     }
 
     try {
-        return (await service.mongodbQuery('tagsCollection', query, filter));
+        return (await service.mongodbQuery('tagsCollection', query,undefined));
     } catch (error) {
         throw (error);
     }
@@ -137,7 +148,7 @@ exports.insertAlgorithm = async function insertAlgorithm(algorithm) {
 
 exports.getAllAlgorithms = async function getAllAlgorithms() {
     try {
-        return (await service.mongodbFindAll('algorithmsCollection'));
+        return (await service.mongodbFindAll('algorithmsCollection',undefined));
     } catch (error) {
         throw (error);
     }
@@ -148,7 +159,7 @@ exports.getAlgorithm = async function getAlgorithm(id) {
         _id: new ObjectID(id)
     }
     try {
-        return ((await service.mongodbQuery('algorithmsCollection', query))[0]);
+        return ((await service.mongodbQuery('algorithmsCollection', query,undefined))[0]);
     } catch (error) {
         throw (error);
     }
@@ -160,7 +171,7 @@ exports.getDefaultAlgorithm = async function getDefaultAlgorithm() {
     }
 
     try {
-        return ((await service.mongodbQuery('algorithmsCollection', query))[0]);
+        return ((await service.mongodbQuery('algorithmsCollection', query,undefined))[0]);
     } catch (error) {
         throw (error);
     }

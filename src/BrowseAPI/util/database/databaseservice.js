@@ -26,13 +26,12 @@ function connect() {
 /* =======================================================MONGO DB=========================================== */
 
 exports.mongodbInsert = function mongodbInsert(collection, object) {
-  
     return new Promise((resolve, reject) => {
         connect()
             .then(function (result) {
-                dbo.collection(collection).insertOne(object,(error, result) => {
+                dbo.collection(collection).insertOne(object, (error, result) => {
                     if (error) reject(error);
-                    
+
                     resolve("object inserted");
                 });
             })
@@ -43,7 +42,7 @@ exports.mongodbUpdate = function mongodbUpdate(collection, query, updatedObject)
     return new Promise((resolve, reject) => {
         connect()
             .then(function (result) {
-                dbo.collection(collection).updateOne(query, updatedObject,(error, result) => {
+                dbo.collection(collection).updateOne(query, updatedObject, (error, result) => {
                     if (error) reject(error);
                     resolve('object updated');
                 });
@@ -53,22 +52,15 @@ exports.mongodbUpdate = function mongodbUpdate(collection, query, updatedObject)
 
 
 
-exports.mongodbQuery = function mongodbQuery(collection, query, filter) {
-    var filterObject = {};
-    if(filter != null){
-        for (var i = 0, n = filter.length; i++; i < n) {
-            filterObject[filter[i]] = 1;
-        }
-    }
-  
-
-
+exports.mongodbQuery = function mongodbQuery(collection, query, select) {
     return new Promise((resolve, reject) => {
         connect()
             .then(function (result) {
-                dbo.collection(collection).find(query).project(filterObject).toArray((error, result) => {
-                    if (error) reject(error);
 
+                var selectObject = parseSelect(select);
+
+                dbo.collection(collection).find(query).project(selectObject).toArray((error, result) => {
+                    if (error) reject(error);
                     resolve(result);
                 });
             })
@@ -76,11 +68,25 @@ exports.mongodbQuery = function mongodbQuery(collection, query, filter) {
 
 }
 
+exports.mongodbFindAll = function mongodbFindAll(collection,select) {
+    return new Promise((resolve, reject) => {
+        connect()
+            .then(result => {
+                var selectObject = parseSelect(select);
+
+                dbo.collection(collection).find({}).project(selectObject).toArray((error, result) => {
+                    if (error) reject(error);
+                    resolve(result);
+                })
+            })
+    })
+}
+
 exports.mongodbDelete = function mongodbDelete(collection, object) {
     return new Promise((resolve, reject) => {
         connect()
             .then(function (result) {
-                dbo.collection(collection).deleteOne(object,(error, result) => {
+                dbo.collection(collection).deleteOne(object, (error, result) => {
                     if (error) reject(error);
                     resolve('object deleted');
                 })
@@ -88,19 +94,16 @@ exports.mongodbDelete = function mongodbDelete(collection, object) {
     });
 }
 
-exports.mongodbFindAll = function mongodbFindAll(collection){
-    return new Promise((resolve,reject) => {
-        connect()
-            .then(result => {
-                dbo.collection(collection).find({}).toArray((error,result) => {
-                    if(error) reject(error);
-                    resolve(result);
-                })
-            })
-    })
+function parseSelect(selectArray){
+    var selectObject = {};
+    for(var i=0,n=selectArray.length;i<n;i++){
+        selectObject[selectArray[i]] = true;
+    }
+
+    return selectObject;
 }
 
-exports.mongodbFind = function mongodbFind(collection, query){
+/* exports.mongodbFind = function mongodbFind(collection, query, filter){
     return new Promise((resolve,reject) => {
         connect()
             .then(result => {
@@ -111,7 +114,7 @@ exports.mongodbFind = function mongodbFind(collection, query){
                 })
             })
     })
-}
+} */
 
 /* ========================================================================================================= */
 
