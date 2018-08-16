@@ -19,13 +19,17 @@ exports.insertRun = async function insertRun(run) {
     }
 }
 
-exports.updateRuns = async function updateRuns(query, updatedRun) {
+exports.updateRuns = async function updateRuns(runId, updatedRun) {
     var updatedRunObject = {
         $set: updatedRun
     }
+    var queryObject = {
+        id: runId
+    }
     try {
-        return (awaitservice.mongodbUpdate('runsCollection', query, updatedRunObject));
+        return (await service.mongodbUpdate('runsCollection',queryObject, updatedRunObject));
     } catch (error) {
+        console.log(error);
         throw (error);
     }
 }
@@ -63,6 +67,17 @@ exports.queryRun = async function queryRun(query) {
     }
 }
 
+exports.getRun = async function getRun(runId){
+    var queryObject = {
+        id: runId
+    }
+    try {
+        return (await service.mongodbQuery('runsCollection',queryObject));
+    } catch (error) {
+        
+    }
+}
+
 exports.filterIds = async function filterIds(ids){
     var queryObject = {
         id: {
@@ -75,9 +90,10 @@ exports.filterIds = async function filterIds(ids){
         throw (error);
     }
 }
-
-
 /* =================================================================================================================== */
+
+
+
 
 /* ====================================================AUTHENTICATE QUERIES=========================================== */
 exports.getAuthentication = async function getAuthentication(profileID) {

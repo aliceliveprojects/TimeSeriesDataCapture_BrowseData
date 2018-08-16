@@ -68,9 +68,11 @@ exports.getAuthentication = async function () {
 
 //TODO: download component from database
 exports.getComponent = async function (componentID) {
-    return {
-        componentID: componentID,
-    }
+    return new Promise(async function (resolve, reject) {
+        var result = await databaseService.getRun(componentID);
+        console.log(result);
+        resolve(result[0]);
+    })
 }
 
 exports.getComponentPreview = async function (componentID) {
@@ -170,25 +172,33 @@ exports.postAuthenticate = async function (fileStorageToken) {
 exports.postComponentIDs = async function (componentIDs) {
     return new Promise(function (resolve, reject) {
         var postComponentIdPromises = componentIDs.map(postComponentId);
-        Promise.all(postComponentIdPromises).then(function(result){
+        Promise.all(postComponentIdPromises).then(function (result) {
             resolve(result);
         })
     })
 }
 
 exports.updateComponentAnnotation = async function (componentID, annotationID, annotation) {
-    return {
-        result: 'GOOD'
-    }
+    return new Promise(async function (resolve, reject) {
+        var updateObject = {
+            annotations : {}
+        }
+        updateObject.annotations[annotationID] = annotation;
+        try {
+            var result = await databaseService.updateRuns(componentID, updateObject)
+            resolve(result);
+        } catch (error) {
+
+        }
+    })
+
 }
 
 function postComponentId(componentObject) {
     return new Promise(async function (resolve, reject) {
         var path = '/apis/component/' + encodeURI(componentObject.id);
-
-
-        if(componentObject.hasOwnProperty('algorithm')){
-            path += '?algorithm='+encodeURI(componentObject.algorithm);
+        if (componentObject.hasOwnProperty('algorithm')) {
+            path += '?algorithm=' + encodeURI(componentObject.algorithm);
         }
 
         console.log(path);
@@ -217,42 +227,42 @@ function postComponentId(componentObject) {
 
 
 
-async function filterComponentIds(folderArray){
+async function filterComponentIds(folderArray) {
     var i = 0;
     var cutArray = [];
-    for(const component of folderArray){
-        if(detectRun(component.name)){
+    for (const component of folderArray) {
+        if (detectRun(component.name)) {
             var idsInDatabase = await databaseService.filterIds([component.id]);
-            if(idsInDatabase.length > 0){
-               cutArray.push(i);
-            }else{
+            if (idsInDatabase.length > 0) {
+                cutArray.push(i);
+            } else {
                 component.type = 'run';
             }
-        }else{
+        } else {
             component.type = 'folder';
         }
         i++;
     }
 
-    folderArray = spliceArray(folderArray,cutArray);
+    folderArray = spliceArray(folderArray, cutArray);
     return folderArray;
 }
 
-function detectRun(name){
+function detectRun(name) {
     var dateRegex = /(20\d{2})(\d{2})(\d{2})/;
     var matches = name.match(dateRegex);
-    if(matches != null){
+    if (matches != null) {
         return true;
     }
 
     return false;
 }
 
-function spliceArray(arrayToSplice,splicingIds){
+function spliceArray(arrayToSplice, splicingIds) {
     var offset = 0;
-    for(var i=0,n=splicingIds.length;i<n;i++){
-        arrayToSplice.splice(splicingIds[i]-offset,1);
-        offset ++;
+    for (var i = 0, n = splicingIds.length; i < n; i++) {
+        arrayToSplice.splice(splicingIds[i] - offset, 1);
+        offset++;
     }
 
     return arrayToSplice;
