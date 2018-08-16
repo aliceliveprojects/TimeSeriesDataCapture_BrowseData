@@ -5,7 +5,7 @@ var error = debug('app:error');
 var log = debug('app:log');
 var userCache = require('./util/users/userCache');
 var fs = require('fs');
-require('dotenv').config()
+
 
 // set this namespace to log via console.log 
 log.log = console.log.bind(console); // don't forget to bind to console! 
@@ -16,12 +16,12 @@ log("ENVIRONMENT: **********************");
 log(process.env);
 log("**********************");
 
-var getAsBoolean = function(key){
-  var result = false; 
+var getAsBoolean = function (key) {
+  var result = false;
 
   var ev = process.env[key] || false;
 
-  if(ev === "true"){
+  if (ev === "true") {
     result = true;
   }
 
@@ -34,30 +34,30 @@ console.log('HELLO WORLD');
 
 
 
-var getAuthClientConfig = function(){
+var getAuthClientConfig = function () {
   var result = {};
 
-    
-    if(!process.env.AUTH_CLIENT_ID) throw new Error("undefined in environment: AUTH_CLIENT_ID");
-    if(!process.env.AUTH_APP_NAME) throw new Error("undefined in environment: AUTH_APP_NAME");
-    if(!process.env.AUTH_AUDIENCE) throw new Error("undefined in environment: AUTH_AUDIENCE");
 
-    
-    result.clientId = process.env.AUTH_CLIENT_ID;
-    result.appName = process.env.AUTH_APP_NAME;
-    result.clientSecret = "your-client-secret-if-required";
-    result.realm =  "your-realms";
-    result.scopeSeparator =  " ";
-    result.additionalQueryStringParams = {};
-    result.additionalQueryStringParams.audience = process.env.AUTH_AUDIENCE;
-    //result.additionalQueryStringParams.response_type = "token";
-    result.additionalQueryStringParams.nonce = "123456";
+  if (!process.env.AUTH_CLIENT_ID) throw new Error("undefined in environment: AUTH_CLIENT_ID");
+  if (!process.env.AUTH_APP_NAME) throw new Error("undefined in environment: AUTH_APP_NAME");
+  if (!process.env.AUTH_AUDIENCE) throw new Error("undefined in environment: AUTH_AUDIENCE");
+
+
+  result.clientId = process.env.AUTH_CLIENT_ID;
+  result.appName = process.env.AUTH_APP_NAME;
+  result.clientSecret = "your-client-secret-if-required";
+  result.realm = "your-realms";
+  result.scopeSeparator = " ";
+  result.additionalQueryStringParams = {};
+  result.additionalQueryStringParams.audience = process.env.AUTH_AUDIENCE;
+  //result.additionalQueryStringParams.response_type = "token";
+  result.additionalQueryStringParams.nonce = "123456";
 
   return result;
 }
 
 
-var writeAuthClientConfig = function (config){
+var writeAuthClientConfig = function (config) {
   var authenticationClientConfig = config;
   var authenticationClientContent = "var auth_config = " + JSON.stringify(authenticationClientConfig);
   fs.writeFileSync('./import/swagger-ui-v2/authproviderconfig.js', authenticationClientContent);
@@ -81,20 +81,20 @@ var initialiseWithClustering = function () {
 
 var initialise = function () {
 
-  if(!process.env.AUTH_URL) throw new Error("undefined in environment: AUTH_URL");
+  if (!process.env.AUTH_URL) throw new Error("undefined in environment: AUTH_URL");
   var authUrl = process.env.AUTH_URL;
 
-  if(!process.env.DATABASE_URL) throw new Error("undefined in environment: DATABASE_URL");
+  if (!process.env.DATABASE_URL) throw new Error("undefined in environment: DATABASE_URL");
   var dbUrl = process.env.DATABASE_URL;
   var dbNeedsSSL = getAsBoolean("DB_NEEDS_SSL");
 
-  if(!process.env.RSA_URI) throw new Error("undefined in environment: RSA_URI");
+  if (!process.env.RSA_URI) throw new Error("undefined in environment: RSA_URI");
   var rsaUri = process.env.RSA_URI;
 
-  if(!process.env.CONSUMER_SECRET) throw new Error("undefined in environment: CONSUMER_SECRET");
+  if (!process.env.CONSUMER_SECRET) throw new Error("undefined in environment: CONSUMER_SECRET");
   var consumerSecret = process.env.CONSUMER_SECRET;
 
-  if(!process.env.SYSTEM_EXTERNAL_ID) throw new Error("undefined in environment: SYSTEM_EXTERNAL_ID");
+  if (!process.env.SYSTEM_EXTERNAL_ID) throw new Error("undefined in environment: SYSTEM_EXTERNAL_ID");
   var systemId = process.env.SYSTEM_EXTERNAL_ID;
 
   var consumerApiAddress = process.env.CONSUMER_API_ADDRESS;
@@ -113,7 +113,7 @@ var initialise = function () {
   var database = require('./util/database/database');
   var data = require('./util/data/data');
   var auth = require('./util/authentication/authentication');
-  
+
   app.use(cors());
 
   // swaggerRouter configuration
@@ -128,7 +128,7 @@ var initialise = function () {
   var swaggerDoc = jsyaml.safeLoad(spec);
   var consumerApiPort = swaggerDoc.host.split(':')[1];  //WILL THROW IF PORT NOT DEFINED IN DOC
   var consumerApiScheme = swaggerDoc.schemes[0];  //WILL THROW IF SCHEMES NOT DEFINED IN DOC
-  
+
 
   // initialise main components. We need some of this to change the swagger doc.
   writeAuthClientConfig(getAuthClientConfig());
@@ -138,13 +138,13 @@ var initialise = function () {
 
 
   // change the standard definition to suit the server environment
-  var hostAddrPort = data.getConsumerApiAddress() + ":" + data.getConsumerApiPort(); 
+  var hostAddrPort = data.getConsumerApiAddress() + ":" + data.getConsumerApiPort();
   swaggerDoc.host = hostAddrPort;
 
   var secDefs = swaggerDoc.securityDefinitions;
   for (var secDef in secDefs) {
-      console.log("changing: " + secDefs[secDef].authorizationUrl + " : to : " + authUrl);
-      secDefs[secDef].authorizationUrl = authUrl;
+    console.log("changing: " + secDefs[secDef].authorizationUrl + " : to : " + authUrl);
+    secDefs[secDef].authorizationUrl = authUrl;
   }
 
   // Initialize the Swagger middleware
@@ -152,7 +152,7 @@ var initialise = function () {
     // Interpret Swagger resources and attach metadata to request - must be first in swagger-tools middleware chain
     app.use(middleware.swaggerMetadata());
 
-  
+
     // Provide the security handlers
     app.use(middleware.swaggerSecurity({
       timeseries_admin_auth: auth.timeseries_admin_auth
@@ -166,19 +166,37 @@ var initialise = function () {
 
     // Serve the Swagger documents and Swagger UI
     app.use(middleware.swaggerUi(
-       {swaggerUiDir: path.join(__dirname, './import/swagger-ui-v2')}
+      { swaggerUiDir: path.join(__dirname, './import/swagger-ui-v2') }
     ));
+
+    
+
+    var privateKey = fs.readFileSync('../../ssl-keys-testing/key.pem').toString();
+    var certificate = fs.readFileSync('../../ssl-keys-testing/cert.pem').toString();
+
+    options = {
+      key: privateKey,
+      cert: certificate
+    }
 
     // Start the server
     var server = http.createServer(app).listen(serverPort, function () {
       var address = data.getConsumerApiAddress();
       log('SERVER: listening on %s , port %d ', address, serverPort);
-    });    
+    });
+
+console.log('==============');
+    console.log(app);
+    console.log('=============')
   });
 }
 
+
+
+
+
 // this is for unhandled async rejections. See https://blog.risingstack.com/mastering-async-await-in-nodejs/
-process.on('unhandledRejection', (err) => {  
+process.on('unhandledRejection', (err) => {
   console.error(err);
   process.exit(1);
 });
@@ -187,9 +205,9 @@ var disableClustering = getAsBoolean("DISABLE_CLUSTERING");
 log("CLUSTERING: disableClustering?: " + disableClustering);
 userCache.initialise(!disableClustering);
 if (disableClustering === false) {
-    log("CLUSTERING: initialiseWithClustering");
+  log("CLUSTERING: initialiseWithClustering");
   initialiseWithClustering();
-}else{
+} else {
   log("CLUSTERING: initialise");
   initialise();
 } 

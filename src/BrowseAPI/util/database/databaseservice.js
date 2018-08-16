@@ -57,7 +57,9 @@ exports.mongodbQuery = function mongodbQuery(collection, query, select) {
         connect()
             .then(function (result) {
 
-                var selectObject = parseSelect(select);
+                if(select != undefined){
+                    var selectObject = parseSelect(select);
+                }
 
                 dbo.collection(collection).find(query).project(selectObject).toArray((error, result) => {
                     if (error) reject(error);
@@ -72,10 +74,16 @@ exports.mongodbFindAll = function mongodbFindAll(collection,select) {
     return new Promise((resolve, reject) => {
         connect()
             .then(result => {
-                var selectObject = parseSelect(select);
+                if(select != undefined){
+                    var selectObject = parseSelect(select);
+                }
+                
 
                 dbo.collection(collection).find({}).project(selectObject).toArray((error, result) => {
-                    if (error) reject(error);
+                    if(error){
+                        console.log(error);
+                        reject(error);
+                    }
                     resolve(result);
                 })
             })

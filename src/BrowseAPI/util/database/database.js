@@ -19,6 +19,10 @@ module.exports = {
         return service.queryRun(query);
     },
 
+    getRun: function (runId){
+        return service.getRun(runId);
+    },
+
     filterIds: function(runIds){
         return service.filterIds(runIds);
     },
