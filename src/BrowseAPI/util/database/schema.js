@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-const database = require('./databaseService');
+
 
 var url = "mongodb://localhost:27017/timeSeriesDatabase";
 

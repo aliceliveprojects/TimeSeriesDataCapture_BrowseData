@@ -171,13 +171,7 @@ var initialise = function () {
 
     
 
-    var privateKey = fs.readFileSync('../../ssl-keys-testing/key.pem').toString();
-    var certificate = fs.readFileSync('../../ssl-keys-testing/cert.pem').toString();
-
-    options = {
-      key: privateKey,
-      cert: certificate
-    }
+    
 
     // Start the server
     var server = http.createServer(app).listen(serverPort, function () {

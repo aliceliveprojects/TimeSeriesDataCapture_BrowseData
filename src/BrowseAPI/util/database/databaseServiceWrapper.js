@@ -1,13 +1,9 @@
 'use strict'
 
-var service = require('./databaseService');
+var service = undefined
 var ObjectID = require('mongodb').ObjectID;
 
-var runobject = {
-    _id: 101,
-    name: 'satima',
-    age: 33
-}
+
 
 /* =======================================================RUN QUERIES================================================ */
 exports.insertRun = async function insertRun(run) {
