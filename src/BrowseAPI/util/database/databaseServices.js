@@ -3,8 +3,8 @@
 var MongoClient = require('mongodb').MongoClient;
 var databaseurl = process.env.DATABASE_URL;
 var databaseusername = process.env.DATABASE_USERNAME;
-var databasepassword = prcoess.env.DATABASE_PASSWORD;
-var databaseName = prcoess.env.DATABASE_NAME;
+var databasepassword = process.env.DATABASE_PASSWORD;
+var databaseName = process.env.DATABASE_NAME;
 
 var url = 'mongodb://'+databaseusername+':'+databasepassword+'@'+databaseurl+'/'+databaseName;
 
