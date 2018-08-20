@@ -7,7 +7,7 @@ info:
   contact:
     name: "TimeSeriesDataCapture@gmail.com"
     email: "TimeSeriesDataCapture@gmail.com"
-host: "timeseriesdatacapture-browse.herokuapp.com"
+host: "timeseriesdatacapture-browse.herokuapp.com:8000"
 basePath: "/apis"
 tags:
 - name: "Browse API"
