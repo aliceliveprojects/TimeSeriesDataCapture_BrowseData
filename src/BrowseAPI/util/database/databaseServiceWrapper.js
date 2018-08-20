@@ -1,6 +1,6 @@
 'use strict'
 
-var service = require('/app/src/BrowseAPI/util/database/databaseService');
+var service = require('src/BrowseAPI/util/database/databaseService');
 var ObjectID = require('mongodb').ObjectID;
 
 
