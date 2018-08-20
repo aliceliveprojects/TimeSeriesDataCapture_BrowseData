@@ -170,6 +170,7 @@ var initialise = function () {
     ));
 
     
+    log(__dirname);
 
     
 
@@ -179,9 +180,6 @@ var initialise = function () {
       log('SERVER: listening on %s , port %d ', address, serverPort);
     });
 
-console.log('==============');
-    console.log(app);
-    console.log('=============')
   });
 }
 
