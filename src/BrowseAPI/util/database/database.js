@@ -1,6 +1,6 @@
 'use strict'
 
-var service = require('./databaseServiceWrapper');
+var service = require('databaseServiceWrapper');
 
 module.exports = {
     insertRun: function (run) {
