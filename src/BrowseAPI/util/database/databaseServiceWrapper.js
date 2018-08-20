@@ -1,6 +1,6 @@
 'use strict'
 
-var service = undefined
+var service = require(__dirname+ '/util/database/databaseService')
 var ObjectID = require('mongodb').ObjectID;
 
 
