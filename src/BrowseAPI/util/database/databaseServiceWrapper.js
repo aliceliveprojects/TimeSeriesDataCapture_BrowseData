@@ -1,6 +1,6 @@
 'use strict'
 
-var service = require('./requireTest');
+var service = require('./databaseServices')
 var ObjectID = require('mongodb').ObjectID;
 
 
