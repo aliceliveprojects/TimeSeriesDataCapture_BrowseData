@@ -1,7 +1,12 @@
 'use strict';
 
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/timeSeriesDatabase";
+var databaseurl = process.env.DATABASE_URL;
+var databaseusername = process.env.DATABASE_USERNAME;
+var databasepassword = prcoess.env.DATABASE_PASSWORD;
+var databaseName = prcoess.env.DATABASE_NAME;
+
+var url = 'mongodb://'+databaseusername+':'+databasepassword+'@'+databaseurl+'/'+databaseName;
 
 
 var dbo;
@@ -13,7 +18,7 @@ function connect() {
         if (dbo == null) {
             MongoClient.connect(url, { useNewUrlParser: true }, (error, db) => {
                 if (error) reject(error);
-                dbo = db.db("timeSeriesDatabase");
+                dbo = db.db("heroku_z6lwh5bd");
                 resolve();
             });
         } else {
