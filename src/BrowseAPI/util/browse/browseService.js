@@ -82,9 +82,8 @@ exports.getComponentPreview = async function (componentID) {
 
         console.log(path);
         var options = {
-            protocol: 'http:',
-            host: '192.168.2.1',
-            port: 8001,
+            protocol: 'https:',
+            host: 'timeseriesdatacapture-import.herokuapp.com',
             path: path,
             method: 'GET',
             headers: {
@@ -115,9 +114,8 @@ exports.getComponentIDs = async function (folderID) {
         }
         console.log(path);
         var options = {
-            protocol: 'http:',
-            host: '192.168.2.1',
-            port: 8001,
+            protocol: 'https:',
+            host: 'timeseriesdatacapture-import.herokuapp.com',
             path: path,
             method: 'GET',
             headers: {
@@ -203,9 +201,8 @@ function postComponentId(componentObject) {
 
         console.log(path);
         var options = {
-            protocol: 'http:',
-            host: '192.168.2.1',
-            port: 8001,
+            protocol: 'https:',
+            host: 'timeseriesdatacapture-import.herokuapp.com',
             path: path,
             method: 'GET',
             headers: {
