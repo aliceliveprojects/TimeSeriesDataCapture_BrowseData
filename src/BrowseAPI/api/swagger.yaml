@@ -7,7 +7,7 @@ info:
   contact:
     name: "TimeSeriesDataCapture@gmail.com"
     email: "TimeSeriesDataCapture@gmail.com"
-host: "https://172.18.57.98:8000"
+host: "172.18.57.98:8000"
 basePath: "/apis"
 tags:
 - name: "Browse API"
