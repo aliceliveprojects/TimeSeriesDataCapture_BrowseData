@@ -119,7 +119,7 @@ var initialise = function () {
   // swaggerRouter configuration
   var options = {
     swaggerUi: '/swagger.json',
-    controllers: './controllers',
+    controllers: __dirname + '/controllers',
     useStubs: process.env.NODE_ENV === 'development' ? true : false // Conditionally turn on stubs (mock mode)
   };
 
