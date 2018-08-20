@@ -13,7 +13,6 @@ tags:
 - name: "Browse API"
   description: "Getting and postings components from server"
 schemes:
-- "http"
 - "https"
 paths:
   /components:
