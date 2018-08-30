@@ -38,9 +38,23 @@ exports.componentSearch = async function (tags, date, timeStamp, page, pagesize)
     } */
 
     var query = tags;
-    return searchService.parseSearch(query);
+    query = searchService.parseSearch(query);
 
-    var result = await databaseService.queryRun(query)
+    var queryObject = {}
+
+    for(var i=0,n=query.length;i<n;i++){
+        if(query[i].name === 'timeStamp'){
+            queryObject['time'] = query[i].value[0]
+        }
+
+        if(query[i].name === 'date'){
+            queryObject['date'] = query[i].value[0]
+        }
+    }
+
+    
+    var result = await databaseService.queryRun(queryObject)
+    console.log(result);
     return (result);
 }
 

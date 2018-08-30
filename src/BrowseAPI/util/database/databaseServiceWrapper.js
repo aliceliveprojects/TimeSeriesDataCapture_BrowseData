@@ -40,11 +40,11 @@ exports.deleteRun = async function deleteRun(run) {
 
 exports.queryRun = async function queryRun(query) {
     var queryObject = {}
-    if (query.hasOwnProperty('tags')) {
-        for (var i = 0, n = query['tags'].length; i < n; i++) {
-            queryObject['tags.' + query['tags'][i]] = { $exists: true };
-        }
-    }
+    // if (query.hasOwnProperty('tags')) {
+    //     for (var i = 0, n = query['tags'].length; i < n; i++) {
+    //         queryObject['tags.' + query['tags'][i]] = { $exists: true };
+    //     }
+    // }
 
     if(query.hasOwnProperty('date')){
         queryObject['date'] = query['date'];
@@ -57,7 +57,7 @@ exports.queryRun = async function queryRun(query) {
     console.log(queryObject);
 
     try {
-        return (await service.mongodbQuery('runsCollection', queryObject,undefined));
+        return (await service.mongodbQuery('runsCollection', queryObject,['id','time','date','tags']));
     } catch (error) {
         throw (error);
     }

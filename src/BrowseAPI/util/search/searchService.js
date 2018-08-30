@@ -4,13 +4,22 @@ const keywordFiltersService = require('./keywordFilters');
 
 exports.parseSearch = function(query){
     
-    query = '17:49:01'
+   
     var result = extractQueries(query);
-    console.log(result);
+    
 
-    return {
-        GOOD : 'GOOD'
+    for(var i=0,n=result.length;i<n;i++){
+        if(result[i].name === 'timeStamp'){
+            result[i].value[0] = keywordFiltersService.timeFilter(result[i].value[0],'database');
+        }
+
+        if(result[i].name === 'date'){
+            result[i].value[0] = keywordFiltersService.dateFilter(result[i].value[0],'database');
+        }
     }
+
+    return result;
+   
 }
 
 
