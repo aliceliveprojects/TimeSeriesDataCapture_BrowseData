@@ -34,7 +34,7 @@ function query(name, regex, single = true) {
 
 
 //date
-var date = new query('date', /\d{8}/g, true);
+var date = new query('date',  /\d{1,2}\/\d{1,2}\/\d{4}/g, true);
 queryTypes.push(date);
 
 //time
