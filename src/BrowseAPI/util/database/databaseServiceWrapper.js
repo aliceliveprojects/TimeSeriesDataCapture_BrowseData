@@ -115,17 +115,9 @@ exports.setAuthentication = async function setAuthentication(authentication) {
 
 /* ====================================================TAG QUERIES==================================================== */
 exports.getTag = async function getTag(tag) {
-    var query = {
-    };
+    var query = {};
 
-    if (typeof tag == 'number') {
-        query['_id'] = tag;
-    } else {
-        query['tag'] = {
-            $regex: '^' + tag,
-            $options: 'i'
-        }
-    }
+   query['tag'] = tag;
 
     try {
         return (await service.mongodbQuery('tagsCollection', query,undefined));

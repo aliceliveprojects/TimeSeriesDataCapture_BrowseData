@@ -10,7 +10,9 @@ const searchService = require('../search/search');
 exports.addComponentAnnotations = async function (componentId, annotations) {
     return new Promise(async function (resolve, reject) {
         try {
-            const insertPromises = annotations.map(updateRun, { componentId: componentId })
+            const insertPromises = annotations.map(updateRun, {
+                componentId: componentId
+            })
             var result = await Promise.all(insertPromises);
             console.log(result);
             resolve(result);
@@ -31,7 +33,9 @@ async function updateRun(annotation) {
     }
 
 
-    var updateObject = { ['annotations.' + annotationId]: annotation }
+    var updateObject = {
+        ['annotations.' + annotationId]: annotation
+    }
     try {
         var result = await databaseService.updateRuns(this.componentId, updateObject)
         return result
@@ -42,16 +46,17 @@ async function updateRun(annotation) {
 
 //TODO : add to database
 exports.addComponentTags = async function (componentID, tags) {
-    return new Promise(async function(resolve,reject){
+    return new Promise(async function (resolve, reject) {
         try {
-            const getTagsPromises = tags.map(getTags)
+            const getTagsPromises = tags.map(getTag)
             var result = await Promise.all(getTagsPromises);
 
-            for(var i=0,n=result.length;i<n;i++){
-                if(result[i].length > 0){
-                    
+            for (var i = 0, n = result.length; i < n; i++) {
+                if (result[i].length > 0) {
+                    console.log(result[i]);
                 }
             }
+
 
             resolve(result);
         } catch (error) {
@@ -60,9 +65,18 @@ exports.addComponentTags = async function (componentID, tags) {
     })
 
 
-    return {
-        result: 'GOOD'
+   
+}
+
+async function getTag(tag) {
+    try {
+        var result = await databaseService.getTag(tag);
+        return result;
+
+    } catch (error) {
+        throw error;
     }
+
 }
 
 //20180812
@@ -216,23 +230,19 @@ exports.getAlgorithms = async function () {
 //TODO: query database
 exports.getTags = async function (tag) {
     return new Promise(async function (resolve, reject) {
-        var result = await getTags(tag);
-        console.log(result);
-        resolve(result)
+        try {
+            var response = await databaseService.queryTag(tag);
+            console.log(tag);
+            resolve(response);
+        } catch (error) {
+            throw (error);
+        }
     })
 
 
 }
 
-async function getTags(tag) {
-    try {
-        console.log(tag);
-        var response = await databaseService.queryTag(tag);
-        return (response);
-    } catch (error) {
-        throw (error);
-    }
-}
+
 
 //TODO store file storage token
 exports.postAuthenticate = async function (fileStorageToken) {
@@ -254,7 +264,9 @@ exports.postComponentIDs = async function (componentIDs) {
 exports.updateComponentAnnotation = async function (componentId, annotationId, annotation) {
     return new Promise(async function (resolve, reject) {
 
-        var updateObject = { ['annotations.' + annotationId]: annotation }
+        var updateObject = {
+            ['annotations.' + annotationId]: annotation
+        }
         try {
             var result = await databaseService.updateRuns(componentId, updateObject)
             resolve(result);
@@ -339,4 +351,3 @@ function spliceArray(arrayToSplice, splicingIds) {
 
     return arrayToSplice;
 }
-
