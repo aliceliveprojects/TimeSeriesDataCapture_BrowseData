@@ -156,6 +156,7 @@ exports.deleteAnnotation = async function deleteAnnotation(componentId,annotatio
         var deletion = {$unset: {}};
         deletion['$unset']['annotations.' + annotationId] = 1;
         
+
         return (await service.mongodbDeleteProperty('runsCollection',query,deletion))
     }catch(error){
         throw(error);

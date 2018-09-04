@@ -22,13 +22,14 @@ exports.addComponentAnnotations = async function (componentId, annotations) {
 }
 
 async function updateRun(annotation) {
-
+    
     var annotationId;
-    if(annotation.hasOwnProperty(id)){
-        annotationId =  uuidv4();
+    if(!(annotation.hasOwnProperty('id'))){
+        annotationId = uuidv4();
     }else{
-        annotationId.annotation.id;
+        annotationId = annotation.id
     }
+
    
     var updateObject = {['annotations.' + annotationId] : annotation}
     try {
