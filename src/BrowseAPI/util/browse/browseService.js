@@ -15,7 +15,7 @@ exports.addComponentAnnotations = async function (componentId, annotations) {
             console.log(result);
             resolve(result);
         } catch (error) {
-
+            reject(error);
         }
     })
 
@@ -42,6 +42,24 @@ async function updateRun(annotation) {
 
 //TODO : add to database
 exports.addComponentTags = async function (componentID, tags) {
+    return new Promise(async function(resolve,reject){
+        try {
+            const getTagsPromises = tags.map(getTags)
+            var result = await Promise.all(getTagsPromises);
+
+            for(var i=0,n=result.length;i<n;i++){
+                if(result[i].length > 0){
+                    
+                }
+            }
+
+            resolve(result);
+        } catch (error) {
+            reject(error);
+        }
+    })
+
+
     return {
         result: 'GOOD'
     }
@@ -196,11 +214,20 @@ exports.getAlgorithms = async function () {
 }
 
 //TODO: query database
-exports.getTags = async function (tags) {
+exports.getTags = async function (tag) {
+    return new Promise(async function (resolve, reject) {
+        var result = await getTags(tag);
+        console.log(result);
+        resolve(result)
+    })
+
+
+}
+
+async function getTags(tag) {
     try {
-        console.log(tags);
-        var response = await databaseService.getTag(tags);
-        console.log(response);
+        console.log(tag);
+        var response = await databaseService.queryTag(tag);
         return (response);
     } catch (error) {
         throw (error);

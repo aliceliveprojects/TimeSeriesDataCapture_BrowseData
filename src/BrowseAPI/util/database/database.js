@@ -39,6 +39,14 @@ module.exports = {
         return service.getTag(tag);
     },
 
+    getTagById: function(tagId){
+        return service.getTagById(tag);
+    },
+
+    queryTag : function(tag){
+        return service.queryTag(tag);
+    },
+
     addTag: function(tag){
         return service.addTag(tag,filter);
     },

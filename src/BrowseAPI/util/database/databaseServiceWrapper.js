@@ -134,6 +134,31 @@ exports.getTag = async function getTag(tag) {
     }
 }
 
+exports.getTagById = async function getTagById(tagId){
+    var query = {};
+    query['_id'] = tagId;
+
+    try {
+        return (await service.mongodbQuery('tagsCollection', query,undefined));
+    } catch (error) {
+        throw (error);
+    }
+}
+
+exports.queryTag = async function queryTag(tag){
+    var query = {};
+    query['tag'] = {
+        $regex: '^' + tag,
+        $options: 'i'
+    };
+
+    try {
+        return (await service.mongodbQuery('tagsCollection', query,undefined));
+    } catch (error) {
+        throw (error);
+    }
+}
+
 exports.addTag = async function addTag(tag) {
     try {
         if (getTag(tag) > 0) {
