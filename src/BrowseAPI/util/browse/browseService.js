@@ -2,7 +2,7 @@
 
 const errorApi = require('../error/error');
 const httpRequest = require('../http/httpRequest')
-var auth_token = '1a67f6f4-db2a-4298-8cf8-72946ac50669';
+const uuidv4 = require('uuid/v4');
 const databaseService = require('../database/database');
 const searchService = require('../search/search');
 
@@ -22,11 +22,9 @@ exports.addComponentAnnotations = async function (componentId, annotations) {
 }
 
 async function updateRun(annotation) {
-    var annotationID = '900'
-    var updateObject = {
-        annotations: {}
-    }
-    updateObject.annotations[annotationID] = annotation;
+    var annotationID =  uuidv4();
+   
+    var updateObject = {['annotations.' + annotationID] : annotation}
     try {
         var result = await databaseService.updateRuns(this.componentId, updateObject)
         return result
