@@ -7,9 +7,31 @@ const databaseService = require('../database/database');
 const searchService = require('../search/search');
 
 //TODO : add to database
-exports.addComponentAnnotations = async function (componentID, annotations) {
-    return {
-        result: 'GOOD'
+exports.addComponentAnnotations = async function (componentId, annotations) {
+    return new Promise(async function (resolve, reject) {
+        try {
+            const insertPromises = annotations.map(updateRun,{componentId :componentId})
+            var result = await Promise.all(insertPromises);
+            console.log(result);
+            resolve(result);
+        } catch (error) {
+
+        }
+    }) 
+
+}
+
+async function updateRun(annotation) {
+    var annotationID = '900'
+    var updateObject = {
+        annotations: {}
+    }
+    updateObject.annotations[annotationID] = annotation;
+    try {
+        var result = await databaseService.updateRuns(this.componentId, updateObject)
+        return result
+    } catch (error) {
+        throw(error)
     }
 }
 
@@ -24,35 +46,35 @@ exports.addComponentTags = async function (componentID, tags) {
 // TODO: query database
 exports.componentSearch = async function (tags, date, timeStamp, page, pagesize) {
 
-   /*  var query = {}
-    if (tags != undefined) {
-        query['tags'] = tags.split(",");
-    }
-
-    if (date != undefined) {
-        query['date'] = date.toString();
-    }
-
-    if (timeStamp != undefined) {
-        query['time'] = timeStamp.toString();
-    } */
+    /*  var query = {}
+     if (tags != undefined) {
+         query['tags'] = tags.split(",");
+     }
+ 
+     if (date != undefined) {
+         query['date'] = date.toString();
+     }
+ 
+     if (timeStamp != undefined) {
+         query['time'] = timeStamp.toString();
+     } */
 
     var query = tags;
     query = searchService.parseSearch(query);
 
     var queryObject = {}
 
-    for(var i=0,n=query.length;i<n;i++){
-        if(query[i].name === 'timeStamp'){
+    for (var i = 0, n = query.length; i < n; i++) {
+        if (query[i].name === 'timeStamp') {
             queryObject['time'] = query[i].value[0]
         }
 
-        if(query[i].name === 'date'){
+        if (query[i].name === 'date') {
             queryObject['date'] = query[i].value[0]
         }
     }
 
-    
+
     var result = await databaseService.queryRun(queryObject)
     console.log(result);
     return (result);
@@ -67,9 +89,11 @@ exports.deleteComponent = async function (componentID) {
 
 //TODO : delete from annotation
 exports.deleteComponentAnnotation = async function (componentID, annotationID) {
-    return {
-        result: 'GOOD'
-    }
+    return new Promise(async function (resolve, reject) {
+        var result = await databaseService.deleteAnnotation(componentID, annotationID);
+        console.log(result);
+        resolve(result);
+    })
 }
 
 //TODO : delete annotation from database
@@ -198,7 +222,7 @@ exports.postComponentIDs = async function (componentIDs) {
 exports.updateComponentAnnotation = async function (componentID, annotationID, annotation) {
     return new Promise(async function (resolve, reject) {
         var updateObject = {
-            annotations : {}
+            annotations: {}
         }
         updateObject.annotations[annotationID] = annotation;
         try {
@@ -210,6 +234,8 @@ exports.updateComponentAnnotation = async function (componentID, annotationID, a
     })
 
 }
+
+
 
 function postComponentId(componentObject) {
     return new Promise(async function (resolve, reject) {

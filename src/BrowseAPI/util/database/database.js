@@ -43,6 +43,10 @@ module.exports = {
         return service.addTag(tag,filter);
     },
 
+    deleteAnnotation: function(componentId,annotationId){
+        return service.deleteAnnotation(componentId,annotationId)
+    },
+
     insertAlgorithm: function (algorithm) {
         return service.insertAlgorithm(algorithm);
     },

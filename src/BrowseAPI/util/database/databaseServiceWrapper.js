@@ -147,6 +147,22 @@ exports.addTag = async function addTag(tag) {
     }
 }
 
+/* =======================================================Annotations QUERIES=========================================== */
+exports.deleteAnnotation = async function deleteAnnotation(componentId,annotationId){
+    try{
+       
+        var query = {id:componentId}
+
+        var deletion = {$unset: {}};
+        deletion['$unset']['annotations.' + annotationId] = 1;
+        
+        return (await service.mongodbDeleteProperty('runsCollection',query,deletion))
+    }catch(error){
+        throw(error);
+    }
+}
+
+
 
 /* =======================================================ALGORITHM QUERIES=========================================== */
 

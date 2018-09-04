@@ -98,6 +98,9 @@ paths:
           description: "Bad Request"
         401:
           description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
       x-swagger-router-controller: "BrowseAPI"
     delete:
       tags:
