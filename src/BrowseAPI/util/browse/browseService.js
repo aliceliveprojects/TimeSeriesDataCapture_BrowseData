@@ -10,33 +10,33 @@ const searchService = require('../search/search');
 exports.addComponentAnnotations = async function (componentId, annotations) {
     return new Promise(async function (resolve, reject) {
         try {
-            const insertPromises = annotations.map(updateRun,{componentId :componentId})
+            const insertPromises = annotations.map(updateRun, { componentId: componentId })
             var result = await Promise.all(insertPromises);
             console.log(result);
             resolve(result);
         } catch (error) {
 
         }
-    }) 
+    })
 
 }
 
 async function updateRun(annotation) {
-    
+
     var annotationId;
-    if(!(annotation.hasOwnProperty('id'))){
+    if (!(annotation.hasOwnProperty('id'))) {
         annotationId = uuidv4();
-    }else{
+    } else {
         annotationId = annotation.id
     }
 
-   
-    var updateObject = {['annotations.' + annotationId] : annotation}
+
+    var updateObject = { ['annotations.' + annotationId]: annotation }
     try {
         var result = await databaseService.updateRuns(this.componentId, updateObject)
         return result
     } catch (error) {
-        throw(error)
+        throw (error)
     }
 }
 
@@ -224,14 +224,12 @@ exports.postComponentIDs = async function (componentIDs) {
     })
 }
 
-exports.updateComponentAnnotation = async function (componentID, annotationID, annotation) {
+exports.updateComponentAnnotation = async function (componentId, annotationId, annotation) {
     return new Promise(async function (resolve, reject) {
-        var updateObject = {
-            annotations: {}
-        }
-        updateObject.annotations[annotationID] = annotation;
+
+        var updateObject = { ['annotations.' + annotationId]: annotation }
         try {
-            var result = await databaseService.updateRuns(componentID, updateObject)
+            var result = await databaseService.updateRuns(componentId, updateObject)
             resolve(result);
         } catch (error) {
 
