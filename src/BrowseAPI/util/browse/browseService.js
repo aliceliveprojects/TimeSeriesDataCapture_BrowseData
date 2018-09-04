@@ -22,9 +22,15 @@ exports.addComponentAnnotations = async function (componentId, annotations) {
 }
 
 async function updateRun(annotation) {
-    var annotationID =  uuidv4();
+
+    var annotationId;
+    if(annotation.hasOwnProperty(id)){
+        annotationId =  uuidv4();
+    }else{
+        annotationId.annotation.id;
+    }
    
-    var updateObject = {['annotations.' + annotationID] : annotation}
+    var updateObject = {['annotations.' + annotationId] : annotation}
     try {
         var result = await databaseService.updateRuns(this.componentId, updateObject)
         return result
