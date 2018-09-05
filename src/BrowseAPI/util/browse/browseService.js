@@ -253,7 +253,7 @@ exports.getTags = async function (tag) {
 //TODO store file storage token
 exports.postAuthenticate = async function (fileStorageToken) {
     return new Promise(async function (resolve, reject) {
-        await databaseService.deleteFileStorageAuthentication()
+        await databaseService.deleteFileStorageAuthentication({})
         databaseService.createFileStorageAuthentication(fileStorageToken);
 
 
