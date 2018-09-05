@@ -99,22 +99,6 @@ var createConsumerOptions = function (deploymentId, deploymentState, scopes, tok
 }
 
 var hasAuthorisedScope = function (scopeString, authorisedScopes) {
-
-    //=========================NEED TO SORT OUT ===============================
-    /*var result = false;
-    if (scopeString && scopeString.length > 0) {
-        var scopes = Object.keys(authorisedScopes);
-
-        for (var index = 0; index < scopes.length; index++) {
-            var scope = scopes[index];
-            if(scopeString.indexOf(scope) != NOT_FOUND){
-                result = true;
-                break;
-            }
-        }
-    }
-    return result;*/
-
     return true;
 }
 

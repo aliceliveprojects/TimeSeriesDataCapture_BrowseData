@@ -48,9 +48,9 @@ async function updateRun(annotation) {
 exports.addComponentTags = async function (componentId, tags) {
     return new Promise(async function (resolve, reject) {
         try {
-            const getTagsPromises = tags.map(updateRunTags,{componentId: componentId})
+            const getTagsPromises = tags.map(updateRunTags, { componentId: componentId })
             var result = await Promise.all(getTagsPromises);
-        
+
 
 
             resolve(tags);
@@ -60,23 +60,23 @@ exports.addComponentTags = async function (componentId, tags) {
     })
 
 
-   
+
 }
 
-async function updateRunTags(tag){
+async function updateRunTags(tag) {
     try {
         var result = await databaseService.getTag(tag);
         console.log(result);
-        if(result.length > 0){
+        if (result.length > 0) {
             var updateObject = {
-                ['tags.' + result[0]._id] : result[0].tag
+                ['tags.' + result[0]._id]: result[0].tag
             }
-            await databaseService.updateRuns(this.componentId,updateObject)
-        }else{
+            await databaseService.updateRuns(this.componentId, updateObject)
+        } else {
             await databaseService.addTag(tag);
             updateRunTags(tag);
         }
-        
+
     } catch (error) {
         throw (error);
     }
@@ -139,8 +139,8 @@ exports.deleteComponentAnnotation = async function (componentID, annotationID) {
 
 //TODO : delete annotation from database
 exports.deleteComponentTag = async function (componentId, tagId) {
-    return new Promise(async function(resolve,reject){
-        var result = await databaseService.deleteTagById(componentId,tagId);
+    return new Promise(async function (resolve, reject) {
+        var result = await databaseService.deleteTagById(componentId, tagId);
         console.log(result);
         resolve(result);
     })
@@ -252,9 +252,20 @@ exports.getTags = async function (tag) {
 
 //TODO store file storage token
 exports.postAuthenticate = async function (fileStorageToken) {
-    return {
-        fileStorageToken: fileStorageToken
-    }
+    return new Promise(async function (resolve, reject) {
+        var response = await databaseService.getOneDriveAuthentication(fileStorageToken.profileID)
+
+        if (response.length > 0) {
+            console.log('set');
+            databaseService.updateAuthentication(fileStorageToken);
+        } else {
+            databaseService.setAuthentication(fileStorageToken);
+        }
+
+
+        console.log(fileStorageToken + ' set');
+        resolve(fileStorageToken + ' set');
+    })
 }
 
 //TODO request components from import api

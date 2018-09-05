@@ -92,25 +92,45 @@ exports.filterIds = async function filterIds(ids) {
 
 
 /* ====================================================AUTHENTICATE QUERIES=========================================== */
-exports.getAuthentication = async function getAuthentication(profileID) {
-    var query = { profileID: profileID };
-    try {
-        return (await service.mongodbQuery('authenticationCollection', query, undefined))
-    } catch (error) {
-        throw (error);
-    }
+exports.getAuthentication = async function getAuthentication() {
+
 }
 
 exports.setAuthentication = async function setAuthentication(authentication) {
+    try {
+        return (await service.mongodbInsert('authenticationCollection', authentication));
+    } catch (error) {
+        throw (error)
+    }
+}
+
+exports.updateAuthentication = async function updateAuthentication(authentication) {
     var authenticationObject = {
         $set: authentication
     }
+
+    var queryObject = {
+        profileID : authentication.profileID
+    }
+
     try {
-        return (await service.mongodbUpdate('authenticationCollection', authentication[profileID], authenticationObject));
+        return (await service.mongodbUpdate('authenticationCollection', queryObject, authenticationObject));
     } catch (error) {
 
     }
 }
+
+exports.getOneDriveAuthentication = async function getOneDriveAuthentication(profileID) {
+    try {
+        var query = {
+            profileID: profileID
+        }
+        return (await service.mongodbQuery('authenticationCollection', query));
+    } catch (error) {
+
+    }
+}
+
 /* =================================================================================================================== */
 
 /* ====================================================TAG QUERIES==================================================== */
@@ -154,7 +174,7 @@ exports.queryTag = async function queryTag(tag) {
 exports.addTag = async function addTag(tag) {
     try {
         var tagObject = {
-            tag : tag
+            tag: tag
         }
         return (await service.mongodbInsert('tagsCollection', tagObject))
 
@@ -163,16 +183,16 @@ exports.addTag = async function addTag(tag) {
     }
 }
 
-exports.deleteTagbyId = async function deleteTag(componentId,tagId){
+exports.deleteTagbyId = async function deleteTag(componentId, tagId) {
     try {
-        var query = {id : componentId};
+        var query = { id: componentId };
 
-        var deletion = { $unset:{}};
-        deletion['$unset']['tags.'+tagId] = 1;
+        var deletion = { $unset: {} };
+        deletion['$unset']['tags.' + tagId] = 1;
 
-        return (await service.mongodbUpdate('runsCollection', query,deletion));
+        return (await service.mongodbUpdate('runsCollection', query, deletion));
     } catch (error) {
-        
+
     }
 }
 

@@ -35,6 +35,14 @@ module.exports = {
         return service.setAuthentication(authentication);
     },
 
+    updateAuthentication: function(authentication){
+        return service.updateAuthentication(authentication);
+    },
+
+    getOneDriveAuthentication: function(profileID){
+        return service.getOneDriveAuthentication(profileID);
+    },
+
     getTag: function(tag){
         return service.getTag(tag);
     },
