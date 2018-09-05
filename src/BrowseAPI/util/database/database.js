@@ -3,8 +3,8 @@
 var service = require('./databaseServiceWrapper');
 
 module.exports = {
-    insertRun: function (run) {
-        return service.insertRun(run);
+    createRun: function (run) {
+        return service.createRun(run);
     },
 
     updateRuns: function (query, updateRun) {
@@ -27,20 +27,24 @@ module.exports = {
         return service.filterIds(runIds);
     },
 
-    getAuthentication: function(profileID){
-        return service.getAuthentication(profileID);
+    getAuthentication: function(profileId){
+        return service.getAuthentication(profileId);
     },
 
-    setAuthentication: function(authentication){
-        return service.setAuthentication(authentication);
+    createFileStorageAuthentication: function(authentication){
+        return service.createFileStorageAuthentication(authentication);
     },
 
-    updateAuthentication: function(authentication){
-        return service.updateAuthentication(authentication);
+    updateFileStorageAuthentication: function(authentication){
+        return service.updateFileStorageAuthentication(authentication);
     },
 
-    getOneDriveAuthentication: function(profileID){
-        return service.getOneDriveAuthentication(profileID);
+    getFileStorageAuthentication: function(profileId){
+        return service.getFileStorageAuthentication(profileId);
+    },
+
+    removeFileStorageAuthentication: function(profileId){
+        return service.removeFileStorageAuthentication(profileId);
     },
 
     getTag: function(tag){
@@ -55,8 +59,8 @@ module.exports = {
         return service.queryTag(tag);
     },
 
-    addTag: function(tag){
-        return service.addTag(tag);
+    createTag: function(tag){
+        return service.createTag(tag);
     },
 
     deleteTagById : function(componentId,tagId){
@@ -67,8 +71,8 @@ module.exports = {
         return service.deleteAnnotation(componentId,annotationId);
     },
 
-    insertAlgorithm: function (algorithm) {
-        return service.insertAlgorithm(algorithm);
+    createAlgorithm: function (algorithm) {
+        return service.createAlgorithm(algorithm);
     },
 
     getAllAlgorithms: function(){

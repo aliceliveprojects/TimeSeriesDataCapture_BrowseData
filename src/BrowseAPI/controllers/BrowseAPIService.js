@@ -311,5 +311,24 @@ exports.deleteComponentTag = function(args,res,next) {
   }) 
 }
 
+/**
+ * Removes file storage auth token
+ * Removes storage auth token
+ * 
+ * profileID Object contains string profileID
+ */
+
+exports.deleteAuthenticate = function(args,res,next){
+  let profileId = args.profileID.value;
+
+  browseService.deleteAuthenticate(profileId)
+  .then((result) => {
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
+}
+
 
 

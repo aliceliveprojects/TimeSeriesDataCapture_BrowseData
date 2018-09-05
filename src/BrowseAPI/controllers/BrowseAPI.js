@@ -69,7 +69,10 @@ module.exports.updateComponentAnnotation = function updateComponentAnnotation(re
 };
 
 module.exports.deleteComponentTag = function  deleteComponentTag(req, res,next){
-
   BrowseAPI.deleteComponentTag(req.swagger.params,res,next);
+}
+
+module.exports.deleteAuthenticate = function deleteAuthenticate(req,res,next){
+  BrowseAPI.deleteAuthenticate(req.swagger.params,res,next);
 }
 

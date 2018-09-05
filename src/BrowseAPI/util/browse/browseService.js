@@ -73,7 +73,7 @@ async function updateRunTags(tag) {
             }
             await databaseService.updateRuns(this.componentId, updateObject)
         } else {
-            await databaseService.addTag(tag);
+            await databaseService.createTag(tag);
             updateRunTags(tag);
         }
 
@@ -288,10 +288,21 @@ exports.updateComponentAnnotation = async function (componentId, annotationId, a
             var result = await databaseService.updateRuns(componentId, updateObject)
             resolve(result);
         } catch (error) {
-
+            reject(error);
         }
     })
 
+}
+
+exports.deleteAuthenticate = async function(profileId){
+    return new Promise(async function(resolve,reject){
+        try {
+            var result = await databaseService.removeFileStorageAuthentication(profileId);
+            resolve(result);
+        } catch (error) {
+            reject(error);
+        }
+    })
 }
 
 

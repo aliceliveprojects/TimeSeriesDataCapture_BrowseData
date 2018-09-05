@@ -455,6 +455,28 @@ paths:
       - timeseries_admin_auth:
         - "admin"
       x-swagger-router-controller: "BrowseAPI"
+    delete:
+      tags:
+      - "Browse API"
+      summary: "Removes file storage auth token'"
+      description: "Removes storage auth token"
+      operationId: "deleteAuthenticate"
+      parameters:
+      - in: "body"
+        name: "profileID"
+        required: true
+        schema:
+          type: "string"
+          example: "sub|sdasdsadsa"
+      responses:
+        200:
+          description: "Success"
+        401:
+          description: "Unauthorized"
+      security:
+      - timeseries_admin_auth:
+        - "admin"
+      x-swagger-router-controller: "BrowseAPI"
   /algorithms:
     get:
       tags:

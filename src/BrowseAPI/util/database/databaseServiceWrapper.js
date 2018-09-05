@@ -6,7 +6,7 @@ var ObjectID = require('mongodb').ObjectID;
 
 
 /* =======================================================RUN QUERIES================================================ */
-exports.insertRun = async function insertRun(run) {
+exports.createRun = async function createRun(run) {
     try {
 
         return (await service.mongodbInsert('runsCollection', run));
@@ -96,7 +96,7 @@ exports.getAuthentication = async function getAuthentication() {
 
 }
 
-exports.setAuthentication = async function setAuthentication(authentication) {
+exports.createFileStorageAuthentication = async function createFileStorageAuthentication(authentication) {
     try {
         return (await service.mongodbInsert('authenticationCollection', authentication));
     } catch (error) {
@@ -104,13 +104,13 @@ exports.setAuthentication = async function setAuthentication(authentication) {
     }
 }
 
-exports.updateAuthentication = async function updateAuthentication(authentication) {
+exports.updateFileStorageAuthentication = async function updateFileStorageAuthentication(authentication) {
     var authenticationObject = {
         $set: authentication
     }
 
     var queryObject = {
-        profileID : authentication.profileID
+        profileID: authentication.profileID
     }
 
     try {
@@ -120,7 +120,7 @@ exports.updateAuthentication = async function updateAuthentication(authenticatio
     }
 }
 
-exports.getOneDriveAuthentication = async function getOneDriveAuthentication(profileID) {
+exports.getFileStorageAuthentication = async function getFileStorageAuthentication(profileID) {
     try {
         var query = {
             profileID: profileID
@@ -128,6 +128,16 @@ exports.getOneDriveAuthentication = async function getOneDriveAuthentication(pro
         return (await service.mongodbQuery('authenticationCollection', query));
     } catch (error) {
 
+    }
+}
+
+exports.removeFileStorageAuthentication = async function removeFileStorageAuthentication(profileId) {
+    try {
+
+        var query = { profileID: profileId }
+        return (await service.mongodbDelete('authenticationCollection', query))
+    } catch (error) {
+        throw (error);
     }
 }
 
@@ -171,7 +181,7 @@ exports.queryTag = async function queryTag(tag) {
     }
 }
 
-exports.addTag = async function addTag(tag) {
+exports.createTag = async function createTag(tag) {
     try {
         var tagObject = {
             tag: tag
@@ -183,7 +193,7 @@ exports.addTag = async function addTag(tag) {
     }
 }
 
-exports.deleteTagbyId = async function deleteTag(componentId, tagId) {
+exports.deleteTagbyId = async function deleteTagbyId(componentId, tagId) {
     try {
         var query = { id: componentId };
 
@@ -216,7 +226,7 @@ exports.deleteAnnotation = async function deleteAnnotation(componentId, annotati
 
 /* =======================================================ALGORITHM QUERIES=========================================== */
 
-exports.insertAlgorithm = async function insertAlgorithm(algorithm) {
+exports.createAlgorithm = async function createAlgorithm(algorithm) {
     try {
         return (await service.mongodbInsert('algorithmsCollection', algorithm));
     } catch (error) {

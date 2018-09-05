@@ -63,6 +63,10 @@ module.exports = {
 
     deleteComponentTag: function(componentID,tagID){
         return service.deleteComponentTag(componentID,tagID);
+    },
+
+    deleteAuthenticate: function(profileId){
+        return service.deleteAuthenticate(profileId);
     }
 
 }
