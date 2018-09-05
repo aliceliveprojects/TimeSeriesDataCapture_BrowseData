@@ -23,7 +23,7 @@ exports.updateRuns = async function updateRuns(runId, updatedRun) {
         id: runId
     }
     try {
-        return (await service.mongodbUpdate('runsCollection',queryObject, updatedRunObject));
+        return (await service.mongodbUpdate('runsCollection', queryObject, updatedRunObject));
     } catch (error) {
         console.log(error);
         throw (error);
@@ -46,42 +46,42 @@ exports.queryRun = async function queryRun(query) {
     //     }
     // }
 
-    if(query.hasOwnProperty('date')){
+    if (query.hasOwnProperty('date')) {
         queryObject['date'] = query['date'];
     }
 
-    if(query.hasOwnProperty('time')){
+    if (query.hasOwnProperty('time')) {
         queryObject['time'] = query['time'];
     }
 
     console.log(queryObject);
 
     try {
-        return (await service.mongodbQuery('runsCollection', queryObject,['id','time','date','tags']));
+        return (await service.mongodbQuery('runsCollection', queryObject, ['id', 'time', 'date', 'tags']));
     } catch (error) {
         throw (error);
     }
 }
 
-exports.getRun = async function getRun(runId){
+exports.getRun = async function getRun(runId) {
     var queryObject = {
         id: runId
     }
     try {
-        return (await service.mongodbQuery('runsCollection',queryObject));
+        return (await service.mongodbQuery('runsCollection', queryObject));
     } catch (error) {
-        
+
     }
 }
 
-exports.filterIds = async function filterIds(ids){
+exports.filterIds = async function filterIds(ids) {
     var queryObject = {
         id: {
-            $in : ids
+            $in: ids
         }
     };
     try {
-        return (await service.mongodbQuery('runsCollection',queryObject,['id']))
+        return (await service.mongodbQuery('runsCollection', queryObject, ['id']))
     } catch (error) {
         throw (error);
     }
@@ -95,7 +95,7 @@ exports.filterIds = async function filterIds(ids){
 exports.getAuthentication = async function getAuthentication(profileID) {
     var query = { profileID: profileID };
     try {
-        return (await service.mongodbQuery('authenticationCollection', query,undefined))
+        return (await service.mongodbQuery('authenticationCollection', query, undefined))
     } catch (error) {
         throw (error);
     }
@@ -117,27 +117,27 @@ exports.setAuthentication = async function setAuthentication(authentication) {
 exports.getTag = async function getTag(tag) {
     var query = {};
 
-   query['tag'] = tag;
+    query['tag'] = tag;
 
     try {
-        return (await service.mongodbQuery('tagsCollection', query,undefined));
+        return (await service.mongodbQuery('tagsCollection', query, undefined));
     } catch (error) {
         throw (error);
     }
 }
 
-exports.getTagById = async function getTagById(tagId){
+exports.getTagById = async function getTagById(tagId) {
     var query = {};
     query['_id'] = tagId;
 
     try {
-        return (await service.mongodbQuery('tagsCollection', query,undefined));
+        return (await service.mongodbQuery('tagsCollection', query, undefined));
     } catch (error) {
         throw (error);
     }
 }
 
-exports.queryTag = async function queryTag(tag){
+exports.queryTag = async function queryTag(tag) {
     var query = {};
     query['tag'] = {
         $regex: '^' + tag,
@@ -145,7 +145,7 @@ exports.queryTag = async function queryTag(tag){
     };
 
     try {
-        return (await service.mongodbQuery('tagsCollection', query,undefined));
+        return (await service.mongodbQuery('tagsCollection', query, undefined));
     } catch (error) {
         throw (error);
     }
@@ -153,30 +153,42 @@ exports.queryTag = async function queryTag(tag){
 
 exports.addTag = async function addTag(tag) {
     try {
-        if (getTag(tag) > 0) {
-            var tagObject = {
-                text: tag
-            }
-            return (await service.mongodbInsert('tagsCollection', tagObject))
+        var tagObject = {
+            tag : tag
         }
+        return (await service.mongodbInsert('tagsCollection', tagObject))
+
     } catch (error) {
         throw (error);
     }
 }
 
-/* =======================================================Annotations QUERIES=========================================== */
-exports.deleteAnnotation = async function deleteAnnotation(componentId,annotationId){
-    try{
-       
-        var query = {id:componentId}
+exports.deleteTagbyId = async function deleteTag(componentId,tagId){
+    try {
+        var query = {id : componentId};
 
-        var deletion = {$unset: {}};
-        deletion['$unset']['annotations.' + annotationId] = 1;
+        var deletion = { $unset:{}};
+        deletion['$unset']['tags.'+tagId] = 1;
+
+        return (await service.mongodbUpdate('runsCollection', query,deletion));
+    } catch (error) {
         
+    }
+}
 
-        return (await service.mongodbDeleteProperty('runsCollection',query,deletion))
-    }catch(error){
-        throw(error);
+/* =======================================================Annotations QUERIES=========================================== */
+exports.deleteAnnotation = async function deleteAnnotation(componentId, annotationId) {
+    try {
+
+        var query = { id: componentId }
+
+        var deletion = { $unset: {} };
+        deletion['$unset']['annotations.' + annotationId] = 1;
+
+
+        return (await service.mongodbUpdate('runsCollection', query, deletion))
+    } catch (error) {
+        throw (error);
     }
 }
 
@@ -194,7 +206,7 @@ exports.insertAlgorithm = async function insertAlgorithm(algorithm) {
 
 exports.getAllAlgorithms = async function getAllAlgorithms() {
     try {
-        return (await service.mongodbFindAll('algorithmsCollection',undefined));
+        return (await service.mongodbFindAll('algorithmsCollection', undefined));
     } catch (error) {
         throw (error);
     }
@@ -205,7 +217,7 @@ exports.getAlgorithm = async function getAlgorithm(id) {
         _id: new ObjectID(id)
     }
     try {
-        return ((await service.mongodbQuery('algorithmsCollection', query,undefined))[0]);
+        return ((await service.mongodbQuery('algorithmsCollection', query, undefined))[0]);
     } catch (error) {
         throw (error);
     }
@@ -217,7 +229,7 @@ exports.getDefaultAlgorithm = async function getDefaultAlgorithm() {
     }
 
     try {
-        return ((await service.mongodbQuery('algorithmsCollection', query,undefined))[0]);
+        return ((await service.mongodbQuery('algorithmsCollection', query, undefined))[0]);
     } catch (error) {
         throw (error);
     }

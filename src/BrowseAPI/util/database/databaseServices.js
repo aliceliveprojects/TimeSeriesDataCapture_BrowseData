@@ -111,18 +111,6 @@ exports.mongodbDelete = function mongodbDelete(collection, object) {
     });
 }
 
-exports.mongodbDeleteProperty = function mongodbDeleteProperty(collection,query,deletion){
-    return new Promise((resolve, reject) => {
-        connect()
-            .then(function (result) {
-
-                dbo.collection(collection).update(query,deletion, (error, result) => {
-                    if (error) reject(error);
-                    resolve('object property removed');
-                })
-            })
-    });
-}
 
 function parseSelect(selectArray){
     var selectObject = {};

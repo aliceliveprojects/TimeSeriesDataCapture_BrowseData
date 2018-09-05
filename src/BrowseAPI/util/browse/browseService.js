@@ -45,20 +45,15 @@ async function updateRun(annotation) {
 }
 
 //TODO : add to database
-exports.addComponentTags = async function (componentID, tags) {
+exports.addComponentTags = async function (componentId, tags) {
     return new Promise(async function (resolve, reject) {
         try {
-            const getTagsPromises = tags.map(getTag)
+            const getTagsPromises = tags.map(updateRunTags,{componentId: componentId})
             var result = await Promise.all(getTagsPromises);
-
-            for (var i = 0, n = result.length; i < n; i++) {
-                if (result[i].length > 0) {
-                    console.log(result[i]);
-                }
-            }
+        
 
 
-            resolve(result);
+            resolve(tags);
         } catch (error) {
             reject(error);
         }
@@ -68,16 +63,25 @@ exports.addComponentTags = async function (componentID, tags) {
    
 }
 
-async function getTag(tag) {
+async function updateRunTags(tag){
     try {
         var result = await databaseService.getTag(tag);
-        return result;
-
+        console.log(result);
+        if(result.length > 0){
+            var updateObject = {
+                ['tags.' + result[0]._id] : result[0].tag
+            }
+            await databaseService.updateRuns(this.componentId,updateObject)
+        }else{
+            await databaseService.addTag(tag);
+            updateRunTags(tag);
+        }
+        
     } catch (error) {
-        throw error;
+        throw (error);
     }
-
 }
+
 
 //20180812
 // TODO: query database
@@ -134,10 +138,12 @@ exports.deleteComponentAnnotation = async function (componentID, annotationID) {
 }
 
 //TODO : delete annotation from database
-exports.deleteComponentTag = async function (componentID, tagID) {
-    return {
-        result: 'GOOD'
-    }
+exports.deleteComponentTag = async function (componentId, tagId) {
+    return new Promise(async function(resolve,reject){
+        var result = await databaseService.deleteTagById(componentId,tagId);
+        console.log(result);
+        resolve(result);
+    })
 
 }
 

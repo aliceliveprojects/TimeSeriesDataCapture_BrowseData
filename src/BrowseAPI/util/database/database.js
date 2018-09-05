@@ -40,7 +40,7 @@ module.exports = {
     },
 
     getTagById: function(tagId){
-        return service.getTagById(tag);
+        return service.getTagById(tagId);
     },
 
     queryTag : function(tag){
@@ -48,11 +48,15 @@ module.exports = {
     },
 
     addTag: function(tag){
-        return service.addTag(tag,filter);
+        return service.addTag(tag);
+    },
+
+    deleteTagById : function(componentId,tagId){
+        return service.deleteTagbyId(componentId,tagId);
     },
 
     deleteAnnotation: function(componentId,annotationId){
-        return service.deleteAnnotation(componentId,annotationId)
+        return service.deleteAnnotation(componentId,annotationId);
     },
 
     insertAlgorithm: function (algorithm) {

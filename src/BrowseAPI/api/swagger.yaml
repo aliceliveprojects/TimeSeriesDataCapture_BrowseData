@@ -7,13 +7,13 @@ info:
   contact:
     name: "TimeSeriesDataCapture@gmail.com"
     email: "TimeSeriesDataCapture@gmail.com"
-host: "localhost:8000"
+host: "timeseriesdatacapture-browse.herokuapp.com:443"
 basePath: "/apis"
 tags:
 - name: "Browse API"
   description: "Getting and postings components from server"
 schemes:
-- "http"
+- "https"
 paths:
   /components:
     get:
@@ -98,9 +98,6 @@ paths:
           description: "Bad Request"
         401:
           description: "Unauthorized"
-      security:
-      - timeseries_admin_auth:
-        - "admin"
       x-swagger-router-controller: "BrowseAPI"
     delete:
       tags:
