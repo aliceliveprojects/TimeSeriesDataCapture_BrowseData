@@ -253,14 +253,9 @@ exports.getTags = async function (tag) {
 //TODO store file storage token
 exports.postAuthenticate = async function (fileStorageToken) {
     return new Promise(async function (resolve, reject) {
-        var response = await databaseService.getOneDriveAuthentication(fileStorageToken.profileID)
+        await databaseService.deleteFileStorageAuthentication()
+        databaseService.createFileStorageAuthentication(fileStorageToken);
 
-        if (response.length > 0) {
-            console.log('set');
-            databaseService.updateAuthentication(fileStorageToken);
-        } else {
-            databaseService.setAuthentication(fileStorageToken);
-        }
 
 
         console.log(fileStorageToken + ' set');
@@ -294,8 +289,8 @@ exports.updateComponentAnnotation = async function (componentId, annotationId, a
 
 }
 
-exports.deleteAuthenticate = async function(profileId){
-    return new Promise(async function(resolve,reject){
+exports.deleteAuthenticate = async function (profileId) {
+    return new Promise(async function (resolve, reject) {
         try {
             var result = await databaseService.removeFileStorageAuthentication(profileId);
             resolve(result);

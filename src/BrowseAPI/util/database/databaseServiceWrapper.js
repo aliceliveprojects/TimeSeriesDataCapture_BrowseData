@@ -131,11 +131,9 @@ exports.getFileStorageAuthentication = async function getFileStorageAuthenticati
     }
 }
 
-exports.removeFileStorageAuthentication = async function removeFileStorageAuthentication(profileId) {
+exports.deleteFileStorageAuthentication = async function deleteFileStorageAuthentication() {
     try {
-
-        var query = { profileID: profileId }
-        return (await service.mongodbDelete('authenticationCollection', query))
+        return (await service.mongodbRemove('authenticationCollection',{}))
     } catch (error) {
         throw (error);
     }

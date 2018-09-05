@@ -111,6 +111,18 @@ exports.mongodbDelete = function mongodbDelete(collection, object) {
     });
 }
 
+exports.mongodbRemove = function mongodbRemove(collection,object){
+    return new Promise((resolve, reject) => {
+        connect()
+            .then(function (result) {
+                dbo.collection(collection).remove(object, (error, result) => {
+                    if (error) reject(error);
+                    resolve('object deleted');
+                })
+            })
+    });
+}
+
 
 function parseSelect(selectArray){
     var selectObject = {};

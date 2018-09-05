@@ -43,8 +43,8 @@ module.exports = {
         return service.getFileStorageAuthentication(profileId);
     },
 
-    removeFileStorageAuthentication: function(profileId){
-        return service.removeFileStorageAuthentication(profileId);
+    deleteFileStorageAuthentication: function(profileId){
+        return service.deleteFileStorageAuthentication(profileId);
     },
 
     getTag: function(tag){
