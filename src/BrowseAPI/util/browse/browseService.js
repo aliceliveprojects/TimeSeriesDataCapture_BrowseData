@@ -49,7 +49,7 @@ exports.addComponentTags = async function (componentId, tags) {
     return new Promise(async function (resolve, reject) {
         try {
             const getTagsPromises = tags.map(updateRunTags, { componentId: componentId })
-            var result = await Promise.all(getTagsPromises);
+            Promise.all(getTagsPromises);
 
 
 
@@ -63,7 +63,8 @@ exports.addComponentTags = async function (componentId, tags) {
 
 }
 
-async function updateRunTags(tag) {
+async function updateRunTags(tag,) {
+    var componentId = this.componentId
     try {
         var result = await databaseService.getTag(tag);
         console.log(result);
@@ -71,10 +72,14 @@ async function updateRunTags(tag) {
             var updateObject = {
                 ['tags.' + result[0]._id]: result[0].tag
             }
-            await databaseService.updateRuns(this.componentId, updateObject)
+            databaseService.updateRuns(componentId, updateObject)
         } else {
             await databaseService.createTag(tag);
-            updateRunTags(tag);
+            var result = await databaseService.getTag(tag);
+            var updateObject = {
+                ['tags.' + result[0]._id]: result[0].tag
+            }
+            databaseService.updateRuns(componentId, updateObject)
         }
 
     } catch (error) {
@@ -292,7 +297,7 @@ exports.updateComponentAnnotation = async function (componentId, annotationId, a
 exports.deleteAuthenticate = async function (profileId) {
     return new Promise(async function (resolve, reject) {
         try {
-            var result = await databaseService.removeFileStorageAuthentication(profileId);
+            var result = await databaseService.deleteFileStorageAuthentication(profileId);
             resolve(result);
         } catch (error) {
             reject(error);
