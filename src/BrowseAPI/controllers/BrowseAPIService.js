@@ -149,8 +149,9 @@ exports.getAuthenticate = function(args,res,next) {
 exports.getComponent = function(args,res,next) {
 
   let componentID = args.componentID.value;
+  let authorized = args.authorized.value;
 
-  browseService.getComponent(componentID)
+  browseService.getComponent(componentID,authorized)
   .then((result) =>{
     httpUtil.endHttpOK(result,res);
   })

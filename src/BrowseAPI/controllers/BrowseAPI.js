@@ -2,6 +2,7 @@
 
 var utils = require('../util/writer.js');
 var BrowseAPI = require('./BrowseAPIService');
+var authentication = require('../util/authentication/authentication');
 
 /* module.exports.componentSearch = function componentSearch (req, res, next) {
 
@@ -15,6 +16,7 @@ module.exports.addComponentAnnotations = function addComponentAnnotations(req, r
 };
 
 module.exports.addComponentTags = function addComponentTags(req, res, next) {
+ 
   BrowseAPI.addComponentTags(req.swagger.params, res, next);
 };
 
@@ -44,7 +46,16 @@ module.exports.getAuthenticate = function getAuthenticate(req, res, next) {
 };
 
 module.exports.getComponent = function getComponent(req, res, next) {
-  BrowseAPI.getComponent(req.swagger.params, res, next);
+   req.swagger.params.authorized = {value: false};
+  if(req.headers.hasOwnProperty('authorization')){
+    authentication.timeseries_admin_auth(req,undefined,undefined,function(result){
+      req.swagger.params.authorized.value = result == null;
+      BrowseAPI.getComponent(req.swagger.params,res,next);
+    })
+  }else{
+    BrowseAPI.getComponent(req.swagger.params, res, next);
+  }
+ 
 };
 
 module.exports.getComponentPreview = function getComponentPreview(req,res,next){

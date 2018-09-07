@@ -6,6 +6,7 @@ const uuidv4 = require('uuid/v4');
 const databaseService = require('../database/database');
 const searchService = require('../search/search');
 
+
 //TODO : add to database
 exports.addComponentAnnotations = async function (componentId, annotations) {
     return new Promise(async function (resolve, reject) {
@@ -158,9 +159,9 @@ exports.getAuthentication = async function () {
 }
 
 //TODO: download component from database
-exports.getComponent = async function (componentID) {
+exports.getComponent = async function (componentID,authorized) {
     return new Promise(async function (resolve, reject) {
-        var result = await databaseService.getRun(componentID);
+        var result = await databaseService.getRun(componentID,authorized);
         console.log(result);
         resolve(result[0]);
     })

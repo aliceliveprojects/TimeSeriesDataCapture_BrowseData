@@ -63,10 +63,15 @@ exports.queryRun = async function queryRun(query) {
     }
 }
 
-exports.getRun = async function getRun(runId) {
+exports.getRun = async function getRun(runId,authorized) {
     var queryObject = {
         id: runId
     }
+
+    if(!authorized){
+        queryObject.visibility = 'public'
+    }
+
     try {
         return (await service.mongodbQuery('runsCollection', queryObject));
     } catch (error) {

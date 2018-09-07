@@ -19,8 +19,8 @@ module.exports = {
         return service.queryRun(query);
     },
 
-    getRun: function (runId){
-        return service.getRun(runId);
+    getRun: function (runId,authorized){
+        return service.getRun(runId,authorized);
     },
 
     filterIds: function(runIds){
