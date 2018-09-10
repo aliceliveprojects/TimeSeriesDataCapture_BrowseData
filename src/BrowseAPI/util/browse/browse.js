@@ -67,6 +67,10 @@ module.exports = {
 
     deleteAuthenticate: function(profileId){
         return service.deleteAuthenticate(profileId);
+    },
+
+    exportComponent : function(componentId,res){
+        return service.exportComponent(componentId,res);
     }
 
 }

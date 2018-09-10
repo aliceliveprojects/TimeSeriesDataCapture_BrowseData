@@ -8,8 +8,8 @@ module.exports = {
       return service.reserveExport(secret);
     },
 
-    requestExport: function(exportRequestId){
-      return service.requestExport(exportRequestId);
+    requestExport: function(exportRequestId,runIds){
+      return service.requestExport(exportRequestId,runIds);
     },
 
     getExportProgress: function(exportRequestId){

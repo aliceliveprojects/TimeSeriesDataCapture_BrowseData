@@ -331,5 +331,17 @@ exports.deleteAuthenticate = function(args,res,next){
   })
 }
 
+exports.exportComponent = function(args,res,next){
+  let componentId = args.componentID.value;
+
+  browseService.exportComponent(componentId,res)
+  .then((result) => {
+    //httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
+}
+
 
 

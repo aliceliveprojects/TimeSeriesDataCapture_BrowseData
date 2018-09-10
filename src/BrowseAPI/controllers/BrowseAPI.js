@@ -4,12 +4,6 @@ var utils = require('../util/writer.js');
 var BrowseAPI = require('./BrowseAPIService');
 var authentication = require('../util/authentication/authentication');
 
-/* module.exports.componentSearch = function componentSearch (req, res, next) {
-
-  BrowseAPI.componentSearch(req.swagger.params,res,next);
-    
-}; */
-
 
 module.exports.addComponentAnnotations = function addComponentAnnotations(req, res, next) {
   BrowseAPI.addComponentAnnotations(req.swagger.params, res, next);
@@ -66,7 +60,6 @@ module.exports.getComponentIDs = function getComponentIDs(req, res, next) {
   BrowseAPI.getComponentIDs(req.swagger.params, res, next);
 };
 
-
 module.exports.postAuthenticate = function postAuthenticate(req, res, next) {
   BrowseAPI.postAuthenticate(req.swagger.params, res, next);
 };
@@ -87,3 +80,6 @@ module.exports.deleteAuthenticate = function deleteAuthenticate(req,res,next){
   BrowseAPI.deleteAuthenticate(req.swagger.params,res,next);
 }
 
+module.exports.exportComponent = function exportComponent(req,res,next){
+  BrowseAPI.exportComponent(req.swagger.params,res,next);
+}

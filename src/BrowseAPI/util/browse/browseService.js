@@ -5,6 +5,7 @@ const httpRequest = require('../http/httpRequest')
 const uuidv4 = require('uuid/v4');
 const databaseService = require('../database/database');
 const searchService = require('../search/search');
+const exportService = require('../export/export');
 
 
 //TODO : add to database
@@ -64,7 +65,7 @@ exports.addComponentTags = async function (componentId, tags) {
 
 }
 
-async function updateRunTags(tag,) {
+async function updateRunTags(tag, ) {
     var componentId = this.componentId
     try {
         var result = await databaseService.getTag(tag);
@@ -159,9 +160,9 @@ exports.getAuthentication = async function () {
 }
 
 //TODO: download component from database
-exports.getComponent = async function (componentID,authorized) {
+exports.getComponent = async function (componentID, authorized) {
     return new Promise(async function (resolve, reject) {
-        var result = await databaseService.getRun(componentID,authorized);
+        var result = await databaseService.getRun(componentID, authorized);
         console.log(result);
         resolve(result[0]);
     })
@@ -304,6 +305,20 @@ exports.deleteAuthenticate = async function (profileId) {
             reject(error);
         }
     })
+}
+
+//f9f666e8-b965-4997-b925-9c420cdc3420
+exports.exportComponent = async function (componentId, res) {
+  
+        try {
+            var exportIdObject = await exportService.reserveExport('password');
+            var fileIdObject = await exportService.requestExport(exportIdObject.exportRequestId, ['2B497C4DAFF48A9C!178', '2B497C4DAFF48A9C!168']);
+            console.log('Downloading Data')
+            exportService.getExport(fileIdObject.fileId,res);
+        } catch (error) {
+            reject(error);
+        }
+    
 }
 
 
