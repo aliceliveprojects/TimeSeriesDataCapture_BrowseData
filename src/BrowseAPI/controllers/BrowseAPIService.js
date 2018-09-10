@@ -331,12 +331,35 @@ exports.deleteAuthenticate = function(args,res,next){
   })
 }
 
-exports.exportComponent = function(args,res,next){
-  let componentId = args.componentID.value;
+exports.getExportComponents = function(args,res,next){
+  let componentIds = args.componentIds.value;
+  let exportRequestId = args.exportRequestId.value;
 
-  browseService.exportComponent(componentId,res)
+  browseService.getExportComponents(componentIds,exportRequestId,res)
   .then((result) => {
     //httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
+}
+
+exports.getExportProgress = function(args,res,next){
+  let exportRequestId = args.exportRequestId.value;
+
+  browseService.getExportProgress(exportRequestId)
+  .then((result) => {
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error) => {
+    httpUtil.endHttpErr(error,res);
+  })
+}
+
+exports.postReserveExport = function(args,res,next){
+  browseService.postReserveExport()
+  .then((result) => {
+    httpUtil.endHttpOK(result,res)
   })
   .catch((error) => {
     httpUtil.endHttpErr(error,res);

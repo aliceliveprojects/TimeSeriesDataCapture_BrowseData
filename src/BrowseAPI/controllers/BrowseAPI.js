@@ -80,6 +80,14 @@ module.exports.deleteAuthenticate = function deleteAuthenticate(req,res,next){
   BrowseAPI.deleteAuthenticate(req.swagger.params,res,next);
 }
 
-module.exports.exportComponent = function exportComponent(req,res,next){
-  BrowseAPI.exportComponent(req.swagger.params,res,next);
+module.exports.getExportComponents = function getExportComponents(req,res,next){
+  BrowseAPI.getExportComponents(req.swagger.params,res,next);
+}
+
+module.exports.getExportProgress = function getExportProgress(req,res,next){
+  BrowseAPI.getExportProgress(req.swagger.params,res,next);
+}
+
+module.exports.postReserveExport = function postReserveExport(req,res,next){
+  BrowseAPI.postReserveExport(req.swagger.params,res,next);
 }

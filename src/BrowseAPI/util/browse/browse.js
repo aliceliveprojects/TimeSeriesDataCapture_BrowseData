@@ -69,8 +69,16 @@ module.exports = {
         return service.deleteAuthenticate(profileId);
     },
 
-    exportComponent : function(componentId,res){
-        return service.exportComponent(componentId,res);
+    getExportComponents : function(componentIds,exportRequestId,res){
+        return service.getExportComponents(componentIds,exportRequestId,res);
+    },
+
+    getExportProgress : function(exportRequestId){
+        return service.getExportProgress(exportRequestId);
+    },
+
+    postReserveExport : function(){
+        return service.postReserveExport();
     }
 
 }

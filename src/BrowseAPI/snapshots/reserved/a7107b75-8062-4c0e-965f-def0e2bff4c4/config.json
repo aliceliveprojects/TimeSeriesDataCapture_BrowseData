@@ -1,0 +1,19 @@
+{
+  "id": "a7107b75-8062-4c0e-965f-def0e2bff4c4",
+  "secret": "password",
+  "status": "EXPORTED",
+  "created": 1536598746601,
+  "logs": [
+    "Mon Sep 10 2018 17:59:08 GMT+0100 (British Summer Time) : Export process begun - [status CHANGED TO: PROGRESSING]",
+    "Mon Sep 10 2018 17:59:08 GMT+0100 (British Summer Time) : Export directory created",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!168 data retrieved",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!168 data copied",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) : ",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) : Pushing files to export",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) : All files were appended to the export. - [progress CHANGED TO: 100%]",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) :  - [fileId CHANGED TO: 4b8a56d0-d093-40f9-8b68-fb2cd7e45c48]",
+    "Mon Sep 10 2018 17:59:09 GMT+0100 (British Summer Time) : Fin - [status CHANGED TO: EXPORTED]"
+  ],
+  "progress": "100%",
+  "fileId": "4b8a56d0-d093-40f9-8b68-fb2cd7e45c48"
+}

@@ -489,8 +489,8 @@ paths:
       description: "Gets all algorithms for Rth Calculation from database"
       operationId: "getAlgorithms"
       produces:
-      - "application/json"
-      parameters: []
+      - "application/octet/stream"
+     
       responses:
         200:
           description: "Success"
@@ -506,6 +506,88 @@ paths:
       security:
       - timeseries_admin_auth:
         - "admin"
+      x-swagger-router-controller: "BrowseAPI"
+  /export:
+    get:
+      tags:
+      - "Browse API"
+      summary: "Compresses all components"
+      description: "Compresses all components run-data and annotations into a folder"
+      operationId: "getExportComponents"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "componentIds"
+        in: "query"
+        description: "Component ID specifies a component multiple components should be seperated by a comma"
+        required: true
+        type: "string"
+      - name: "exportRequestId"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Success"
+        400:
+          description: "Bad Request"
+        401:
+          description: "Unauthorized"
+      x-swagger-router-controller: "BrowseAPI"
+  /exportProgress:
+    get:
+      tags:
+        - "Browse API"
+      summary: "Gets the progress and fileId of the given exportRequestId."
+      operationId: "getExportProgress"
+      description: "Goes off and checks the progress of the given exportRequest. If the export is complete, a `fileId` will be returned in the response body."
+      produces:
+      - "application/json"
+      parameters:
+      - name: "exportRequestId"
+        in: "query"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Status 200"
+          schema:
+            type: "object"
+            properties:
+              progress:
+                type: "string"
+                description: "The export progress."
+                example: "100%"
+              fileId:
+                type: "string"
+                description: "The file ID, returned only when progress is complete."
+        400:
+          description: ""
+      x-swagger-router-controller: "BrowseAPI"
+  /reserveExport:
+    post:
+      tags:
+      - "Browse API" 
+      summary: "Prepares the server for an export and returns an exportRequestId (required to start the export.)"
+      operationId: "postReserveExport"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      description: "This is the first interface that will be used to kick off the export process. Used to make preparations for a export reservation to be made. The returned `exportRequestId` should be noted as it is required in requesting an export."
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+            properties:
+              exportRequestId:
+                type: "string"
+                description: "The export request ID."
+        400:
+          description: "Bad request"
+        500:
+          description: "Error 500"
       x-swagger-router-controller: "BrowseAPI"
 securityDefinitions:
   timeseries_admin_auth:
@@ -618,3 +700,12 @@ definitions:
     example:
       algorithmDescription: "algorithm description"
       algorithmID: "algorithmID"
+  ReserveArg:
+    type: "object"
+    required:
+    - "secret"
+    properties:
+      secret:
+        type: "string"
+        description: "the secret used to encrypt the final output file"
+    description: "contains information with which to create the exported file"

@@ -308,17 +308,40 @@ exports.deleteAuthenticate = async function (profileId) {
 }
 
 //f9f666e8-b965-4997-b925-9c420cdc3420
-exports.exportComponent = async function (componentId, res) {
-  
+exports.getExportComponents = async function (componentIds,exportRequestId,res) {
+    var componentIdsArray = componentIds.split(',');
         try {
             var exportIdObject = await exportService.reserveExport('password');
-            var fileIdObject = await exportService.requestExport(exportIdObject.exportRequestId, ['2B497C4DAFF48A9C!178', '2B497C4DAFF48A9C!168']);
+            var fileIdObject = await exportService.requestExport(exportIdObject.exportRequestId,componentIdsArray);
             console.log('Downloading Data')
             exportService.getExport(fileIdObject.fileId,res);
         } catch (error) {
             reject(error);
         }
+}
+
+exports.getExportProgress = async function(exportRequestId){
+    return new Promise(async function(resolve,reject){
+        try{
+            var exportProgress = await exportService.getExportProgress(exportRequestId);
+            resolve(exportProgress);
+        }catch(error){
+            console.log(error);
+            reject(error);
+        }
+    });
     
+}
+
+exports.postReserveExport = async function (){
+    return new Promise(async function(resolve,reject){
+        try{
+            var exportIdObject = await exportService.reserveExport('password');
+            resolve(exportIdObject);
+        }catch(error){
+            reject(error);
+        }
+    })
 }
 
 
