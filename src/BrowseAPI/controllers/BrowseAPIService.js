@@ -366,5 +366,17 @@ exports.postReserveExport = function(args,res,next){
   })
 }
 
+exports.getPalette = function(args,res,next){
+  let palette = args.palette.value;
+
+  browseService.getPalette(palette)
+  .then((result)=>{
+    httpUtil.endHttpOK(result,res);
+  })
+  .catch((error)=>{
+    httpUtil.endHttpErr(error,res);
+  })
+}
+
 
 

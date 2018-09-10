@@ -91,3 +91,7 @@ module.exports.getExportProgress = function getExportProgress(req,res,next){
 module.exports.postReserveExport = function postReserveExport(req,res,next){
   BrowseAPI.postReserveExport(req.swagger.params,res,next);
 }
+
+module.exports.getPalette = function getPalette(req,res,next){
+  BrowseAPI.getPalette(req.swagger.params,res,next);
+}

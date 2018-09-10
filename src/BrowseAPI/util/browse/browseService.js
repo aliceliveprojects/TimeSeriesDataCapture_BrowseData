@@ -344,6 +344,22 @@ exports.postReserveExport = async function (){
     })
 }
 
+exports.getPalette = async function(palette){
+    return new Promise(async function(resolve,reject){
+        try {
+            var palette = await databaseService.getPalette(palette);
+            if(palette == null){
+                palette = await databaseService.getDefaultPalette();
+            }
+
+            resolve(palette);
+
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 
 
 function postComponentId(componentObject) {

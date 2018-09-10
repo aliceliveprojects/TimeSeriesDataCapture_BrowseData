@@ -79,6 +79,10 @@ module.exports = {
 
     postReserveExport : function(){
         return service.postReserveExport();
+    },
+
+    getPalette : function(palette){
+        return service.getPalette(palette);
     }
 
 }

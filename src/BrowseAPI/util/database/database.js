@@ -85,5 +85,13 @@ module.exports = {
 
     getDefaultAlgorithm : function(){
         return service.getDefaultAlgorithm();
+    },
+
+    getPalette : function(palette){
+        return service.getPalette(palette);
+    },
+
+    getDefaultPalette : function(){
+        return service.getDefaultPalette();
     }
 }

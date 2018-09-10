@@ -206,16 +206,12 @@ exports.deleteTagbyId = async function deleteTagbyId(componentId, tagId) {
     }
 }
 
-/* =======================================================Annotations QUERIES=========================================== */
+/* =======================================================ANNOTATIONS QUERIES=========================================== */
 exports.deleteAnnotation = async function deleteAnnotation(componentId, annotationId) {
     try {
-
         var query = { id: componentId }
-
         var deletion = { $unset: {} };
         deletion['$unset']['annotations.' + annotationId] = 1;
-
-
         return (await service.mongodbUpdate('runsCollection', query, deletion))
     } catch (error) {
         throw (error);
@@ -264,5 +260,34 @@ exports.getDefaultAlgorithm = async function getDefaultAlgorithm() {
         throw (error);
     }
 }
+
+/* ========================================================================================================= */
+
+/* ===============================================PALETTE QUERIES=========================================== */
+
+exports.getPalette = async function getPalette(palette){
+    var query = {
+        name: palette
+    }
+
+    try {
+        return ((await service.mongodbQuery('paletteCollection',query,undefined))[0]);
+    } catch (error) {
+        throw(error);
+    }
+}
+
+exports.getDefaultPalette = async function getDefaultPalette(){
+    var query = {
+        name: 'default'
+    }
+
+    try {
+        return ((await service.mongodbQuery('paletteCollection',query,undefined))[0]);
+    } catch (error) {
+        throw(error);
+    }
+}
+
 
 /* ========================================================================================================= */
