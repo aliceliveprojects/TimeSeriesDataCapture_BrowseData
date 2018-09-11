@@ -367,7 +367,7 @@ exports.postReserveExport = function(args,res,next){
 }
 
 exports.getPalette = function(args,res,next){
-  let palette = args.palette.value;
+  let palette = args.paletteID.value;
 
   browseService.getPalette(palette)
   .then((result)=>{

@@ -271,7 +271,7 @@ exports.getPalette = async function getPalette(palette){
     }
 
     try {
-        return ((await service.mongodbQuery('paletteCollection',query,undefined))[0]);
+        return ((await service.mongodbQuery('palettesCollection',query,undefined))[0]);
     } catch (error) {
         throw(error);
     }
@@ -283,7 +283,7 @@ exports.getDefaultPalette = async function getDefaultPalette(){
     }
 
     try {
-        return ((await service.mongodbQuery('paletteCollection',query,undefined))[0]);
+        return ((await service.mongodbQuery('palettesCollection',query,undefined))[0]);
     } catch (error) {
         throw(error);
     }

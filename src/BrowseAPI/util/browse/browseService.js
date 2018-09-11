@@ -346,17 +346,20 @@ exports.postReserveExport = async function (){
 
 exports.getPalette = async function(palette){
     return new Promise(async function(resolve,reject){
+        
         try {
-            var palette = await databaseService.getPalette(palette);
-            if(palette == null){
-                palette = await databaseService.getDefaultPalette();
-            }
+           /*  var paletteObject = await databaseService.getPalette(palette);
+            if(paletteObject == null){
+                paletteObject = await databaseService.getDefaultPalette();
+            } */
 
-            resolve(palette);
+            var paletteObject = await databaseService.getDefaultPalette();
+            resolve(paletteObject);
 
         } catch (error) {
+            console.log(error);
             reject(error);
-        }
+        } 
     })
 }
 
