@@ -23,7 +23,7 @@ Locate the host on `Line 10` and change `host: "timeseriesdatacapture-browse.her
 
 Locate the schemes on `Line 16` and change `- "https"` to `-http`
 
-
+To start server run:
 
 ```
 node index.js
