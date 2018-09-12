@@ -32,8 +32,7 @@ node index.js
 ## Environment Variables 
 | Variable             | Example                                  | Description                              |
 | -------------------- | ---------------------------------------- | ---------------------------------------- |
-| -                    | -                                        | -                                        |
-| AUTH_APP_NAME        | <AUTH APP NAME>                          | Used by API service. Used to identify the app to the Auth0 authentication service. If you change this, you'll need to set up another app in the associated Auth0 Account. |
+| AUTH_APP_NAME        | *AUTH APP NAME*                          | Used by API service. Used to identify the app to the Auth0 authentication service. If you change this, you'll need to set up another app in the associated Auth0 Account. |
 | AUTH_AUDIENCE        | https://www.appatella.org/user           | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as interface identifier in the Auth0 implicit flow. Must be passed to Auth0 as a parameter. |
 | AUTH_CLIENT_ID       | xxxxxxxxxxxx                             | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as interface identifier in the Auth0 implicit flow. Must be passed to Auth0 as a parameter.Client ID associated with the App name in the Auth0 account. |
 | AUTH_URL             | https://appatella.eu.auth0.com/authorize | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as url to contact during implicit flow authentication. Set up in Auth0 account. |
