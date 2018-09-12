@@ -62,6 +62,7 @@ node index.js
 | WEB_CONCURRENCY      | 4                                        | Number of cores to use.                  |
 
 
+---
 
 This project was funded via the Marloes Peeters Research Group and mentored by DigitalLabs@MMU as a DigitalLabs Summer Project. It is the work of Yusof Bandar.
 
