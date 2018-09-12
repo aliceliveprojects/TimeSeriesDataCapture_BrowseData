@@ -31,11 +31,17 @@ node index.js
 
 ## Environment Variables 
 
-*Auth App Name* and *Auth Client ID* can be located on the Auth0 Dashboard under the application Settings tab. 
+### Auth0
+*Auth App Name* and *Auth Client ID* can be located on the [Auth0 Dashboard](https://manage.auth0.com) under the application Settings tab. 
 
 *Auth Audience* and *Auth URL* can be located under the application Settings tab, under Show Advanced Setting, under the Endpoints tab
 
-*For help see Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)*
+*For help see [Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)*
+
+### Database
+*Database URL*, *Database Username*, *Database Password* and *Database Name* can be all found within the mLab dashboard
+
+*For help see [MongoDB](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-hosting)
 
 | Variable             | Example                                  | Description                              |
 | -------------------- | ---------------------------------------- | ---------------------------------------- |
