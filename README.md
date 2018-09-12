@@ -14,7 +14,7 @@ see [MongoDB Hosting](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-host
 see [Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)
 
 ### Heroku
-To build browse api on heroku simply click the deploy to heroku button above
+To build the Browse API on heroku simply click the Deploy To Heroku button above
 
 ### Localhost
 To build browse locally first the API [swagger.yaml](https://github.com/CMDT/TimeSeriesDataCapture_BrowseData/blob/master/src/BrowseAPI/api/swagger.yaml) file must be modified.
