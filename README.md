@@ -38,6 +38,9 @@ node index.js
 | AUTH_URL             | *Auth_URL*                               | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as url to contact during implicit flow authentication. Set up in Auth0 account.                                          |
 | CONSUMER_API_ADDRESS | *CONSUMER API ADDRESS                    | this is the address the consumer app goes to to get course data from. Usually, the same address as the deployement api. The consumer API address is integrated into the deployment token for the course, telling the app where to get the course from.     |
 | DATABASE_URL         | *DATABASE URL*                           | this is the access url for the  MongoDB database. |
+| DATABASE_USERNAME    | *DATABASE USERNAME*                      | this is the username for the  MongoDB database. |
+| DATABASE_PASSWORD    | *DATABASE PASSWORD*                      | this is the password for the  MongoDB database. |
+| DATABASE_NAME        | *DATABASE NAME*                          | this is the database name|
 | DEBUG                | `*`                                      | Node debugging. Defines what components produce logging. Usually set to `*` |
 | DISABLE_CLUSTERING   | true                                     | set to false to enable running on multiple cores. Currently set to true, because it's not yet tested. |
 | PORT                 | 443                                      | Notionally, this variable is set to 443, but it simply exists as a placeholder for heroku. |
