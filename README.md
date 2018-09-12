@@ -60,3 +60,9 @@ node index.js
 | RSI_URI              | *RSI_URI*                                | Used by the API service. This url is used at the end of an implicit flow authentication to verify an RSA token. |
 | SYSTEM_EXTERNAL_ID   | SYSTEM                                   | fbb69ea1-56ee-476d-be87-3360453bc7b5     |
 | WEB_CONCURRENCY      | 4                                        | Number of cores to use.                  |
+
+
+
+This project was funded via the Marloes Peeters Research Group and mentored by DigitalLabs@MMU as a DigitalLabs Summer Project. It is the work of Yusof Bandar.
+
+https://trello-attachments.s3.amazonaws.com/5b2caa657bcf194b4d089d48/5b98c7ec64145155e09b5083/e5f47675f420face27488d4e5330a48c/logo_mmu.png
