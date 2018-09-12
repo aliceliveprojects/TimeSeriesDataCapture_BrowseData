@@ -19,7 +19,7 @@ To build the Browse API on heroku simply click the Deploy To Heroku button above
 ### Localhost
 To build browse locally first the API [swagger.yaml](https://github.com/CMDT/TimeSeriesDataCapture_BrowseData/blob/master/src/BrowseAPI/api/swagger.yaml) file must be modified.
 
-Locate the host on `Line 10` and change `host: "timeseriesdatacapture-browse.herokuapp.com:443"` to `host: "localhost:8000"`
+Locate the host on `Line 10` and change `host: <url>` to `host: "localhost:8000"`
 
 Locate the schemes on `Line 16` and change `- "https"` to `-http`
 
