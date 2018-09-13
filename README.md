@@ -58,7 +58,6 @@ node index.js
 | DISABLE_CLUSTERING   | true                                     | set to false to enable running on multiple cores. Currently set to true, because it's not yet tested. |
 | PORT                 | 443                                      | Notionally, this variable is set to 443, but it simply exists as a placeholder for heroku. |
 | RSI_URI              | *RSI_URI*                                | Used by the API service. This url is used at the end of an implicit flow authentication to verify an RSA token. |
-| SYSTEM_EXTERNAL_ID   | SYSTEM                                   | fbb69ea1-56ee-476d-be87-3360453bc7b5     |
 | WEB_CONCURRENCY      | 4                                        | Number of cores to use.                  |
 
 
