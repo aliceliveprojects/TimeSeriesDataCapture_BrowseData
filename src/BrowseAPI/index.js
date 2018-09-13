@@ -87,9 +87,6 @@ var initialise = function () {
   if (!process.env.RSA_URI) throw new Error("undefined in environment: RSA_URI");
   var rsaUri = process.env.RSA_URI;
 
-  if (!process.env.SYSTEM_EXTERNAL_ID) throw new Error("undefined in environment: SYSTEM_EXTERNAL_ID");
-  var systemId = process.env.SYSTEM_EXTERNAL_ID;
-
   var consumerApiAddress = process.env.CONSUMER_API_ADDRESS;
   var serverPort = process.env.PORT || 8000;
 
@@ -124,7 +121,7 @@ var initialise = function () {
   // initialise main components. We need some of this to change the swagger doc.
   writeAuthClientConfig(getAuthClientConfig());
   auth.initialise(rsaUri);
-  data.initialise(systemId, consumerApiScheme, consumerApiAddress, consumerApiPort);
+  data.initialise(undefined,consumerApiScheme, consumerApiAddress, consumerApiPort);
 
 
   // change the standard definition to suit the server environment
