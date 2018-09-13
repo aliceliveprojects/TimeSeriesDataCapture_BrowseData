@@ -11,7 +11,6 @@ var error = require('../error/error');
 
 const supported_algorithms = {
     rsa: "RS256",
-    hsa: "HS256"
 };
 
 const supportedScopes = {
@@ -25,12 +24,10 @@ const adminAuthorisedScopes = {
 const NOT_FOUND = -1;
 
 var jwks_client = null;
-var hsa_secret = null;
 
 
-var initialise = function (rsa_uri, consumer_secret) {
 
-    hsa_secret = consumer_secret;
+var initialise = function (rsa_uri) {
 
     jwks_client = libjwks({
         cache: true,
@@ -72,14 +69,6 @@ var validate_RSA_access_token = function (token, kid, callback) {
         }
     });
 }
-
-
-// attempt to verify HSA the signature of the access token, and then decode it.
-var validate_HSA_access_token = function(token, secret, callback) {
-    libjwt.verify(token, secret, callback);
-}
-
-
 
 
 var createOptions = function(externalId, scopes){
@@ -221,42 +210,6 @@ var createConsumerToken = function (consumerApiAddress,deploymentId, deploymentS
 };
 
 
-var appatella_consumer_auth = function (req, def, scopes, callback) {
-    var err = null;
-    
-        // get the access token from the incoming request
-        var access_token = get_access_token(req);
-    
-        if (access_token) {
-            // the access token is JWT - Base64 encoded, with signature
-            var decoded_token = libjwt.decode(access_token, { complete: true });
-    
-            if (decoded_token) {
-                if (decoded_token.header.alg == supported_algorithms.hsa) {
-                    // the authorizing authority has defined the API as requiring HSA security
-                    
-                    validate_HSA_access_token(
-                        access_token,
-                        hsa_secret,
-                        function (err, valid_token) {
-                            if (!err) {
-                                callback(null, valid_token);
-                            }else{
-                                callback(error.create401Error(err.message));
-                            }
-                        });
-    
-                } else {
-                    callback(error.create401Error("unsupported JWT algortithm"));
-                }
-            } else {
-                callback(error.create401Error("could not decode token"));
-            }
-        } else {
-            callback(error.create401Error("token not found"));
-        }    
-  
-}
 
 
 module.exports = {
@@ -265,7 +218,6 @@ module.exports = {
     createOptions: createOptions,
     getHeaderInfo: getHeaderInfo,
     getConsumerHeaderInfo: getConsumerHeaderInfo,
-    appatella_consumer_auth: appatella_consumer_auth,
     timeseries_admin_auth: timeseries_admin_auth,
     createConsumerToken: createConsumerToken
 };

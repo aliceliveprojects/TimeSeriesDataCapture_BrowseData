@@ -84,15 +84,8 @@ var initialise = function () {
   if (!process.env.AUTH_URL) throw new Error("undefined in environment: AUTH_URL");
   var authUrl = process.env.AUTH_URL;
 
-  if (!process.env.DATABASE_URL) throw new Error("undefined in environment: DATABASE_URL");
-  var dbUrl = process.env.DATABASE_URL;
-  var dbNeedsSSL = getAsBoolean("DB_NEEDS_SSL");
-
   if (!process.env.RSA_URI) throw new Error("undefined in environment: RSA_URI");
   var rsaUri = process.env.RSA_URI;
-
-  if (!process.env.CONSUMER_SECRET) throw new Error("undefined in environment: CONSUMER_SECRET");
-  var consumerSecret = process.env.CONSUMER_SECRET;
 
   if (!process.env.SYSTEM_EXTERNAL_ID) throw new Error("undefined in environment: SYSTEM_EXTERNAL_ID");
   var systemId = process.env.SYSTEM_EXTERNAL_ID;
@@ -101,8 +94,7 @@ var initialise = function () {
   var serverPort = process.env.PORT || 8000;
 
   log("Node: " + process.version);
-  log("SSL: dbNeedsSSL?: " + dbNeedsSSL);
-
+ 
 
   var cors = require('cors');
   var app = require('connect')();
@@ -110,7 +102,6 @@ var initialise = function () {
   var path = require('path');
   var swaggerTools = require('swagger-tools');
   var jsyaml = require('js-yaml');
-  var database = require('./util/database/database');
   var data = require('./util/data/data');
   var auth = require('./util/authentication/authentication');
 
@@ -132,8 +123,7 @@ var initialise = function () {
 
   // initialise main components. We need some of this to change the swagger doc.
   writeAuthClientConfig(getAuthClientConfig());
-  //database.initialise(dbUrl, dbNeedsSSL);
-  auth.initialise(rsaUri, consumerSecret);
+  auth.initialise(rsaUri);
   data.initialise(systemId, consumerApiScheme, consumerApiAddress, consumerApiPort);
 
 

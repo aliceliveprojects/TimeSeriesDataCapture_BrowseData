@@ -23,9 +23,4 @@ module.exports = {
     deleteExport: function(fileId, exportRequestId){
       return service.deleteExport(fileId, exportRequestId);
     },
-
-    postImport: function(snapshotZip, snapshotSecret){
-      return service.postImport(snapshotZip, snapshotSecret);
-    },
-
 }

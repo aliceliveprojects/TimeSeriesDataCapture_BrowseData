@@ -10,13 +10,6 @@ const databaseService = require('../database/database');
 
 const Minizip = require('minizip-asm.js'); //locker/unlocker
 
-let config = {
-  connectionString: process.env.DATABASE_URL,
-  ssl: (process.env.DB_NEEDS_SSL === "true")
-};
-var pool = new Pool(config)
-
-
 const snapshotDirectory = "./snapshots";
 const reservedDirectory = "/reserved";
 const exportedDirectory = "/exported";
@@ -188,37 +181,7 @@ exports.deleteExport = async function (fileId, exportRequestId) {
   }
 }
 
-exports.postImport = async function (snapshotZip, snapshotSecret) {
-  /**
-   * 1. get a handle on the file data etc
-   * 2. decrpyt/unlock the zip
-   * 3. unzip the snapshot
-   * 4. 
-   */
-  var importId = uuidv4();
 
-  let importName = (snapshotZip.filename.split("."))[0];
-  let importExtension = snapshotZip.filename.replace(importName, '');
-
-  var data = snapshotZip.data;
-  var secret = snapshotSecret;
-
-  var importPath = snapshotDirectory + importedDirectory + "/" + importId;
-  try {
-    fs.mkdirSync(importPath);
-  } catch (err) {
-
-  }
-
-  await unlockAndDecompress(data, secret, importPath)
-    .catch((err) => {
-      console.log(err)
-      // throw(errorApi.create400Error("incorrect password"));
-    });
-
-  await copyFilesToTables(importPath);
-
-}
 
 
 function checkSecretValidity(secret) {
@@ -320,35 +283,6 @@ async function getRunData(runId) {
 }
 
 
-async function copyFile(source, target) {
-  var cbCalled = false;
-  return new Promise((resolve, reject) => {
-    var rd = fs.createReadStream(source);
-    rd.on("error", function (err) {
-      done(err);
-    });
-    var wr = fs.createWriteStream(target);
-    wr.on("error", function (err) {
-      done(err);
-    });
-    wr.on("close", function (ex) {
-      done();
-    });
-    rd.pipe(wr);
-
-    function done(err) {
-      if (!cbCalled) {
-        cbCalled = true;
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      }
-    }
-  })
-}
-
 //updates snapshot config
 async function updateSnapshotConfig(exportRequestId, property, value, logMessage) {
   let config = await getExportConfig(exportRequestId)
@@ -379,26 +313,6 @@ async function updateSnapshotConfig(exportRequestId, property, value, logMessage
   })
 }
 
-async function getAllTableNames() {
-
-  return new Promise(async function (resolve, reject) {
-    const client = await pool.connect();
-    await client.query("SELECT table_name FROM information_schema.tables WHERE table_schema='public'")
-      .then(res => {
-        let tablesArray = [];
-        for (let i = 0; i < res.rows.length; i++) {
-          tablesArray.push(res.rows[i].table_name)
-        }
-        client.release();
-        resolve(tablesArray)
-      })
-      .catch(err => {
-        client.release();
-        reject(err)
-      });
-  })
-
-}
 
 function copyAnnotationsToTextFile(annotations,folderPath){
   var annotationIds = Object.keys(annotations);
@@ -444,104 +358,7 @@ function runDataArraytoCSVString(runData){
   return csv;
 }
 
-async function copyTableToFile(tableName, fileStream) {
 
-  return new Promise(function (resolve, reject) {
-    //console.log("copying table to file:", tableName, fileStream)
-    pool.connect().then(client => {
-      let done = function () {
-        client.release()
-        resolve()
-      }
-      let err = function (err) {
-        console.log(err)
-        reject(err)
-      }
-      var stream = client.query(copyTo('COPY ' + tableName + ' TO STDOUT'));
-      stream.pipe(fileStream);
-      stream.on('end', done);
-      stream.on('error', err);
-    });
-  })
-
-}
-
-async function copyFilesToTables(directory) {
-
-  let files = fs.readdirSync(directory)
-
-  for (let file of files) {
-    console.log("FILE TO DB: Writing ", file, " to Database");
-    var tableName = file.split(".")[0];
-    if (file.split(".")[1] != "sql") {
-      await new Promise(function (resolve, reject) { //push file to table
-        pool.connect().then(client => {
-
-          let done = function () {
-            console.log("FILE TO DB: ", file, " Written.");
-            client.release()
-            resolve()
-          }
-
-          let err = function (err) {
-            console.log(err)
-            reject(err)
-          }
-          client.query("set session_replication_role = 'replica';")
-          var stream = client.query(copyFrom('COPY ' + tableName + ' FROM STDIN'));
-          var fileStream = fs.createReadStream(directory + "/" + file);
-          stream.on('error', err);
-          stream.on('end', done);
-          fileStream.pipe(stream);
-        });
-      })
-    }
-  }
-}
-
-
-
-
-
-async function getAllCourseIds() {
-  return new Promise((resolve, reject) => {
-    pool.connect().then(client => {
-      let done = function (res) {
-        client.release()
-        resolve(res.rows)
-      }
-      let err = function (err) {
-        console.log(err)
-        reject(err)
-      }
-      client.query("SELECT id FROM courses").then(res => {
-        done(res);
-      }).catch(err => {
-        err(err);
-      });
-    });
-  });
-}
-
-async function findAndReplaceInFile(findingThis, replacingWith, theFile) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(theFile, 'utf8', function (err, data) {
-      if (err) {
-        reject(err)
-      } else {
-        var result = data.replace(findingThis, replacingWith);
-
-        fs.writeFile(theFile, result, 'utf8', function (err) {
-          if (err) {
-            reject(err)
-          } else {
-            resolve();
-          }
-        });
-      }
-    });
-  })
-}
 
 async function compressAndLock(exportRequestId) {
   let fileId = uuidv4(); // id where the export will be zipped to.
