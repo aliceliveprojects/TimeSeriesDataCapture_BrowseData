@@ -93,12 +93,12 @@ async function updateRunTags(tag, ) {
 
 //20180812
 // TODO: query database
-exports.componentSearch = async function (tags, date, timeStamp, page, pagesize,authorized) {
+exports.componentSearch = async function (query, page, pagesize,authorized) {
 
  
 
-    var query = tags;
-    query = searchService.parseSearch(query);
+    
+    var query = searchService.parseSearch(query);
 
     var queryObject = {}
 

@@ -12,8 +12,8 @@ module.exports = {
         return service.addComponentTags(componentID,tags);
     },
 
-    componentSearch: function(tags,date,timeStamp,page,pagesize,authorized){
-        return service.componentSearch(tags,date,timeStamp,page,pagesize,authorized);
+    componentSearch: function(query,page,pagesize,authorized){
+        return service.componentSearch(query,page,pagesize,authorized);
     },
 
     deleteComponent: function(componentID){
