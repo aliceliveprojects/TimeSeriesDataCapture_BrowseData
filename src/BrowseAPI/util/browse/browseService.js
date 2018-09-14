@@ -6,6 +6,7 @@ const uuidv4 = require('uuid/v4');
 const databaseService = require('../database/database');
 const searchService = require('../search/search');
 const exportService = require('../export/export');
+const ObjectID = require('mongodb').ObjectID;
 
 
 //TODO : add to database
@@ -92,40 +93,53 @@ async function updateRunTags(tag, ) {
 
 //20180812
 // TODO: query database
-exports.componentSearch = async function (tags, date, timeStamp, page, pagesize) {
+exports.componentSearch = async function (tags, date, timeStamp, page, pagesize,authorized) {
 
-    /*  var query = {}
-     if (tags != undefined) {
-         query['tags'] = tags.split(",");
-     }
  
-     if (date != undefined) {
-         query['date'] = date.toString();
-     }
- 
-     if (timeStamp != undefined) {
-         query['time'] = timeStamp.toString();
-     } */
 
     var query = tags;
     query = searchService.parseSearch(query);
 
     var queryObject = {}
 
+    var queryEmpty = true;
     for (var i = 0, n = query.length; i < n; i++) {
         if (query[i].name === 'timeStamp') {
-            queryObject['time'] = query[i].value[0]
+            queryObject['time'] = query[i].value[0];
+            queryEmpty = false;
         }
 
         if (query[i].name === 'date') {
-            queryObject['date'] = query[i].value[0]
+            queryObject['date'] = query[i].value[0];
+            queryEmpty = false;
+        }
+
+        if(query[i].name === 'tag'){
+
+            const idPromises = query[i].value.map(databaseService.getTag);
+            var tags = await Promise.all(idPromises);
+          
+            var tagsArray = [];
+
+            for(var i=0,n=tags.length;i<n;i++){
+                tagsArray.push(tags[i][0]._id.toHexString());
+            }
+
+            queryObject['tags'] = tagsArray;
+            queryEmpty = false;
         }
     }
 
+    
 
-    var result = await databaseService.queryRun(queryObject)
-    console.log(result);
-    return (result);
+    if(!queryEmpty){
+        var result = await databaseService.queryRun(queryObject,authorized);
+        return (result);
+    }else{
+        return [];
+    }
+   
+ 
 }
 
 // TODO: delete from database
@@ -244,6 +258,7 @@ exports.getAlgorithms = async function () {
 exports.getTags = async function (tag) {
     return new Promise(async function (resolve, reject) {
         try {
+            tag = tag == undefined ? '' : tag;
             var response = await databaseService.queryTag(tag);
             console.log(tag);
             resolve(response);
@@ -308,50 +323,50 @@ exports.deleteAuthenticate = async function (profileId) {
 }
 
 //f9f666e8-b965-4997-b925-9c420cdc3420
-exports.getExportComponents = async function (componentIds,exportRequestId,res) {
+exports.getExportComponents = async function (componentIds, exportRequestId, res) {
     var componentIdsArray = componentIds.split(',');
-        try {
-            var exportIdObject = await exportService.reserveExport('password');
-            var fileIdObject = await exportService.requestExport(exportIdObject.exportRequestId,componentIdsArray);
-            console.log('Downloading Data')
-            exportService.getExport(fileIdObject.fileId,res);
-        } catch (error) {
-            reject(error);
-        }
+    try {
+        var exportIdObject = await exportService.reserveExport('password');
+        var fileIdObject = await exportService.requestExport(exportIdObject.exportRequestId, componentIdsArray);
+        console.log('Downloading Data')
+        exportService.getExport(fileIdObject.fileId, res);
+    } catch (error) {
+        reject(error);
+    }
 }
 
-exports.getExportProgress = async function(exportRequestId){
-    return new Promise(async function(resolve,reject){
-        try{
+exports.getExportProgress = async function (exportRequestId) {
+    return new Promise(async function (resolve, reject) {
+        try {
             var exportProgress = await exportService.getExportProgress(exportRequestId);
             resolve(exportProgress);
-        }catch(error){
+        } catch (error) {
             console.log(error);
             reject(error);
         }
     });
-    
+
 }
 
-exports.postReserveExport = async function (){
-    return new Promise(async function(resolve,reject){
-        try{
+exports.postReserveExport = async function () {
+    return new Promise(async function (resolve, reject) {
+        try {
             var exportIdObject = await exportService.reserveExport('password');
             resolve(exportIdObject);
-        }catch(error){
+        } catch (error) {
             reject(error);
         }
     })
 }
 
-exports.getPalette = async function(palette){
-    return new Promise(async function(resolve,reject){
-        
+exports.getPalette = async function (palette) {
+    return new Promise(async function (resolve, reject) {
+
         try {
-           /*  var paletteObject = await databaseService.getPalette(palette);
-            if(paletteObject == null){
-                paletteObject = await databaseService.getDefaultPalette();
-            } */
+            /*  var paletteObject = await databaseService.getPalette(palette);
+             if(paletteObject == null){
+                 paletteObject = await databaseService.getDefaultPalette();
+             } */
 
             var paletteObject = await databaseService.getDefaultPalette();
             resolve(paletteObject);
@@ -359,7 +374,7 @@ exports.getPalette = async function(palette){
         } catch (error) {
             console.log(error);
             reject(error);
-        } 
+        }
     })
 }
 

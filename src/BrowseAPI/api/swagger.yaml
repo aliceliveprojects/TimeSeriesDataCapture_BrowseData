@@ -340,8 +340,8 @@ paths:
       parameters:
       - name: "tags"
         in: "query"
-        description: "Component ID specifies a component"
-        required: true
+        description: "tags to query"
+        required: false
         type: "string"
       responses:
         200:

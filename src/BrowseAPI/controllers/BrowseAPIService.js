@@ -65,9 +65,10 @@ exports.componentSearch = function(args,res,next) {
   let timeStamp = args.timeStamp.value;
   let page = args.page.value;
   let pagesize = args.pagesize.value;
+  let authorized = args.authorized.value;
 
 
-  browseService.componentSearch(tags,date,timeStamp,page,pagesize)
+  browseService.componentSearch(tags,date,timeStamp,page,pagesize,authorized)
   .then((result) =>{
     httpUtil.endHttpOK(result,res);
   })

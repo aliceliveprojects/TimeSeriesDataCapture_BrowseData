@@ -15,7 +15,16 @@ module.exports.addComponentTags = function addComponentTags(req, res, next) {
 };
 
 module.exports.componentSearch = function componentSearch(req, res, next) {
-  BrowseAPI.componentSearch(req.swagger.params, res, next);
+  req.swagger.params.authorized = {value: false};
+  if(req.headers.hasOwnProperty('authorization')){
+    authentication.timeseries_admin_auth(req,undefined,undefined,function(result){
+      req.swagger.params.authorized.value = result == null;
+      BrowseAPI.componentSearch(req.swagger.params, res, next);
+    })
+  }else{
+    BrowseAPI.componentSearch(req.swagger.params, res, next);
+  }
+ 
 };
 
 module.exports.deleteComponent = function deleteComponent(req, res, next) {

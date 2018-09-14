@@ -38,13 +38,20 @@ exports.deleteRun = async function deleteRun(run) {
     }
 }
 
-exports.queryRun = async function queryRun(query) {
+exports.queryRun = async function queryRun(query,authorized) {
     var queryObject = {}
-    // if (query.hasOwnProperty('tags')) {
-    //     for (var i = 0, n = query['tags'].length; i < n; i++) {
-    //         queryObject['tags.' + query['tags'][i]] = { $exists: true };
-    //     }
-    // }
+
+
+    if(!authorized){
+        queryObject['tags.5b9bd93249eebd6bd4a10a99'] = { $exists: true };
+    }
+
+
+    if (query.hasOwnProperty('tags')) {
+         for (var i = 0, n = query['tags'].length; i < n; i++) {
+             queryObject['tags.' + query['tags'][i]] = { $exists: true };
+         }
+    }
 
     if (query.hasOwnProperty('date')) {
         queryObject['date'] = query['date'];
@@ -68,8 +75,9 @@ exports.getRun = async function getRun(runId,authorized) {
         id: runId
     }
 
+    
     if(!authorized){
-        queryObject.visibility = 'public'
+        queryObject['tags.5b9bd93249eebd6bd4a10a99'] = { $exists: true };
     }
 
     try {

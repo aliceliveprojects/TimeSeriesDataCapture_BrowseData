@@ -1,0 +1,25 @@
+{
+  "id": "0ede45e4-b1d2-4e11-9af5-74f9138f0fed",
+  "secret": "password",
+  "status": "EXPORTED",
+  "created": 1536915823284,
+  "logs": [
+    "Fri Sep 14 2018 10:03:43 GMT+0100 (British Summer Time) : Export process begun - [status CHANGED TO: PROGRESSING]",
+    "Fri Sep 14 2018 10:03:43 GMT+0100 (British Summer Time) : Export directory created",
+    "Fri Sep 14 2018 10:03:43 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!178 data retrieved",
+    "Fri Sep 14 2018 10:03:45 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!160 data retrieved",
+    "Fri Sep 14 2018 10:03:45 GMT+0100 (British Summer Time) : 01EUZ4RD7HKNL53XHT4FCLL4566JCCMLM4 data retrieved",
+    "Fri Sep 14 2018 10:03:45 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!178 data copied",
+    "Fri Sep 14 2018 10:03:45 GMT+0100 (British Summer Time) : ",
+    "Fri Sep 14 2018 10:03:46 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!160 data copied",
+    "Fri Sep 14 2018 10:03:46 GMT+0100 (British Summer Time) :  - [progress CHANGED TO: 33.33333333333333]",
+    "Fri Sep 14 2018 10:03:46 GMT+0100 (British Summer Time) : 01EUZ4RD7HKNL53XHT4FCLL4566JCCMLM4 data copied",
+    "Fri Sep 14 2018 10:03:46 GMT+0100 (British Summer Time) :  - [progress CHANGED TO: 66.66666666666666]",
+    "Fri Sep 14 2018 10:03:46 GMT+0100 (British Summer Time) : Pushing files to export",
+    "Fri Sep 14 2018 10:03:50 GMT+0100 (British Summer Time) : All files were appended to the export. - [progress CHANGED TO: 100%]",
+    "Fri Sep 14 2018 10:03:50 GMT+0100 (British Summer Time) :  - [fileId CHANGED TO: e9112b91-fecd-4285-af8d-5e94a7312bb5]",
+    "Fri Sep 14 2018 10:03:50 GMT+0100 (British Summer Time) : Fin - [status CHANGED TO: EXPORTED]"
+  ],
+  "progress": "100%",
+  "fileId": "e9112b91-fecd-4285-af8d-5e94a7312bb5"
+}

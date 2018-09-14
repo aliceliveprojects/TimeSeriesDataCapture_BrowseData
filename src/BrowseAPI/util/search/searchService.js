@@ -41,6 +41,10 @@ queryTypes.push(date);
 var time = new query('timeStamp', /(?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]/g, true);
 queryTypes.push(time);
 
+//tags
+var tag = new query('tag',/[a-z]{2,}/g,false);
+queryTypes.push(tag);
+
 
 
 function extractQueries(query){

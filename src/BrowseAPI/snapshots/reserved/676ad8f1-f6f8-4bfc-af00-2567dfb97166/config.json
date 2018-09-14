@@ -1,0 +1,13 @@
+{
+  "id": "676ad8f1-f6f8-4bfc-af00-2567dfb97166",
+  "secret": "password",
+  "status": "PROGRESSING",
+  "created": 1536855262973,
+  "logs": [
+    "Thu Sep 13 2018 17:14:22 GMT+0100 (British Summer Time) : Export process begun - [status CHANGED TO: PROGRESSING]",
+    "Thu Sep 13 2018 17:14:22 GMT+0100 (British Summer Time) : Export directory created",
+    "Thu Sep 13 2018 17:14:23 GMT+0100 (British Summer Time) : 2B497C4DAFF48A9C!168 data retrieved"
+  ]
+}trieved"
+  ]
+}

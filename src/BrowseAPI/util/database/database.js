@@ -15,8 +15,8 @@ module.exports = {
         return service.deleteRun(run);
     },
 
-    queryRun: function (query) {
-        return service.queryRun(query);
+    queryRun: function (query,authorized) {
+        return service.queryRun(query,authorized);
     },
 
     getRun: function (runId,authorized){
