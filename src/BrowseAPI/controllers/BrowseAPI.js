@@ -1,6 +1,6 @@
 'use strict';
 
-var utils = require('../util/writer.js');
+
 var BrowseAPI = require('./BrowseAPIService');
 var authentication = require('../util/authentication/authentication');
 
