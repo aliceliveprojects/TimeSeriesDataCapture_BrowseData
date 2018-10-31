@@ -71,7 +71,6 @@ var initialise = function () {
   var path = require('path');
   var swaggerTools = require('swagger-tools');
   var jsyaml = require('js-yaml');
-  var data = require('./util/data/data');
   var auth = require('./util/authentication/authentication');
 
   app.use(cors());
@@ -86,20 +85,12 @@ var initialise = function () {
   // The Swagger document (require it, build it programmatically, fetch it from a URL, ...)
   var spec = fs.readFileSync(__dirname + '/api/swagger.yaml', 'utf8');
   var swaggerDoc = jsyaml.safeLoad(spec);
-  var consumerApiPort = swaggerDoc.host.split(':')[1];  //WILL THROW IF PORT NOT DEFINED IN DOC
-  var consumerApiScheme = swaggerDoc.schemes[0];  //WILL THROW IF SCHEMES NOT DEFINED IN DOC
-
+  
 
   // initialise main components. We need some of this to change the swagger doc.
   writeAuthClientConfig(getAuthClientConfig());
   auth.initialise(rsaUri);
-  data.initialise(consumerApiScheme, consumerApiAddress, consumerApiPort);
-
-
-  // change the standard definition to suit the server environment
-  var hostAddrPort = data.getConsumerApiAddress() + ":" + data.getConsumerApiPort();
-  swaggerDoc.host = hostAddrPort;
-
+  
   var secDefs = swaggerDoc.securityDefinitions;
   for (var secDef in secDefs) {
     console.log("changing: " + secDefs[secDef].authorizationUrl + " : to : " + authUrl);
@@ -135,7 +126,7 @@ var initialise = function () {
 
     // Start the server
     var server = http.createServer(app).listen(serverPort, function () {
-      var address = data.getConsumerApiAddress();
+      const address = '192.168.2.1';
       log('SERVER: listening on %s , port %d ', address, serverPort);
     });
 
