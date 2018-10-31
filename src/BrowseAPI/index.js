@@ -59,7 +59,7 @@ var initialise = function () {
 
  
 
-  var consumerApiAddress = process.env.CONSUMER_API_ADDRESS;
+ 
   var serverPort = process.env.PORT || 8000;
 
   log("Node: " + process.version);
