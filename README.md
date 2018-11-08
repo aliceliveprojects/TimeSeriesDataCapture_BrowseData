@@ -46,7 +46,7 @@ node index.js
 
 - The *Database URL* is the **[ url_id ].mlab.com/[ port_number ]**
 
-- For example ds225442.mlab.com:25442/heroku_z6lwh5bd url is ds225442.mlab.com:25442
+- For example **ds225442.mlab.com:25442/heroku_z6lwh5bd** ==> **ds225442.mlab.com:25442**
 
 *For help see [MongoDB](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-hosting)*
 
