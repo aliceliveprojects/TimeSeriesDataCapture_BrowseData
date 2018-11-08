@@ -41,6 +41,8 @@ node index.js
 ### Database
 *Database URL*, *Database Username*, *Database Password* and *Database Name* can be all found within the mLab dashboard
 
+*Database URL* is the **url_id**.mlab.com/**port_number**
+
 *For help see [MongoDB](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-hosting)*
 
 | Variable             | Example                                  | Description                              |
