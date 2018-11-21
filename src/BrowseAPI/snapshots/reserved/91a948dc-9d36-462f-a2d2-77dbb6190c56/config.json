@@ -1,0 +1,19 @@
+{
+  "id": "91a948dc-9d36-462f-a2d2-77dbb6190c56",
+  "secret": "password",
+  "status": "EXPORTED",
+  "created": 1541708041396,
+  "logs": [
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : Export process begun - [status CHANGED TO: PROGRESSING]",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : Export directory created",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : aa data retrieved",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : aa data copied",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : ",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : Pushing files to export",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : All files were appended to the export. - [progress CHANGED TO: 100%]",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) :  - [fileId CHANGED TO: 9b885308-80b4-4484-89a6-01cd3a5654bd]",
+    "Thu Nov 08 2018 20:14:01 GMT+0000 (Greenwich Mean Time) : Fin - [status CHANGED TO: EXPORTED]"
+  ],
+  "progress": "100%",
+  "fileId": "9b885308-80b4-4484-89a6-01cd3a5654bd"
+}
