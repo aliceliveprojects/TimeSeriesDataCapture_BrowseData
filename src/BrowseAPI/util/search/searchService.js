@@ -3,10 +3,7 @@
 const keywordFiltersService = require('./keywordFilters');
 
 exports.parseSearch = function(query){
-    
-   
     var result = extractQueries(query);
-    
 
     for(var i=0,n=result.length;i<n;i++){
         if(result[i].name === 'timeStamp'){
@@ -17,7 +14,6 @@ exports.parseSearch = function(query){
             result[i].value[0] = keywordFiltersService.dateFilter(result[i].value[0],'database');
         }
     }
-
     return result;
    
 }
@@ -52,7 +48,6 @@ function extractQueries(query){
     for (var i = 0, n = queryTypes.length; i < n; i++) {
         var regexResult = query.match(queryTypes[i].regex);
 
-       
         if (regexResult != null) {
             if (queryTypes[i].single) {
                 regexResult = [regexResult[0]];
@@ -63,7 +58,6 @@ function extractQueries(query){
             })
         }
     }
-
     return queryArray;
 }
 

@@ -1,0 +1,6 @@
+{
+  "name": "TimeSeriesDataCapture_BrowseData",
+  "description": "The Browse API for the time series data capture project",
+  "repository": "https://github.com/CMDT/TimeSeriesDataCapture_BrowseData",
+  "keywords": ["node", "angularjs", "Browse"]
+}

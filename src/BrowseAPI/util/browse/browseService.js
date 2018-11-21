@@ -6,7 +6,7 @@ const uuidv4 = require('uuid/v4');
 const databaseService = require('../database/database');
 const searchService = require('../search/search');
 const exportService = require('../export/export');
-const ObjectID = require('mongodb').ObjectID;
+
 
 
 //TODO : add to database
@@ -24,7 +24,7 @@ exports.addComponentAnnotations = async function (componentId, annotations) {
         }
     })
 
-}
+} 
 
 async function updateRun(annotation) {
 
@@ -144,9 +144,11 @@ exports.componentSearch = async function (query, page, pagesize,authorized) {
 
 // TODO: delete from database
 exports.deleteComponent = async function (componentID) {
-    return {
-        componentID: componentID
-    }
+    return new Promise(async function (resolve, reject) {
+        var result = await databaseService.deleteRun(componentID);
+        console.log(result);
+        resolve(result);
+    })
 }
 
 //TODO : delete from annotation
@@ -184,13 +186,18 @@ exports.getComponent = async function (componentID, authorized) {
 
 exports.getComponentPreview = async function (componentID) {
     return new Promise(async function (resolve, reject) {
-        console.log(componentID);
-        var path = '/apis/component/' + encodeURI(componentID) + '/preview';
+        var importapi_uri = process.env.IMPORTAPI_URI;
+        importapi_uri = importapi_uri.split("//");
+        
+        const protocol = importapi_uri[0];
+        const host = importapi_uri[1];
+
+        const path = '/apis/component/' + encodeURI(componentID) + '/preview';
 
         console.log(path);
         var options = {
-            protocol: 'https:',
-            host: 'timeseriesdatacapture-import.herokuapp.com',
+            protocol: protocol,
+            host: host,
             path: path,
             method: 'GET',
             headers: {
@@ -214,6 +221,11 @@ exports.getComponentPreview = async function (componentID) {
 //TODO: connect to import API to get component difference
 exports.getComponentIDs = async function (folderID) {
     return new Promise(async function (resolve, reject) {
+        var importapi_uri = process.env.IMPORTAPI_URI;
+        importapi_uri = importapi_uri.split("//");
+        
+        const protocol = importapi_uri[0];
+        const host = importapi_uri[1];
 
         var path = '/apis/Components'
         if (folderID != undefined) {
@@ -221,8 +233,8 @@ exports.getComponentIDs = async function (folderID) {
         }
         console.log(path);
         var options = {
-            protocol: 'https:',
-            host: 'timeseriesdatacapture-import.herokuapp.com',
+            protocol: protocol,
+            host: host,
             path: path,
             method: 'GET',
             headers: {
@@ -254,7 +266,7 @@ exports.getAlgorithms = async function () {
     }
 }
 
-//TODO: query database
+//TODO: query databas0e
 exports.getTags = async function (tag) {
     return new Promise(async function (resolve, reject) {
         try {
@@ -382,15 +394,23 @@ exports.getPalette = async function (palette) {
 
 function postComponentId(componentObject) {
     return new Promise(async function (resolve, reject) {
-        var path = '/apis/component/' + encodeURI(componentObject.id);
+
+        var importapi_uri = process.env.IMPORTAPI_URI;
+        importapi_uri = importapi_uri.split("//");
+        
+        const protocol = importapi_uri[0];
+        const host = importapi_uri[1];
+
+
+        const path = '/apis/component/' + encodeURI(componentObject.id);
         if (componentObject.hasOwnProperty('algorithm')) {
             path += '?algorithm=' + encodeURI(componentObject.algorithm);
         }
 
         console.log(path);
         var options = {
-            protocol: 'https:',
-            host: 'timeseriesdatacapture-import.herokuapp.com',
+            protocol: protocol,
+            host: host,
             path: path,
             method: 'GET',
             headers: {

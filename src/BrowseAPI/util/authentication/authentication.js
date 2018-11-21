@@ -1,8 +1,5 @@
 'use strict';
 
-var debug = require('debug');
-var log = debug('app:log');
-
 var libjwt = require('jsonwebtoken');
 var libjwks = require('jwks-rsa');
 var authParser = require('auth-header');
@@ -21,11 +18,7 @@ const adminAuthorisedScopes = {
     admin: "admin"
 }
 
-const NOT_FOUND = -1;
-
 var jwks_client = null;
-
-
 
 var initialise = function (rsa_uri) {
 
@@ -39,7 +32,6 @@ var initialise = function (rsa_uri) {
 
 };
 
-
 var get_access_token = function (req) {
 
     var authHeader = req.headers.authorization;
@@ -50,7 +42,6 @@ var get_access_token = function (req) {
     }
     return token;
 }
-
 
 // attempt to verify the RSA signature of the access token, and then decode it.
 var validate_RSA_access_token = function (token, kid, callback) {
@@ -69,7 +60,6 @@ var validate_RSA_access_token = function (token, kid, callback) {
         }
     });
 }
-
 
 var createOptions = function(externalId, scopes){
     return {
@@ -90,9 +80,6 @@ var createConsumerOptions = function (deploymentId, deploymentState, scopes, tok
 var hasAuthorisedScope = function (scopeString, authorisedScopes) {
     return true;
 }
-
-
-
 
 /**
  * returns unauthenticated header information.
