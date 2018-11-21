@@ -2,12 +2,10 @@
 const errorApi = require('../error/error');
 
 var https = require('https');
-var options1;
 exports.httpRequest = function (options) {
     return new Promise(function (resolve, reject) {
-        options1 = options;
+     
         var result = ''
-        console.log(options);
         var request = https.request(options, function (res) {
 
             res.on('data', function (chunk) {
@@ -16,10 +14,9 @@ exports.httpRequest = function (options) {
 
             res.on('end', function () {
             
-        
                 console.log(res.statusCode);
                 if(res.statusCode >= 100 && res.statusCode < 400){
-                    console.log('success');
+                    console.log('http request success, statusCode: ', res.statusCode);
                     resolve(result);
                 }else{
                     var error;
@@ -40,14 +37,13 @@ exports.httpRequest = function (options) {
         });
 
         request.on('error', function (error) {
-            
-            console.log(error);
+            console.log('http requst error ', error);
             reject(errorApi.create500Error(error));
         });
 
         request.on('timeout', function(error){
-            console.log(error);
-            httpRequest(options1);
+            console.log('http request time-out ', error);
+            reject(errorApi.create500Error(error));
         })
 
         request.end();
