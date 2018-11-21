@@ -22,12 +22,16 @@ exports.httpRequest = function (options) {
                     var error;
                     console.log(result);
                     if(res.statusCode === 400){
+                        console.log('400 error bad request')    
                         error = errorApi.create400Error('Bad Request');
                     }else if(res.statusCode === 401){
+                        console.log('401 error un-authorized');
                         error = errorApi.create401Error('Un-authorized');
                     }else if(res.statusCode === 403){
+                        console.log('403 error forbidden');
                         error = errorApi.create403Error('Forbidden');
                     }else{
+                        console.log('500 error');
                         error = errorApi.create500Error('Error');
                     }
                     reject(error); 
