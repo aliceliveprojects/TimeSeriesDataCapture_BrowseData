@@ -32,7 +32,10 @@ exports.updateRuns = async function updateRuns(runId, updatedRun) {
 
 exports.deleteRun = async function deleteRun(run) {
     try {
-        return (await service.mongodbDelete('runsCollection', run));
+        var deleteRunObject = {
+            id : run
+        }
+        return (await service.mongodbDelete('runsCollection',deleteRunObject));
     } catch (error) {
         throw (error);
     }
