@@ -3,9 +3,6 @@
 const uuidv4 = require('uuid/v4');
 const errorApi = require('../error/error');
 const fs = require('fs-extra');
-const { Pool } = require('pg')
-const copyTo = require('pg-copy-streams').to;
-const copyFrom = require('pg-copy-streams').from;
 const databaseService = require('../database/database');
 
 const Minizip = require('minizip-asm.js'); //locker/unlocker
