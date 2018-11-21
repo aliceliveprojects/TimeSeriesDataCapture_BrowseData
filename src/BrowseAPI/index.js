@@ -21,6 +21,8 @@ if (!process.env.DATABASE_USERNAME) throw new Error("undefined in environment: D
 if (!process.env.DATABASE_PASSWORD) throw new Error("undefined in environment: DATABASE_PASSWORD");
 if( !process.env.DATABASE_NAME) throw new Error("undefined in environment: DATABASE_NAME");
 
+if(!process.env.IMPORTAPI_URI) throw new Error("undefined in environment: IMPORTAPI_URI");
+
 var getAuthClientConfig = function () {
   var result = {};
 
