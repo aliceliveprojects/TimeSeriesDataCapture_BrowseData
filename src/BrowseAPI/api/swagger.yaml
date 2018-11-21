@@ -8,7 +8,7 @@ info:
     name: "TimeSeriesDataCapture@gmail.com"
     email: "TimeSeriesDataCapture@gmail.com"
 #host: "timeseriesdatacapture-browse.herokuapp.com:443"
-host: "https://faketimeseries-browse.herokuapp.com:443"
+host: "faketimeseries-browse.herokuapp.com:443"
 #host: "localhost:8000"
 basePath: "/apis"
 tags:
@@ -16,7 +16,7 @@ tags:
   description: "Getting and postings components from server"
 schemes:
 - "https"
-#- "http"
+#-"http"
 paths:
   /components:
     get:
