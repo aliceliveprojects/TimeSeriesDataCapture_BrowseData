@@ -30,7 +30,7 @@ var getAuthClientConfig = function () {
 
   if (!process.env.AUTH_CLIENT_ID) throw new Error("undefined in environment: AUTH_CLIENT_ID");
   if (!process.env.AUTH_APP_NAME) throw new Error("undefined in environment: AUTH_APP_NAME");
-  if (!process.env.AUTH_AUDIENCE) throw new Error("undefined in environment: AUTH_AUDIENCE");
+ 
   
   result.clientId = process.env.AUTH_CLIENT_ID;
   result.appName = process.env.AUTH_APP_NAME;
@@ -38,7 +38,7 @@ var getAuthClientConfig = function () {
   result.realm = "your-realms";
   result.scopeSeparator = " ";
   result.additionalQueryStringParams = {};
-  result.additionalQueryStringParams.audience = process.env.AUTH_AUDIENCE;
+  
   //result.additionalQueryStringParams.response_type = "token";
   result.additionalQueryStringParams.nonce = "123456";
 
