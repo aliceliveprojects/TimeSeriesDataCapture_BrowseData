@@ -16,7 +16,8 @@ log(process.env);
 log("**********************");
 
 
-if (!process.env.DATABASE_URL) throw new Error("undefined in environment: DATABASE_URL");
+if (!process.env.DATABASE_HOSTNAME) throw new Error("undefined in environment: DATABASE_HOSTNAME");
+if (!process.env.DATABASE_PORT) throw new Error("undefined in environment: DATABASE_PORT");
 if (!process.env.DATABASE_USERNAME) throw new Error("undefined in environment: DATABASE_USERNAME");
 if (!process.env.DATABASE_PASSWORD) throw new Error("undefined in environment: DATABASE_PASSWORD");
 if( !process.env.DATABASE_NAME) throw new Error("undefined in environment: DATABASE_NAME");
@@ -30,6 +31,7 @@ var getAuthClientConfig = function () {
   if (!process.env.AUTH_CLIENT_ID) throw new Error("undefined in environment: AUTH_CLIENT_ID");
   if (!process.env.AUTH_APP_NAME) throw new Error("undefined in environment: AUTH_APP_NAME");
   if (!process.env.AUTH_AUDIENCE) throw new Error("undefined in environment: AUTH_AUDIENCE");
+ 
   
   result.clientId = process.env.AUTH_CLIENT_ID;
   result.appName = process.env.AUTH_APP_NAME;
