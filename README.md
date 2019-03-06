@@ -42,7 +42,7 @@ node index.js
 |AUTH_URL| *AUTH_URL*| Auth0 /authorize endpoint|
 |AUTH_AUDIENCE|*AUTH AUDIENCE*| Auth0 /user endpoint|
 |IMPORT_URI|*IMPORT URI*|The URI of the Import API|
-|DATABASE_HOSTNAME|*DATABASE HOSTNAME*|MongoDB database hostname|
+|DATABASE_HOSTNAME|*DATABASE HOSTNAME*|MongoDB database hostname (ds34237452745.mlab.com)|
 |DATABASE_PORT|*DATABASE PORT*|MongoDB database port number|
 |DATABASE_NAME|*DATABASE NAME*|MongoDB database name|
 |DATABASE_USERNAME|*DATABASE USERNAME*|MongoDB database user username|
