@@ -3,16 +3,17 @@ Implementation of the BrowseData interface, described in TimeSeriesDataCapture
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-## Building
+# Building
 
-### Prerequisites
+## Prerequisites
 
-#### MongoDB Database
-see [MongoDB Hosting](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-hosting) and [MongoDB Creation](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-creation)
+- [Import API](https://github.com/CMDT/TimeSeriesDataCapture_ImportSource)
 
-### Auth0 Account
-see [Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)
+- [MongoDB Database](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-hosting) and [MongoDB Creation](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-creation)
 
+- [Auth0 Account](https://github.com/CMDT/TimeSeriesDataCapture#auth0)
+
+## Deployment
 ### Heroku
 To build the Browse API on heroku simply click the Deploy To Heroku button above
 
@@ -31,42 +32,32 @@ node index.js
 
 ## Environment Variables 
 
-### Auth0
-*Auth App Name* and *Auth Client ID* can be located on the [Auth0 Dashboard](https://manage.auth0.com) under the application Settings tab. 
+| Variable             | Example                                  | Description                              |
+| -------------------- | ---------------------------------------- | ---------------------------------------- |
+| DEBUG | * | Node debugging. Defines what components produce logging. Usually set to *|                                    
+| PORT  |443 | Notionally, this variable is set to 443, but it simply    exists as a placeholder for heroku. When running locally use 8000|
+| AUTH_CLIENTID|*AUTH CLIENT ID*|Must be passed to Auth0 as a parameter.Client ID associated with the App name in the Auth0 account.|
+| AUTH_APP_NAME|*AUTH APP NAME*|Auth0 application name|
+|RSA_URI|*RSA_URI*|Auth0 /jwks.json endpoint|
+|AUTH_URL| *AUTH_URL*| Auth0 /authorize endpoint|
+|AUTH_AUDIENCE|*AUTH AUDIENCE*| Auth0 /user endpoint|
+|IMPORT_URI|*IMPORT URI*|The URI of the Import API|
+|DATABASE_HOSTNAME|*DATABASE HOSTNAME*|MongoDB database hostname|
+|DATABASE_PORT|*DATABASE PORT*|MongoDB database port number|
+|DATABASE_NAME|*DATABASE NAME*|MongoDB database name|
+|DATABASE_USERNAME|*DATABASE USERNAME*|MongoDB database user username|
+|DATABASE_PASSWORD|*DATABASE PASSWORD*|MongoDB database user password|
 
-*Auth Audience* and *Auth URL* can be located under the application Settings tab, under Show Advanced Setting, under the Endpoints tab
+
+### Auth0
+*Auth App Name*,*Auth Client ID*,*RSA_URI* can be located on the Single Page Application.
+
+*Auth Audience* and *Auth URL* can be located on the Machine To Machine Application.
 
 *For help see [Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)*
 
 ### Database
 *Database URL*, *Database Username*, *Database Password* and *Database Name* can be all found within the mLab dashboard
-
-
-**Important**
-
-- The *Database URL* is the **[ url_id ].mlab.com/[ port_number ]**
-
-- For example **ds225442.mlab.com:25442/heroku_z6lwh5bd** ==> **ds225442.mlab.com:25442**
-
-*For help see [MongoDB](https://github.com/CMDT/TimeSeriesDataCapture#mongodb-hosting)*
-
-| Variable             | Example                                  | Description                              |
-| -------------------- | ---------------------------------------- | ---------------------------------------- |
-| AUTH_APP_NAME        | *AUTH APP NAME*                          | Used by API service. Used to identify the app to the Auth0 authentication service. If you change this, you'll need to set up another app in the associated Auth0 Account. |
-| AUTH_AUDIENCE        | *Auth AUDIENCE*                          | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as interface identifier in the Auth0 implicit flow. Must be passed to Auth0 as a parameter.                           |
-| AUTH_CLIENT_ID       | *AUTH CLIENT ID*                         | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as interface identifier in the Auth0 implicit flow. Must be passed to Auth0 as a parameter.Client ID associated with the App name in the Auth0 account. |
-| AUTH_URL             | *Auth_URL*                               | Held by the API service, and written to the SPWA configuration file on initialisation. Used by the SPWA in the browser, as url to contact during implicit flow authentication. Set up in Auth0 account.                                          |
-| CONSUMER_API_ADDRESS | *CONSUMER API ADDRESS*                    | this is the address the consumer app goes to to get course data from. Usually, the same address as the deployement api. The consumer API address is integrated into the deployment token for the course, telling the app where to get the course from.     |
-| DATABASE_URL         | *DATABASE URL*                           | this is the access url for the  MongoDB database. |
-| DATABASE_USERNAME    | *DATABASE USERNAME*                      | this is the username for the  MongoDB database. |
-| DATABASE_PASSWORD    | *DATABASE PASSWORD*                      | this is the password for the  MongoDB database. |
-| DATABASE_NAME        | *DATABASE NAME*                          | this is the database name|
-| DEBUG                | `*`                                      | Node debugging. Defines what components produce logging. Usually set to `*` |
-| DISABLE_CLUSTERING   | true                                     | set to false to enable running on multiple cores. Currently set to true, because it's not yet tested. |
-| PORT                 | 443                                      | Notionally, this variable is set to 443, but it simply exists as a placeholder for heroku. When running locally use 8000 |
-| RSI_URI              | *RSI_URI*                                | Used by the API service. This url is used at the end of an implicit flow authentication to verify an RSA token. |
-| WEB_CONCURRENCY      | 4                                        | Number of cores to use.                  |
-
 
 ---
 
