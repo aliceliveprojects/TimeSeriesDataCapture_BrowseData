@@ -49,14 +49,14 @@ node index.js
 |DATABASE_PASSWORD|*DATABASE PASSWORD*|MongoDB database user password|
 
 
-### Auth0
-*Auth App Name*,*Auth Client ID*,*RSA_URI* can be located on the Single Page Application.
+**Auth0**
+*Auth App Name*,*Auth Client ID*,*RSA_URI* can be located on your Auth0 dashboard, Single Page Application.
 
-*Auth Audience* and *Auth URL* can be located on the Machine To Machine Application.
+*Auth Audience* and *Auth URL* can be located  on your Auth0 dashboard, Machine To Machine Application.
 
 *For help see [Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)*
 
-### Database
+**Database**
 *Database URL*, *Database Username*, *Database Password* and *Database Name* can be all found within the mLab dashboard
 
 ---
