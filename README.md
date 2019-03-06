@@ -53,7 +53,7 @@ node index.js
 
 *Auth App Name*,*Auth Client ID*,*RSA URI* and *AUTH URL* can be located on your Auth0 dashboard, Single Page Application.
 
-*Auth Audience*  can be located  on your Auth0 dashboard, Machine To Machine Application.
+*Auth Audience*  can be located  on your Auth0 dashboard, API section.
 
 *For help see [Auth0](https://github.com/CMDT/TimeSeriesDataCapture#auth0)*
 
