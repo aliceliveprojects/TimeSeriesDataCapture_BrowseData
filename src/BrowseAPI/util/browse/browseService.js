@@ -121,12 +121,15 @@ exports.componentSearch = async function (query, page, pagesize,authorized) {
           
             var tagsArray = [];
 
-            for(var i=0,n=tags.length;i<n;i++){
-                tagsArray.push(tags[i][0]._id.toHexString());
+            for(var j=0,l=tags.length;j<l;j++){
+                if(tags[j][0]){
+                    tagsArray.push(tags[j][0]._id.toHexString());
+                    queryEmpty = false;
+                }
             }
 
             queryObject['tags'] = tagsArray;
-            queryEmpty = false;
+            
         }
     }
 
