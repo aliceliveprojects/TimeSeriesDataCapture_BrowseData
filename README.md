@@ -47,6 +47,9 @@ node index.js
 |DATABASE_NAME|*DATABASE NAME*|MongoDB database name|
 |DATABASE_USERNAME|*DATABASE USERNAME*|MongoDB database user username|
 |DATABASE_PASSWORD|*DATABASE PASSWORD*|MongoDB database user password|
+|API_SCHEME|*API SCHEME*|Scheme for api (either http or https)|
+|API_DOMAIN|*API DOMAIN*|Domain for api|
+|API_PORT|*API PORT*|Port for api|
 
 
 **Auth0**
