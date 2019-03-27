@@ -207,7 +207,9 @@ var initialise = function () {
 // this is for unhandled async rejections. See https://blog.risingstack.com/mastering-async-await-in-nodejs/
 process.on('unhandledRejection', (err) => {
   console.error(err);
-  process.exit(1);
+
+  // Removed for production
+  // process.exit(1);
 });
 
 
