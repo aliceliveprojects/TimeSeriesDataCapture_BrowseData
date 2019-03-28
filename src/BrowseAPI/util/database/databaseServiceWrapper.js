@@ -44,29 +44,34 @@ exports.deleteRun = async function deleteRun(run) {
 exports.queryRun = async function queryRun(query,authorized) {
     var queryObject = {}
 
-
+    // only public runs
     if(!authorized){
-        queryObject['tags.5b9bd93249eebd6bd4a10a99'] = { $exists: true };
+        queryObject.tags = '5b9bd93249eebd6bd4a10a99'
     }
 
-
+    // tags
+    var $or = [];
     if (query.hasOwnProperty('tags')) {
-        
          for (var i = 0, n = query['tags'].length; i < n; i++) {
-             queryObject['tags.' + query['tags'][i]] = { $exists: true };
+            var tagQuery = {}
+             tagQuery['tags.' + query['tags'][i]] = { $exists: true };
+             $or.push(tagQuery);
          }
     }
 
     if (query.hasOwnProperty('date')) {
-        queryObject['date'] = query['date'];
+        $or.push({
+            date: query['date']
+        });
     }
 
     if (query.hasOwnProperty('time')) {
-        queryObject['time'] = query['time'];
+        $or.push({
+            time: query['time']
+        });
     }
 
-    console.log(queryObject);
-
+    queryObject.$or = $or;
     try {
         return (await service.mongodbQuery('runsCollection', queryObject, ['id', 'time', 'date', 'tags']));
     } catch (error) {
