@@ -24,7 +24,7 @@ exports.addComponentAnnotations = async function (componentId, annotations) {
         }
     })
 
-} 
+}
 
 async function updateRun(annotation) {
 
@@ -93,11 +93,11 @@ async function updateRunTags(tag, ) {
 
 //20180812
 // TODO: query database
-exports.componentSearch = async function (query, page, pagesize,authorized) {
+exports.componentSearch = async function (query, page, pagesize, authorized) {
 
- 
 
-    
+
+
     var query = searchService.parseSearch(query);
 
     var queryObject = {
@@ -125,16 +125,16 @@ exports.componentSearch = async function (query, page, pagesize,authorized) {
         }
     }
 
-    
 
-    if(!queryEmpty){
-        var result = await databaseService.queryRun(queryObject,authorized);
+
+    if (!queryEmpty) {
+        var result = await databaseService.queryRun(queryObject, authorized);
         return (result);
-    }else{
+    } else {
         return [];
     }
-   
- 
+
+
 }
 
 // TODO: delete from database
@@ -181,24 +181,11 @@ exports.getComponent = async function (componentID, authorized) {
 
 exports.getComponentPreview = async function (componentID) {
     return new Promise(async function (resolve, reject) {
-        var importapi_uri = process.env.IMPORTAPI_URI;
-        importapi_uri = importapi_uri.split("//");
-        
-        const protocol = importapi_uri[0];
-        const host = importapi_uri[1];
 
-        const path = '/apis/component/' + encodeURI(componentID) + '/preview';
+        var options = httpRequest.createOptionsFromUri(process.env.IMPORTAPI_URI);
 
-        console.log(path);
-        var options = {
-            protocol: protocol,
-            host: host,
-            path: path,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
+        options.method = 'GET';
+        options.path = '/apis/component/' + encodeURI(componentID) + '/preview';
 
         try {
             var response = await httpRequest.httpRequest(options);
@@ -216,26 +203,16 @@ exports.getComponentPreview = async function (componentID) {
 //TODO: connect to import API to get component difference
 exports.getComponentIDs = async function (folderID) {
     return new Promise(async function (resolve, reject) {
-        var importapi_uri = process.env.IMPORTAPI_URI;
-        importapi_uri = importapi_uri.split("//");
-        
-        const protocol = importapi_uri[0];
-        const host = importapi_uri[1];
 
         var path = '/apis/Components'
         if (folderID != undefined) {
             path = '/apis/Components?folderID=' + encodeURI(folderID);
         }
         console.log(path);
-        var options = {
-            protocol: protocol,
-            host: host,
-            path: path,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
+        var options = httpRequest.createOptionsFromUri(process.env.IMPORTAPI_URI);
+
+        options.method = 'GET';
+        options.path = path;
 
         try {
             var response = await httpRequest.httpRequest(options);
@@ -296,9 +273,14 @@ exports.postAuthenticate = async function (fileStorageToken) {
 exports.postComponentIDs = async function (componentIDs) {
     return new Promise(function (resolve, reject) {
         var postComponentIdPromises = componentIDs.map(postComponentId);
-        Promise.all(postComponentIdPromises).then(function (result) {
-            resolve(result);
-        })
+        Promise.all(postComponentIdPromises).then(
+            function (result) {
+                resolve(result);
+            }, function (error) {
+                console.log(error);
+                reject(error);
+            }
+        );
     })
 }
 
@@ -390,28 +372,15 @@ exports.getPalette = async function (palette) {
 function postComponentId(componentObject) {
     return new Promise(async function (resolve, reject) {
 
-        var importapi_uri = process.env.IMPORTAPI_URI;
-        importapi_uri = importapi_uri.split("//");
-        
-        const protocol = importapi_uri[0];
-        const host = importapi_uri[1];
-
-
         const path = '/apis/component/' + encodeURI(componentObject.id);
         if (componentObject.hasOwnProperty('algorithm')) {
             path += '?algorithm=' + encodeURI(componentObject.algorithm);
         }
 
-        console.log(path);
-        var options = {
-            protocol: protocol,
-            host: host,
-            path: path,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
+        var options = httpRequest.createOptionsFromUri(process.env.IMPORTAPI_URI);
+
+        options.method = 'GET';
+        options.path = path;
 
         try {
             var response = await httpRequest.httpRequest(options);
