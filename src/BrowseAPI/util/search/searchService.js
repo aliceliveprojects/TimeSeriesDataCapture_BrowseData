@@ -37,7 +37,7 @@ var time = new query('timeStamp', /(?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]/g
 queryTypes.push(time);
 
 //tags
-var tag = new query('tag',/[^ ]{2,}/g,false);
+var tag = new query('tag',/.{2,}/g);
 queryTypes.push(tag);
 
 
@@ -47,7 +47,9 @@ function extractQueries(query){
     var tags = [];
     queries.map(function(q){
         for(var i=0,n=queryTypes.length;i<n;i++){
-            var match = queryTypes[i].regex.test(q);
+            // unknowm but test and exec fails sometimes... (whilst testing with tag "population")
+            // switched to match for now
+            var match = q.match(queryTypes[i].regex);
 
             if(match){
                 tags.push({
