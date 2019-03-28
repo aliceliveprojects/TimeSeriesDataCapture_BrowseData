@@ -51,6 +51,7 @@ exports.queryRun = async function queryRun(query,authorized) {
 
 
     if (query.hasOwnProperty('tags')) {
+        
          for (var i = 0, n = query['tags'].length; i < n; i++) {
              queryObject['tags.' + query['tags'][i]] = { $exists: true };
          }

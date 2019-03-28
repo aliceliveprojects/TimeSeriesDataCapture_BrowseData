@@ -100,36 +100,28 @@ exports.componentSearch = async function (query, page, pagesize,authorized) {
     
     var query = searchService.parseSearch(query);
 
-    var queryObject = {}
+    var queryObject = {
+        tags : []
+    }
 
     var queryEmpty = true;
     for (var i = 0, n = query.length; i < n; i++) {
         if (query[i].name === 'timeStamp') {
-            queryObject['time'] = query[i].value[0];
+            queryObject['time'] = query[i].value;
             queryEmpty = false;
         }
 
         if (query[i].name === 'date') {
-            queryObject['date'] = query[i].value[0];
+            queryObject['date'] = query[i].value;
             queryEmpty = false;
         }
 
         if(query[i].name === 'tag'){
-
-            const idPromises = query[i].value.map(databaseService.getTag);
-            var tags = await Promise.all(idPromises);
-          
-            var tagsArray = [];
-
-            for(var j=0,l=tags.length;j<l;j++){
-                if(tags[j][0]){
-                    tagsArray.push(tags[j][0]._id.toHexString());
-                    queryEmpty = false;
-                }
+            var tagId = await databaseService.getTag(query[i].value);
+            if(tagId){
+                queryObject.tags.push(tagId[0]._id.toHexString());
             }
-
-            queryObject['tags'] = tagsArray;
-            
+            queryEmpty = false;  
         }
     }
 

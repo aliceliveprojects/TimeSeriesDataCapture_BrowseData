@@ -7,11 +7,11 @@ exports.parseSearch = function(query){
 
     for(var i=0,n=result.length;i<n;i++){
         if(result[i].name === 'timeStamp'){
-            result[i].value[0] = keywordFiltersService.timeFilter(result[i].value[0],'database');
+            result[i].value = keywordFiltersService.timeFilter(result[i].value,'database');
         }
 
         if(result[i].name === 'date'){
-            result[i].value[0] = keywordFiltersService.dateFilter(result[i].value[0],'database');
+            result[i].value = keywordFiltersService.dateFilter(result[i].value,'database');
         }
     }
     return result;
@@ -22,43 +22,43 @@ exports.parseSearch = function(query){
 
 var queryTypes = [];
 
-function query(name, regex, single = true) {
+function query(name, regex) {
     this.name = name;
     this.regex = regex;
-    this.single = single;
 }
 
 
 //date
-var date = new query('date',  /\d{1,2}\/\d{1,2}\/\d{4}/g, true);
+var date = new query('date',  /\d{1,2}\/\d{1,2}\/\d{4}/g);
 queryTypes.push(date);
 
 //time
-var time = new query('timeStamp', /(?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]/g, true);
+var time = new query('timeStamp', /(?:2[0-3]|[01]?[0-9]):[0-5][0-9]:[0-5][0-9]/g);
 queryTypes.push(time);
 
 //tags
-var tag = new query('tag',/[a-z]{2,}/g,false);
+var tag = new query('tag',/[^ ]{2,}/g,false);
 queryTypes.push(tag);
 
 
 
 function extractQueries(query){
-    var queryArray = [];
-    for (var i = 0, n = queryTypes.length; i < n; i++) {
-        var regexResult = query.match(queryTypes[i].regex);
+    var queries = query.split(" ");
+    var tags = [];
+    queries.map(function(q){
+        for(var i=0,n=queryTypes.length;i<n;i++){
+            var match = queryTypes[i].regex.test(q);
 
-        if (regexResult != null) {
-            if (queryTypes[i].single) {
-                regexResult = [regexResult[0]];
+            if(match){
+                tags.push({
+                    name : queryTypes[i].name,
+                    value: q
+                })
             }
-            queryArray.push({
-                name: queryTypes[i].name,
-                value: regexResult
-            })
         }
-    }
-    return queryArray;
+    })
+
+    return tags;
 }
 
 
